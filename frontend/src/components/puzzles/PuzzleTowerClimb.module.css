@@ -1,0 +1,195 @@
+.wrap {
+  padding: 0 0.5rem 1rem;
+  max-width: 320px;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  color: var(--castle-gold, #c9a227);
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+.instruction {
+  color: var(--castle-muted, #9a8f7a);
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.4;
+}
+
+.hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.staminaLabel {
+  font-size: 0.8rem;
+  color: var(--castle-muted, #9a8f7a);
+  min-width: 3rem;
+}
+
+.staminaTrack {
+  flex: 1;
+  min-width: 80px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.staminaBar {
+  height: 100%;
+  background: linear-gradient(90deg, #2d5a27, #4a9c3d);
+  border-radius: 4px;
+  transition: width 0.1s ease;
+}
+
+.windIndicator {
+  font-size: 0.8rem;
+  color: #7a9bb3;
+}
+
+.arena {
+  position: relative;
+  margin: 0 auto 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px rgba(139, 105, 20, 0.35), 2px 4px 12px rgba(0, 0, 0, 0.4);
+  background: #1a1f26;
+}
+
+.towerBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #2a3038 0%, #1e2329 30%, #252b33 70%, #1a1f26 100%);
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 100 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.03' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #2a3038 0%, #1e2329 50%, #1a1f26 100%);
+  pointer-events: none;
+}
+
+.archerIcon {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.arrow {
+  position: absolute;
+  width: 8px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.arrow::before {
+  content: '';
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(180deg, #6b5344 0%, #4a3d30 50%, #3d3025 100%);
+  border-radius: 1px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+.arrow::after {
+  content: '';
+  width: 0;
+  height: 0;
+  margin-top: -1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 7px solid #5a5a5a;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));
+  flex-shrink: 0;
+}
+
+.rock {
+  position: absolute;
+  background: #3d3d3d;
+  border-radius: 4px;
+  box-shadow: inset -1px -1px 0 #2a2a2a, 1px 1px 0 #555;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.player {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  z-index: 4;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+}
+
+.summit {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--castle-gold, #c9a227);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.result {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(80, 40, 40, 0.4);
+  border-radius: 6px;
+  border: 1px solid rgba(180, 80, 80, 0.4);
+}
+
+.failMsg {
+  margin: 0 0 0.5rem;
+  color: #e8a0a0;
+  font-size: 0.95rem;
+}
+
+.retryBtn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  background: linear-gradient(180deg, #4a3a2a, #3d3022);
+  color: var(--castle-gold, #c9a227);
+  border: 1px solid rgba(139, 105, 20, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.retryBtn:hover {
+  background: linear-gradient(180deg, #5a4a3a, #4d4032);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.closeBtn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--castle-muted, #9a8f7a);
+  border: 1px solid rgba(139, 105, 20, 0.35);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: var(--castle-gold, #c9a227);
+  border-color: rgba(139, 105, 20, 0.5);
+}

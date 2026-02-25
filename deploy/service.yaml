@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: escape-the-castle
+  namespace: escape-the-castle
+  labels:
+    app: escape-the-castle
+spec:
+  selector:
+    app: escape-the-castle
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: http
+  type: ClusterIP

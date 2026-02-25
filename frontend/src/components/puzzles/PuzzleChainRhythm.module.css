@@ -1,0 +1,187 @@
+.wrap {
+  padding: 0 0.5rem 1rem;
+  max-width: 560px;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  color: var(--castle-gold, #c9a227);
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+.atmosphere {
+  font-style: italic;
+  color: var(--castle-muted, #9a8f7a);
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+}
+
+.instruction {
+  color: var(--castle-text, #d4ccb8);
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.clueBox {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(139, 105, 20, 0.3);
+  border-radius: 6px;
+}
+
+.clueLabel {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--castle-gold, #c9a227);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.clueText {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--castle-text, #d4ccb8);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.strikeCount {
+  color: var(--castle-muted, #9a8f7a);
+  font-size: 0.9rem;
+}
+
+.keyHint {
+  color: var(--castle-muted, #9a8f7a);
+  font-size: 0.75rem;
+}
+
+.arena {
+  position: relative;
+  margin: 0 auto 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px rgba(139, 105, 20, 0.35), 2px 4px 12px rgba(0, 0, 0, 0.4);
+  background: #1a1518;
+}
+
+.arenaBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+}
+
+.chain {
+  position: absolute;
+  width: 68px;
+  height: 108px;
+  margin-left: -34px;
+  margin-top: -54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.chain:hover:not(:disabled) {
+  transform: scale(1.08);
+}
+
+.chain:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.chainStruck {
+  animation: chainStrike 0.2s ease;
+}
+
+.chainBlink {
+  animation: chainBlinkPulse 0.4s ease-in-out var(--blink-count, 1);
+}
+
+@keyframes chainBlinkPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes chainStrike {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.chainLink {
+  width: 20px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a4540 0%, #2a2724 50%, #35322e 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 1px 2px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+}
+
+.chainBar {
+  width: 6px;
+  height: 66px;
+  margin: -1px 0;
+  background: linear-gradient(90deg, #2a2724 0%, #3d3a36 30%, #4a4742 50%, #3d3a36 70%, #2a2724 100%);
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06), inset -1px 0 0 rgba(0,0,0,0.25);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.resetBtn,
+.closeBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.resetBtn {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: var(--castle-muted, #9a8f7a);
+}
+
+.resetBtn:hover {
+  border-color: var(--castle-gold, #c9a227);
+  color: var(--castle-text, #d4ccb8);
+}
+
+.closeBtn {
+  background: transparent;
+  border: 1px solid rgba(139, 105, 20, 0.35);
+  color: var(--castle-muted, #9a8f7a);
+}
+
+.closeBtn:hover {
+  color: var(--castle-gold, #c9a227);
+  border-color: rgba(139, 105, 20, 0.5);
+}

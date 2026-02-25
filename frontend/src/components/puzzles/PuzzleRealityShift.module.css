@@ -1,0 +1,177 @@
+.puzzle {
+  padding: 1rem 2rem 2rem;
+  max-width: 480px;
+}
+
+.puzzle h2 {
+  margin-top: 0;
+  color: var(--castle-gold, #c9a227);
+}
+
+.instruction {
+  color: var(--castle-text, #d4ccb8);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--castle-muted, #8a8374);
+}
+
+.legend span {
+  cursor: help;
+}
+
+.activations {
+  font-size: 0.85rem;
+  color: var(--castle-muted, #8a8374);
+  margin-bottom: 0.75rem;
+}
+
+.activationsHint {
+  opacity: 0.9;
+}
+
+.retryHint {
+  color: var(--danger, #c97a7a);
+  font-size: 0.9rem;
+  margin: -0.5rem 0 0.75rem;
+}
+
+.howToPlay {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--castle-text, #d4ccb8);
+}
+
+.howToPlay summary {
+  cursor: pointer;
+  color: var(--castle-gold, #c9a227);
+}
+
+.howToPlay p {
+  margin: 0.5rem 0 0;
+}
+
+.cellLabel {
+  font-size: 0.55rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 7), 1fr);
+  grid-template-rows: repeat(var(--rows, 7), 1fr);
+  gap: 2px;
+  aspect-ratio: 1;
+  max-width: 280px;
+  margin: 0 auto 1.5rem;
+  background: #2d261c;
+  padding: 4px;
+  border: 2px solid #4a4238;
+  border-radius: 8px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.cell {
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #3d3528 0%, #2d261c 100%);
+  border: 1px solid #4a4238;
+  border-radius: 4px;
+}
+
+.cellWall {
+  background: linear-gradient(145deg, #5a5248 0%, #3d3528 100%);
+  border-color: #6a6258;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cellPlayer {
+  background: linear-gradient(145deg, #4a6a8a 0%, #2a4a6a 100%);
+  border-color: var(--castle-gold, #c9a227);
+  box-shadow: 0 0 12px rgba(201, 162, 39, 0.4);
+}
+
+.cellExit {
+  background: linear-gradient(145deg, #4a8a4a 0%, #2a6a2a 100%);
+  border-color: #6aaa6a;
+  box-shadow: 0 0 12px rgba(100, 200, 100, 0.5);
+}
+
+.cellArtifact {
+  position: relative;
+  border-color: var(--castle-gold, #c9a227);
+  box-shadow: 0 0 10px rgba(201, 162, 39, 0.6);
+}
+
+.artifactRotate {
+  background: linear-gradient(145deg, #4a3a28 0%, #3d2e1c 100%);
+}
+
+.artifactMirror {
+  background: linear-gradient(145deg, #3a2a48 0%, #2d1c3d 100%);
+}
+
+.artifactRotate_quadrant {
+  background: linear-gradient(145deg, #2a484a 0%, #1c3d2d 100%);
+}
+
+.cellArtifact::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  animation: artifactGlow 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes artifactGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.artifactIcon {
+  font-size: 1.25rem;
+  color: var(--castle-gold, #c9a227);
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.resetBtn,
+.closeBtn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(145deg, #4a4238 0%, #3d3528 100%);
+  border: 2px solid #5a5248;
+  color: var(--castle-text, #d4ccb8);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.resetBtn:hover,
+.closeBtn:hover {
+  border-color: var(--castle-gold, #c9a227);
+  background: linear-gradient(145deg, #5a5248 0%, #4a4238 100%);
+}

@@ -1,0 +1,982 @@
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  background: #0a080c;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid rgba(139, 105, 20, 0.3);
+}
+
+/* Wrapper: only groups the background image layer; no filter here */
+.roomBackgroundWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Wikipedia image only — brightness here so objects (different layer) are never affected */
+.roomBackground {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.15);
+}
+
+/* Darkens only the background image (sits on top of .roomBackground, below object layer) */
+.backgroundDarken {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  pointer-events: none;
+}
+
+/* Torch: warm firelight, soft falloff, subtle flicker */
+.torchLight {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 180, 80, 0.55) 0%,
+    rgba(255, 160, 60, 0.35) 25%,
+    rgba(220, 120, 40, 0.15) 50%,
+    rgba(180, 90, 30, 0.06) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: torchFlicker 1.8s ease-in-out infinite;
+}
+
+@keyframes torchFlicker {
+  0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  25% { opacity: 0.92; transform: translate(-50%, -50%) scale(1.03); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(0.98); }
+  75% { opacity: 0.96; transform: translate(-50%, -50%) scale(1.02); }
+}
+
+.sceneContent {
+  position: relative;
+  z-index: 3;
+  padding: 1rem 1.25rem;
+  pointer-events: none;
+}
+
+/* Objects layer — separate from background; higher z-index so never affected by .roomBackground filter */
+.objectLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dust particles in the torch beam — visible only through the mask hole */
+.dustLayer {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dustParticle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 220, 180, 0.35);
+  animation: dustFloat 4s ease-in-out infinite;
+  left: 30%;
+  top: 40%;
+}
+
+.dustParticle:nth-child(1) { left: 20%; top: 30%; }
+.dustParticle:nth-child(2) { left: 60%; top: 25%; animation-delay: 0.5s; }
+.dustParticle:nth-child(3) { left: 45%; top: 60%; animation-delay: 1s; }
+.dustParticle:nth-child(4) { left: 70%; top: 50%; animation-delay: 1.5s; }
+.dustParticle:nth-child(5) { left: 35%; top: 45%; animation-delay: 2s; }
+.dustParticle:nth-child(6) { left: 55%; top: 70%; animation-delay: 2.5s; }
+.dustParticle:nth-child(7) { left: 40%; top: 20%; animation-delay: 3s; }
+
+@keyframes dustFloat {
+  0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+  25% { transform: translate(4px, -8px); opacity: 0.7; }
+  50% { transform: translate(-3px, -4px); opacity: 0.5; }
+  75% { transform: translate(5px, -2px); opacity: 0.6; }
+}
+
+/* Full dark layer; radial-gradient in style creates hole at torch, rest is black */
+.darkCover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #000;
+}
+
+/* Room objects — strict grid, no overlaps; key in central area (not on border) */
+/* Real images for door, barrels, chest, shelf (same positions as former CSS shapes) */
+.objectDoorImg {
+  position: absolute;
+  left: 78%;
+  top: 18%;
+  width: 18%;
+  height: 56%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.objectBarrelImg {
+  position: absolute;
+  left: 50%;
+  top: 66%;
+  width: 9%;
+  height: 14%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.objectBarrel2Img {
+  position: absolute;
+  left: 24%;
+  top: 36%;
+  width: 8%;
+  height: 10%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.objectShelfImg {
+  position: absolute;
+  left: 56%;
+  top: 8%;
+  width: 16%;
+  height: 12%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.objectChestImg {
+  position: absolute;
+  left: 42%;
+  top: 20%;
+  width: 10%;
+  height: 8%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* Castle door: wood planks + iron bands + lock (fallback / unused when using objectDoorImg) */
+.objectDoor {
+  position: absolute;
+  left: 78%;
+  top: 18%;
+  width: 18%;
+  height: 56%;
+  background:
+    linear-gradient(92deg, #2d261c 0%, #3d3528 8%, #4a4035 12%, #3d3528 18%, #2d261c 25%, #3d3528 32%, #4a4035 36%, #3d3528 42%, #2d261c 50%, #3d3528 58%, #2d261c 68%, #3d3528 75%, #2d261c 85%, #3d3528 100%),
+    linear-gradient(180deg, #4a4035 0%, #3d3528 15%, #2d261c 35%, #252018 50%, #2d261c 70%, #3d3528 90%, #352d22 100%);
+  border: 3px solid #2a2218;
+  border-radius: 3px;
+  pointer-events: none;
+  box-shadow:
+    inset 3px 0 0 rgba(255,255,255,0.04),
+    inset -3px 0 0 rgba(0,0,0,0.35),
+    inset 0 2px 4px rgba(0,0,0,0.2),
+    2px 0 8px rgba(0,0,0,0.4);
+}
+
+/* Iron bands */
+/* Door glows once key is found */
+.objectDoorGlow {
+  box-shadow:
+    inset 3px 0 0 rgba(255,255,255,0.04),
+    inset -3px 0 0 rgba(0,0,0,0.35),
+    inset 0 2px 4px rgba(0,0,0,0.2),
+    0 0 24px rgba(201, 162, 39, 0.5),
+    0 0 48px rgba(201, 162, 39, 0.25);
+  animation: doorGlow 2s ease-in-out infinite;
+}
+
+@keyframes doorGlow {
+  0%, 100% { box-shadow: inset 3px 0 0 rgba(255,255,255,0.04), inset -3px 0 0 rgba(0,0,0,0.35), inset 0 2px 4px rgba(0,0,0,0.2), 0 0 24px rgba(201, 162, 39, 0.5), 0 0 48px rgba(201, 162, 39, 0.25); }
+  50% { box-shadow: inset 3px 0 0 rgba(255,255,255,0.04), inset -3px 0 0 rgba(0,0,0,0.35), inset 0 2px 4px rgba(0,0,0,0.2), 0 0 32px rgba(220, 180, 60, 0.6), 0 0 64px rgba(201, 162, 39, 0.35); }
+}
+
+.objectDoor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 14%, rgba(40, 38, 35, 0.95) 14%, rgba(35, 33, 30, 0.98) 16%, transparent 16%, transparent 48%, rgba(40, 38, 35, 0.95) 48%, rgba(35, 33, 30, 0.98) 52%, transparent 52%, transparent 84%, rgba(40, 38, 35, 0.95) 84%, rgba(35, 33, 30, 0.98) 86%, transparent 86%),
+    linear-gradient(180deg, rgba(42, 40, 36, 0.95) 0%, rgba(38, 36, 32, 0.98) 8%, transparent 8%, transparent 28%, rgba(42, 40, 36, 0.95) 28%, rgba(38, 36, 32, 0.98) 32%, transparent 32%, transparent 68%, rgba(42, 40, 36, 0.95) 68%, rgba(38, 36, 32, 0.98) 72%, transparent 72%);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
+}
+
+/* Lock plate (iron) */
+.objectDoor::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 18px;
+  background: linear-gradient(180deg, #4a4540 0%, #3d3835 25%, #2a2724 70%, #1f1d1a 100%);
+  border-radius: 2px;
+  border: 2px solid #35322e;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.3),
+    0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Wood crate — planks and nails */
+.objectCrate {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  width: 10%;
+  height: 16%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 32%, rgba(0,0,0,0.08) 33%, transparent 34%, transparent 66%, rgba(0,0,0,0.06) 67%, transparent 68%),
+    linear-gradient(165deg, #52442e 0%, #4a3d2a 20%, #3d3220 50%, #2d2518 85%, #352a1c 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.15), 2px 4px 8px rgba(0,0,0,0.4);
+}
+.objectCrate::before {
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: 30%;
+  width: 2px;
+  height: 3px;
+  background: #2a2520;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+.objectCrate::after {
+  content: '';
+  position: absolute;
+  right: 45%;
+  bottom: 25%;
+  width: 2px;
+  height: 3px;
+  background: #2a2520;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+
+/* Key — golden key image (same position as hotspot; left-mid, not on border nor dead center) */
+.objectKey {
+  position: absolute;
+  left: 20%;
+  top: 64%;
+  width: 2.2%;
+  height: 3.2%;
+  pointer-events: none;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Key-dynamic-premium.png') center / contain no-repeat;
+}
+
+/* Decoys near key to confuse: small metal/object clutter so user has to look carefully */
+.objectDecoyHook {
+  position: absolute;
+  left: 15%;
+  top: 60%;
+  width: 2%;
+  height: 2.5%;
+  background: linear-gradient(140deg, #4a4540 0%, #3d3835 50%, #2a2724 100%);
+  border-radius: 1px;
+  transform: rotate(-25deg);
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+}
+.objectDecoyCoil {
+  position: absolute;
+  left: 24%;
+  top: 66%;
+  width: 2.5%;
+  height: 2%;
+  background: linear-gradient(95deg, #352d24 0%, #3d3528 50%, #2d261c 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+.objectDecoyBottle {
+  position: absolute;
+  left: 17%;
+  top: 70%;
+  width: 1.8%;
+  height: 2.8%;
+  background: linear-gradient(110deg, #3d3a35 0%, #4a4035 30%, #352d24 100%);
+  border-radius: 0 0 25% 25%;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06);
+}
+.objectDecoyNail {
+  position: absolute;
+  left: 22%;
+  top: 58%;
+  width: 1.2%;
+  height: 2.5%;
+  background: linear-gradient(180deg, #4a4540 0%, #3d3835 40%, #2a2724 100%);
+  border-radius: 1px;
+  transform: rotate(15deg);
+  pointer-events: none;
+}
+.objectDecoyRing {
+  position: absolute;
+  left: 26%;
+  top: 62%;
+  width: 2%;
+  height: 2%;
+  border: 1px solid #4a4035;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+.objectDecoyBox {
+  position: absolute;
+  left: 14%;
+  top: 67%;
+  width: 2.2%;
+  height: 2%;
+  background: linear-gradient(165deg, #423628 0%, #3d3220 100%);
+  border: 1px solid #4a4035;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Wood chest — lid and iron strap */
+.objectChest {
+  position: absolute;
+  left: 42%;
+  top: 20%;
+  width: 10%;
+  height: 8%;
+  background:
+    linear-gradient(180deg, #4a3d2a 0%, #423628 25%, #3d3220 55%, #2d2518 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(0,0,0,0.2), 2px 3px 6px rgba(0,0,0,0.35);
+}
+.objectChest::before {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 45%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #35322e, #3d3a35, #35322e, transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+}
+.objectChest::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 4px;
+  background: #2a2724;
+  border-radius: 1px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Wood stool — seat and leg shadow */
+.objectStool {
+  position: absolute;
+  left: 20%;
+  top: 72%;
+  width: 6%;
+  height: 5%;
+  background: linear-gradient(180deg, #453a2a 0%, #3d3528 40%, #2d261c 100%);
+  border: 1px solid #4a4035;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 0 rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Stone pillar — rough texture */
+.objectPillar {
+  position: absolute;
+  left: 64%;
+  top: 40%;
+  width: 5%;
+  height: 22%;
+  background:
+    linear-gradient(105deg, rgba(0,0,0,0.06) 0%, transparent 25%, rgba(255,255,255,0.02) 50%, transparent 75%),
+    linear-gradient(180deg, #3a332b 0%, #352d25 20%, #2a2520 50%, #1f1a18 85%, #252019 100%);
+  border: 1px solid rgba(50,45,40,0.7);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.03), inset -1px 0 0 rgba(0,0,0,0.15);
+}
+
+/* Burlap sack — fabric folds */
+.objectSack {
+  position: absolute;
+  left: 6%;
+  top: 78%;
+  width: 8%;
+  height: 9%;
+  background:
+    linear-gradient(140deg, rgba(255,255,255,0.03) 0%, transparent 30%, rgba(0,0,0,0.1) 60%),
+    linear-gradient(165deg, #5c4d38 0%, #4a3d2a 40%, #3d3220 70%, #352a1e 100%);
+  border-radius: 50% 50% 45% 45%;
+  pointer-events: none;
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25), inset 1px 0 0 rgba(255,255,255,0.04), 2px 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Wood barrel — staves and metal bands */
+.objectBarrel {
+  position: absolute;
+  left: 50%;
+  top: 66%;
+  width: 9%;
+  height: 14%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 8%, rgba(0,0,0,0.12) 9%, transparent 10%, transparent 18%, rgba(0,0,0,0.1) 19%, transparent 20%, transparent 28%, rgba(0,0,0,0.12) 29%, transparent 30%, transparent 38%, rgba(0,0,0,0.1) 39%, transparent 40%, transparent 48%, rgba(0,0,0,0.12) 49%, transparent 50%, transparent 58%, rgba(0,0,0,0.1) 59%, transparent 60%, transparent 68%, rgba(0,0,0,0.12) 69%, transparent 70%, transparent 78%, rgba(0,0,0,0.1) 79%, transparent 80%, transparent 88%, rgba(0,0,0,0.12) 89%, transparent 90%),
+    radial-gradient(ellipse 60% 50% at 50% 40%, #5a4a35, #423628, #3d3220);
+  border: 2px solid #4a3d2a;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: inset 0 -4px 8px rgba(0,0,0,0.3), 2px 4px 6px rgba(0,0,0,0.3);
+}
+.objectBarrel::before {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 25%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #2a2724, #35322e, #2a2724, transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+.objectBarrel::after {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 28%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #2a2724, #35322e, #2a2724, transparent);
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+
+/* Wood shelf — planks and uprights */
+.objectShelf {
+  position: absolute;
+  left: 56%;
+  top: 8%;
+  width: 16%;
+  height: 12%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 32%, rgba(0,0,0,0.06) 33%, transparent 34%, transparent 65%, rgba(0,0,0,0.06) 66%, transparent 67%),
+    linear-gradient(180deg, #453a2a 0%, #3d3528 30%, #2d261c 100%);
+  border: 1px solid #4a4035;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: 0 2px 0 #1f1a12, inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.objectShelf::before,
+.objectShelf::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 18%;
+  height: 70%;
+  background: linear-gradient(90deg, #2d261c, #352d20, #2d261c);
+  border-radius: 1px;
+  box-shadow: inset 1px 0 0 rgba(0,0,0,0.2);
+}
+
+.objectShelf::before { left: 15%; }
+.objectShelf::after { right: 15%; }
+
+/* Stone wall — rough blocks */
+.objectWall {
+  position: absolute;
+  left: 2%;
+  top: 6%;
+  width: 30%;
+  height: 32%;
+  background:
+    linear-gradient(165deg, rgba(0,0,0,0.08) 0%, transparent 20%, rgba(255,255,255,0.02) 40%),
+    linear-gradient(160deg, #1e1a1c 0%, #1a1618 40%, #121018 100%);
+  border: 1px solid rgba(50,45,48,0.6);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+/* All objects on strict grid — no overlaps; key in central area */
+/* Wood crate 2 — planks */
+.objectCrate2 {
+  position: absolute;
+  left: 12%;
+  top: 28%;
+  width: 9%;
+  height: 10%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 48%, rgba(0,0,0,0.08) 49%, transparent 50%),
+    linear-gradient(165deg, #453828 0%, #3d3220 40%, #2d2518 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 2px 3px 6px rgba(0,0,0,0.35);
+}
+
+/* Wood table — top and leg shadow */
+.objectTable {
+  position: absolute;
+  left: 44%;
+  top: 30%;
+  width: 14%;
+  height: 6%;
+  background: linear-gradient(180deg, #453a2a 0%, #3d3528 35%, #2d261c 100%);
+  border: 1px solid #4a4035;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 0 rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Metal bucket — rim and belly */
+.objectBucket {
+  position: absolute;
+  left: 72%;
+  top: 28%;
+  width: 5%;
+  height: 6%;
+  background:
+    linear-gradient(180deg, #52504a 0%, #4a4035 15%, #3d3528 70%, #352d24 100%);
+  border-radius: 0 0 40% 40%;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -2px 4px rgba(0,0,0,0.25), 0 1px 0 rgba(0,0,0,0.2);
+}
+
+/* Wood barrel 2 — staves */
+.objectBarrel2 {
+  position: absolute;
+  left: 24%;
+  top: 36%;
+  width: 8%;
+  height: 10%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 12%, rgba(0,0,0,0.1) 13%, transparent 14%, transparent 26%, rgba(0,0,0,0.08) 27%, transparent 28%, transparent 40%, rgba(0,0,0,0.1) 41%, transparent 42%, transparent 54%, rgba(0,0,0,0.08) 55%, transparent 56%, transparent 68%, rgba(0,0,0,0.1) 69%, transparent 70%, transparent 82%, rgba(0,0,0,0.08) 83%, transparent 84%),
+    radial-gradient(ellipse 55% 45% at 50% 40%, #5a4a35, #3d3220);
+  border: 2px solid #4a3d2a;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25), 1px 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Wood bench — seat planks */
+.objectBench {
+  position: absolute;
+  left: 4%;
+  top: 42%;
+  width: 10%;
+  height: 5%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 32%, rgba(0,0,0,0.07) 33%, transparent 34%, transparent 65%, rgba(0,0,0,0.07) 66%, transparent 67%),
+    linear-gradient(180deg, #453a2a 0%, #3d3528 40%, #2d261c 100%);
+  border: 1px solid #4a4035;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Small wood box */
+.objectBox {
+  position: absolute;
+  left: 54%;
+  top: 71%;
+  width: 5%;
+  height: 7%;
+  background: linear-gradient(165deg, #4a3d2a 0%, #423628 40%, #3d3220 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Iron chains — metallic */
+.objectChains {
+  position: absolute;
+  left: 74%;
+  top: 52%;
+  width: 4%;
+  height: 18%;
+  background: linear-gradient(90deg, #2a2825 0%, #35322e 25%, #3d3a36 50%, #35322e 75%, #2a2825 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.08), inset -1px 0 0 rgba(0,0,0,0.3);
+}
+
+/* Ceramic vase — glaze highlight */
+.objectVase {
+  position: absolute;
+  left: 48%;
+  top: 22%;
+  width: 4%;
+  height: 6%;
+  background: linear-gradient(125deg, #4a4438 0%, #4a4035 25%, #3d3528 60%, #2d261c 100%);
+  border-radius: 0 0 40% 40%;
+  pointer-events: none;
+  box-shadow: inset 2px 0 0 rgba(255,255,255,0.08), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+/* Woven rug — fringe and weave hint */
+.objectRug {
+  position: absolute;
+  left: 42%;
+  top: 85%;
+  width: 16%;
+  height: 9%;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 24%, rgba(0,0,0,0.06) 25%, transparent 26%, transparent 49%, rgba(0,0,0,0.06) 50%, transparent 51%, transparent 74%, rgba(0,0,0,0.06) 75%, transparent 76%),
+    linear-gradient(180deg, #42362a 0%, #3d3228 40%, #2d2618 100%);
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Wall sconce — iron */
+.objectSconce {
+  position: absolute;
+  left: 76%;
+  top: 46%;
+  width: 3%;
+  height: 7%;
+  background: linear-gradient(90deg, #2a2724 0%, #3d3a36 50%, #2a2724 100%);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(0,0,0,0.4);
+}
+
+/* Stone pillar 2 */
+.objectPillar2 {
+  position: absolute;
+  left: 38%;
+  top: 6%;
+  width: 3%;
+  height: 14%;
+  background: linear-gradient(105deg, rgba(0,0,0,0.05) 0%, transparent 40%), linear-gradient(180deg, #3a332b 0%, #352d25 30%, #2a2520 100%);
+  border: 1px solid rgba(50,45,40,0.6);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.02);
+}
+
+/* Earthenware pot */
+.objectPot {
+  position: absolute;
+  left: 24%;
+  top: 51%;
+  width: 4%;
+  height: 4%;
+  background: linear-gradient(130deg, #4a4238 0%, #4a4035 30%, #3d3528 100%);
+  border-radius: 0 0 30% 30%;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.05), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+/* Wicker basket — weave */
+.objectBasket {
+  position: absolute;
+  left: 40%;
+  top: 44%;
+  width: 5%;
+  height: 4%;
+  background:
+    linear-gradient(45deg, transparent 0%, transparent 44%, rgba(0,0,0,0.08) 45%, transparent 46%, transparent 89%, rgba(0,0,0,0.06) 90%, transparent 91%),
+    linear-gradient(165deg, #5c4d38 0%, #4a3d2a 50%, #3d3228 100%);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 3px rgba(0,0,0,0.25);
+}
+
+/* Small wood crate 3 */
+.objectCrate3 {
+  position: absolute;
+  left: 35%;
+  top: 43%;
+  width: 3%;
+  height: 5%;
+  background: linear-gradient(165deg, #423628 0%, #3d3220 50%, #2d2518 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 1px 1px 3px rgba(0,0,0,0.25);
+}
+
+/* Small wood box 2 */
+.objectBox2 {
+  position: absolute;
+  left: 60%;
+  top: 22%;
+  width: 4%;
+  height: 4%;
+  background: linear-gradient(165deg, #4a3d2a 0%, #423628 40%, #3d3220 100%);
+  border: 1px solid #5a4a35;
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Wall sconce 2 — iron */
+.objectSconce2 {
+  position: absolute;
+  left: 74%;
+  top: 36%;
+  width: 3%;
+  height: 7%;
+  background: linear-gradient(90deg, #2a2724 0%, #3d3a36 50%, #2a2724 100%);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(0,0,0,0.35);
+}
+
+/* Metal bucket 2 */
+.objectBucket2 {
+  position: absolute;
+  left: 69%;
+  top: 24%;
+  width: 3%;
+  height: 4%;
+  background: linear-gradient(180deg, #4a4640 0%, #4a4035 20%, #3d3528 100%);
+  border-radius: 0 0 40% 40%;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+/* Ceramic vase 2 */
+.objectVase2 {
+  position: absolute;
+  left: 26%;
+  top: 22%;
+  width: 4%;
+  height: 5%;
+  background: linear-gradient(120deg, #4a4438 0%, #4a4035 30%, #3d3528 60%, #2d261c 100%);
+  border-radius: 0 0 40% 40%;
+  pointer-events: none;
+  box-shadow: inset 2px 0 0 rgba(255,255,255,0.06), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+/* Coiled rope — twisted */
+.objectRope {
+  position: absolute;
+  left: 16%;
+  top: 69%;
+  width: 3%;
+  height: 5%;
+  background: linear-gradient(95deg, #352d24 0%, #3d3528 30%, #352d24 50%, #2d261c 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.05), inset -1px 0 0 rgba(0,0,0,0.15);
+}
+
+/* Clay jug — belly and rim */
+.objectJug {
+  position: absolute;
+  left: 58%;
+  top: 22%;
+  width: 4%;
+  height: 5%;
+  background: linear-gradient(115deg, #4a4438 0%, #4a4035 25%, #3d3528 70%, #352d24 100%);
+  border-radius: 0 0 35% 35%;
+  pointer-events: none;
+  box-shadow: inset 2px 0 0 rgba(255,255,255,0.06), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+/* Clay cup */
+.objectCup {
+  position: absolute;
+  left: 70%;
+  top: 38%;
+  width: 3%;
+  height: 4%;
+  background: linear-gradient(120deg, #3d3828 0%, #3d3528 40%, #2d261c 100%);
+  border-radius: 0 0 30% 30%;
+  pointer-events: none;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,0.05), 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Metal lantern — frame and faint glow */
+.objectLantern {
+  position: absolute;
+  left: 60%;
+  top: 79%;
+  width: 4%;
+  height: 5%;
+  background: linear-gradient(135deg, #3d3a36 0%, #4a4035 30%, #3d3528 70%, #2d261c 100%);
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.08), 0 0 0 1px rgba(0,0,0,0.3), 0 0 8px rgba(201,162,39,0.18);
+}
+
+/* Book — spine and pages */
+.objectBook {
+  position: absolute;
+  left: 46%;
+  top: 38%;
+  width: 4%;
+  height: 3%;
+  background: linear-gradient(90deg, #2d261c 0%, #3d3528 25%, #352d24 75%, #2d261c 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.sceneText {
+  margin: 0 0 0.5rem;
+  color: #8a7f72;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.instruction {
+  margin: 0;
+  color: var(--castle-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hotspot {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  z-index: 4;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/* Key hotspot on top so it's always clickable (not hidden behind crate/barrel) */
+.hotspot.keyHotspot {
+  z-index: 12;
+}
+
+.hotspot:hover {
+  background: rgba(201, 162, 39, 0.06);
+  border-color: rgba(201, 162, 39, 0.2);
+}
+
+/* Door above draggable key so drop is received by door when key is over it */
+.hotspot.door {
+  z-index: 10;
+}
+
+.hotspot.door:hover {
+  background: rgba(201, 162, 39, 0.1);
+}
+
+.draggableKey {
+  position: absolute;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draggableKeyImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.draggableKey:active {
+  cursor: grabbing;
+}
+
+.draggableKey.dragging {
+  opacity: 0.9;
+}
+
+.feedback {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.75rem;
+  background: rgba(0,0,0,0.9);
+  border: 1px solid rgba(139,105,20,0.4);
+  border-radius: 4px;
+  color: var(--castle-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  z-index: 10;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hintBtn {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: rgba(201, 162, 39, 0.2);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  color: var(--castle-gold);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.hintBtn:hover {
+  background: rgba(201, 162, 39, 0.35);
+}
+
+.closeBtn {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--castle-muted);
+  color: var(--castle-muted);
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.closeBtn:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--castle-text);
+}

@@ -1,0 +1,32 @@
+# Node / frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Python / backend
+.venv/
+backend/.venv/
+__pycache__/
+backend/__pycache__/
+*.py[cod]
+*.pyo
+*.db
+*.sqlite3
+*.sqlite
+.pytest_cache/
+.mypy_cache/
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+
+# Build and IDE
+dist/
+build/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo

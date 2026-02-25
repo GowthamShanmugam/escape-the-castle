@@ -1,0 +1,222 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  background: var(--castle-bg);
+}
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  padding: 1rem;
+  background: linear-gradient(
+    180deg,
+    #1e1a22 0%,
+    #1a161e 30%,
+    var(--castle-card) 100%
+  );
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,0.03) 0%, transparent 2%, transparent 98%, rgba(0,0,0,0.03) 100%),
+    linear-gradient(180deg, #1e1a22 0%, var(--castle-card) 100%);
+  border-right: 2px solid rgba(201, 162, 39, 0.3);
+  box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.gameCode {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--castle-muted, #8a8278);
+}
+.gameCode strong {
+  color: var(--castle-gold);
+  letter-spacing: 0.12em;
+}
+
+.coins {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--castle-gold);
+}
+
+.roomProgress {
+  color: var(--castle-gold);
+  font-weight: 600;
+}
+
+.leaveBtn {
+  margin-top: auto;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid rgba(168, 61, 61, 0.6);
+  color: #c97a7a;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.leaveBtn:hover { background: rgba(166, 61, 61, 0.2); }
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.roomContainer {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.roomWrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.error {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--danger);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  z-index: 100;
+  margin: 0;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--castle-card);
+  border: 2px solid rgba(201, 162, 39, 0.4);
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 1px rgba(201, 162, 39, 0.1) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modalDungeon {
+  background: #0f0d12;
+  border: 2px solid #3d3630;
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalThrone {
+  background: linear-gradient(145deg, #1a1522 0%, #0f0d14 100%);
+  border: 2px solid rgba(201, 162, 39, 0.5);
+  border-radius: 12px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.15) inset,
+    0 0 24px rgba(201, 162, 39, 0.15);
+}
+
+.modalHeaderBar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.modalDungeon .modalHeaderBar {
+  border-bottom-color: rgba(61, 54, 48, 0.6);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.modalThrone .modalHeaderBar {
+  border-bottom-color: rgba(201, 162, 39, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modalBody {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.hintBtn {
+  padding: 0.5rem 0.75rem;
+  background: rgba(201, 162, 39, 0.2);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  color: var(--castle-gold);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.hintBtn:hover {
+  background: rgba(201, 162, 39, 0.3);
+}
+
+.hintBtnModal {
+  padding: 0.35rem 0.6rem;
+  background: rgba(201, 162, 39, 0.15);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: var(--castle-gold);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.hintBtnModal:hover {
+  background: rgba(201, 162, 39, 0.25);
+}
+
+.closeModal {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--castle-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.closeModal:hover { color: var(--castle-text); }
+
+.genericPuzzle h2 { margin-top: 0; }
+.genericPuzzle button { margin-right: 0.5rem; margin-top: 0.5rem; }
+.genericPuzzle .secondary { background: transparent; border: 1px solid var(--castle-muted); color: var(--castle-muted); }

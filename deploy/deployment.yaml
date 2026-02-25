@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: escape-the-castle
+  namespace: escape-the-castle
+  labels:
+    app: escape-the-castle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: escape-the-castle
+  template:
+    metadata:
+      labels:
+        app: escape-the-castle
+    spec:
+      volumes:
+        - name: castle-data
+          persistentVolumeClaim:
+            claimName: castle-db
+      containers:
+        - name: castle
+          image: quay.io/gshanmug-quay/gowtham-hack:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: CASTLE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: castle-admin
+                  key: admin-password
+            - name: CASTLE_DB_PATH
+              value: /data/castle.db
+          volumeMounts:
+            - name: castle-data
+              mountPath: /data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /api/rooms
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/rooms
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5

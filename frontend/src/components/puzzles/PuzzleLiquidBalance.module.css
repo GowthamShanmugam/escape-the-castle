@@ -1,0 +1,234 @@
+.puzzle {
+  padding: 1rem 2rem 2rem;
+  max-width: 560px;
+}
+
+.puzzleCompact {
+  max-width: 720px;
+}
+
+.vatsRowCompact {
+}
+
+.vatsRowCompact .vat {
+  width: 48px;
+  height: 100px;
+}
+
+.vatsRowCompact .pipe {
+  width: 20px;
+}
+
+.pipeValveSegment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 -2px;
+}
+
+.valveSpacer {
+  width: 36px;
+  height: 36px;
+}
+
+.puzzle h2 {
+  margin-top: 0;
+  color: var(--castle-gold, #c9a227);
+}
+
+.atmosphere {
+  font-style: italic;
+  color: var(--castle-muted, #8a8374);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.hint {
+  color: var(--castle-text, #d4ccb8);
+  margin-bottom: 1.25rem;
+}
+
+.vatsRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 0.5rem;
+  padding: 1rem 0.5rem;
+  border-radius: 8px;
+  transition: box-shadow 0.4s ease;
+}
+
+.vatsRow.glow {
+  box-shadow: 0 0 20px rgba(180, 60, 40, 0.35), inset 0 0 30px rgba(180, 60, 40, 0.08);
+  border: 1px solid rgba(180, 80, 50, 0.4);
+}
+
+.vatsRow.success {
+  animation: successPulse 0.8s ease-out;
+}
+
+@keyframes successPulse {
+  0% { box-shadow: 0 0 24px rgba(180, 60, 40, 0.5); }
+  50% { box-shadow: 0 0 32px rgba(200, 120, 60, 0.6); }
+  100% { box-shadow: 0 0 16px rgba(140, 80, 40, 0.3); }
+}
+
+.pipe {
+  width: 28px;
+  height: 14px;
+  align-self: center;
+  margin: 0 -2px;
+  background: linear-gradient(180deg, #4a4238 0%, #3d3528 100%);
+  border: 1px solid #2d261c;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.pipeDrip {
+  background: linear-gradient(180deg, #3d3528 0%, #2d261c 100%);
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(30, 25, 18, 0.7);
+}
+
+.pipeDrip::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(50, 42, 32, 0.95) 0%, transparent 70%);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.pipeDrip::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 5px;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 1px,
+    rgba(70, 60, 45, 0.7) 1px,
+    rgba(70, 60, 45, 0.7) 2px
+  );
+  border-radius: 1px;
+  opacity: 0.9;
+}
+
+.vatWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vat {
+  width: 56px;
+  height: 120px;
+  background: linear-gradient(145deg, #5a5248 0%, #3d3528 50%, #2d261c 100%);
+  border: 2px solid #4a4238;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.3), 2px 2px 8px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.vatSlit {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+}
+
+.liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(100, 120, 180, 0.95) 0%, rgba(60, 80, 140, 0.9) 100%);
+  transition: height 0.15s ease-out;
+  border-radius: 2px 2px 0 0;
+}
+
+.liquid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  border-radius: 2px 2px 0 0;
+}
+
+.liquid.still::before {
+  opacity: 0.5;
+}
+
+.valve {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #4a4238;
+  background: linear-gradient(145deg, #4a4238 0%, #3d3528 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  padding: 0;
+}
+
+.valve:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+.valve:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.valveOpen {
+  border-color: var(--castle-gold, #c9a227);
+  box-shadow: 0 0 10px rgba(201, 162, 39, 0.4), inset 0 0 8px rgba(201, 162, 39, 0.15);
+}
+
+.valveWheel {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #2d261c;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #5a5248, #3d3528);
+  display: block;
+}
+
+.valveOpen .valveWheel {
+  border-color: rgba(201, 162, 39, 0.6);
+}
+
+.vatLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--castle-muted, #8a8374);
+}
+
+.closeBtn {
+  margin-top: 1.25rem;
+  padding: 0.5rem 1rem;
+  background: rgba(60, 50, 40, 0.6);
+  border: 1px solid #4a4238;
+  color: var(--castle-text, #d4ccb8);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.closeBtn:hover {
+  background: rgba(70, 60, 50, 0.8);
+}

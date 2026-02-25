@@ -1,0 +1,67 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  background: var(--castle-bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, #2d2438 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.card {
+  background: var(--castle-card);
+  border: 3px double rgba(201, 162, 39, 0.5);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.15) inset,
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 48px rgba(201, 162, 39, 0.12);
+}
+
+.title { margin: 0 0 0.5rem; color: var(--castle-gold); font-size: 1.5rem; }
+.gameCode { margin: 0 0 0.25rem; font-size: 1.1rem; }
+.gameCode strong { color: var(--castle-gold); letter-spacing: 0.15em; }
+.hint { margin: 0 0 1.5rem; color: var(--castle-muted); font-size: 1rem; }
+
+.players h2 { font-size: 1rem; color: var(--castle-muted); margin-bottom: 0.5rem; }
+.players ul { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.players li {
+  padding: 0.5rem 0.75rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin-bottom: 0.35rem;
+}
+.players li.you { border: 1px solid rgba(201, 162, 39, 0.5); color: var(--castle-gold); }
+
+.actions { display: flex; gap: 0.75rem; }
+.primary, .secondary {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+.primary {
+  background: linear-gradient(180deg, var(--castle-gold), var(--castle-accent));
+  border: none;
+  color: #1a1520;
+}
+.secondary {
+  background: transparent;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  color: var(--castle-text);
+}
+.primary:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+  box-shadow: 0 0 16px rgba(201, 162, 39, 0.3);
+}
+.secondary:hover { background: rgba(255,255,255,0.05); }
+
+.error { color: var(--danger); margin-bottom: 1rem; }

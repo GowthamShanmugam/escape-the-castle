@@ -1,0 +1,403 @@
+.room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.roomInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.layerBg {
+  position: absolute;
+  inset: 0;
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 13, 18, 0.1) 0%,
+    rgba(15, 13, 18, 0.2) 50%,
+    rgba(15, 13, 18, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+.layerMid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.midShade {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.06) 60%, rgba(0, 0, 0, 0.12) 100%);
+}
+
+.layerFg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fgShade {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.08) 100%);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 50%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Floating dust particles — above overlay so they remain visible */
+.dustLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.dust {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  margin-top: -2.5px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  animation: floatDust 12s ease-in-out infinite;
+}
+
+@keyframes floatDust {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.35; }
+  25% { transform: translate(8px, -20px) scale(1.1); opacity: 0.55; }
+  50% { transform: translate(-5px, -40px) scale(0.9); opacity: 0.28; }
+  75% { transform: translate(12px, -60px) scale(1); opacity: 0.45; }
+}
+
+/* Fireflies — soft glowing dots drifting around */
+.fireflyLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.firefly {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 180, 0.9) 0%,
+    rgba(200, 255, 150, 0.5) 30%,
+    rgba(150, 220, 100, 0.2) 60%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  box-shadow: 0 0 12px 4px rgba(200, 255, 120, 0.4), 0 0 4px rgba(255, 255, 200, 0.3);
+  animation: fireflyWander 8s ease-in-out infinite, fireflyGlow 2s ease-in-out infinite;
+}
+
+.firefly:nth-child(odd) {
+  animation-duration: 10s, 2.5s;
+}
+
+.firefly:nth-child(3n) {
+  animation-duration: 7s, 1.8s;
+}
+
+@keyframes fireflyWander {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(15px, -12px); }
+  30% { transform: translate(-8px, 20px); }
+  45% { transform: translate(20px, 10px); }
+  60% { transform: translate(-15px, -15px); }
+  75% { transform: translate(5px, 25px); }
+}
+
+@keyframes fireflyGlow {
+  0%, 100% { opacity: 0.75; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.3); }
+}
+
+/* Steam (kitchen) */
+.steamLayer {
+  position: absolute;
+  bottom: 25%;
+  left: 15%;
+  right: 15%;
+  height: 40%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.steam {
+  position: absolute;
+  left: 20%;
+  bottom: 0;
+  width: 80px;
+  height: 60px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.12), transparent 70%);
+  border-radius: 50%;
+  animation: steamRise 6s ease-out infinite;
+}
+
+.steam2 {
+  left: 55%;
+  animation-delay: 2.5s;
+  width: 60px;
+  height: 50px;
+}
+
+@keyframes steamRise {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  30% { opacity: 0.2; }
+  100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+}
+
+/* Dungeon: subtle chain/shadow sway */
+.chainSway {
+  position: absolute;
+  top: 15%;
+  right: 12%;
+  width: 3px;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(60, 55, 50, 0.8), transparent);
+  border-radius: 2px;
+  animation: sway 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* Ambient moving shadow */
+.ambientShadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 50% 40% at 30% 30%, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+  animation: shadowMove 15s ease-in-out infinite;
+}
+
+@keyframes shadowMove {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Kitchen: warm hearth tint so the room feels more “kitchen” */
+.kitchenWarmOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(140, 90, 50, 0.12) 0%,
+    rgba(100, 70, 40, 0.06) 40%,
+    rgba(90, 60, 35, 0.05) 70%,
+    rgba(80, 55, 30, 0.08) 100%
+  );
+}
+
+/* Dungeon: cold/dark overlay */
+.dungeonColdOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 35, 50, 0.1) 0%,
+    rgba(20, 25, 40, 0.08) 50%,
+    rgba(15, 20, 35, 0.12) 100%
+  );
+}
+
+/* Library: subtle old-paper overlay */
+.libraryPaperOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(180, 165, 130, 0.03) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(160, 145, 110, 0.04) 100%
+  );
+}
+
+/* Hotspots (e.g. Library desk/book) — clickable areas over the scene */
+.hotspotsLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hotspotsLayer .hotspot {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.hotspotsLayer .hotspot:hover {
+  background: rgba(201, 162, 39, 0.12);
+}
+
+.hotspotLabel {
+  font-size: 0.75rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.hotspot:hover .hotspotLabel {
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 80% at 50% 50%, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.25) 100%);
+  pointer-events: none;
+}
+
+.overlayTitle,
+.overlayScene,
+.overlayHint,
+.clickHint {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.overlayTitle {
+  margin: 0 0 0.5rem;
+  color: #f8e9b8;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.overlayScene {
+  color: #f0e6d4;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0 0 0.5rem;
+  max-width: 36em;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 8px;
+}
+
+.overlayHint {
+  color: #e8c84a;
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+}
+
+.clickHint {
+  color: #c4b8a8;
+  font-size: 0.9rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.roomPlaceholder {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.roomPlaceholder h2 {
+  margin: 0 0 0.5rem;
+  color: var(--castle-gold);
+  font-size: 1.5rem;
+}
+
+.sceneText {
+  color: var(--castle-text);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+  text-align: left;
+  max-width: 36em;
+}
+
+.atmosphere {
+  font-style: italic;
+  color: var(--castle-muted);
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.hint {
+  color: var(--castle-gold);
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}

@@ -1,0 +1,56 @@
+.wrapper {
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 0.75rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--castle-gold);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 1rem;
+}
+
+.item:last-child { border-bottom: none; }
+
+.rank {
+  width: 1.75rem;
+  color: var(--castle-muted);
+  font-weight: 600;
+}
+
+.name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room {
+  color: var(--castle-muted);
+  font-size: 0.95rem;
+}
+
+.item.you .name { color: var(--castle-gold); }
+.item.finished .room { color: var(--success); }
+
+.empty {
+  margin: 0;
+  color: var(--castle-muted);
+  font-size: 1rem;
+}

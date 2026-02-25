@@ -1,0 +1,4 @@
+# Minimum versions (use >= so pip can resolve if exact versions fail)
+fastapi>=0.100
+uvicorn[standard]>=0.20
+pydantic>=2.0

@@ -1,0 +1,305 @@
+.wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.base {
+  position: absolute;
+  inset: 0;
+  background: #1a1520;
+}
+
+/* Library: warm brown, wood tones, bookshelf feel */
+.library {
+  background: linear-gradient(
+    165deg,
+    #2a2218 0%,
+    #3d3228 20%,
+    #4a4035 40%,
+    #3d3228 60%,
+    #2a2218 80%,
+    #1a1618 100%
+  );
+  animation: libraryPulse 12s ease-in-out infinite;
+}
+
+.library::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 50% 40% at 30% 60%,
+    rgba(201, 162, 39, 0.08) 0%,
+    transparent 50%
+  );
+  animation: libraryGlow 3s ease-in-out infinite;
+}
+
+/* Kitchen: warm gradient, hearth glow */
+.kitchen {
+  background: linear-gradient(
+    180deg,
+    #2a2218 0%,
+    #3d3025 25%,
+    #4a3828 50%,
+    #3d3025 75%,
+    #2a2018 100%
+  );
+  animation: kitchenPulse 10s ease-in-out infinite;
+}
+
+.kitchen::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    rgba(255, 140, 60, 0.15) 0%,
+    rgba(180, 80, 30, 0.08) 40%,
+    transparent 70%
+  );
+  animation: hearthGlow 2.5s ease-in-out infinite;
+}
+
+/* Dungeon: dark, cold, chain shadow */
+.dungeon {
+  background: linear-gradient(
+    180deg,
+    #0f0d12 0%,
+    #1a1618 20%,
+    #151218 50%,
+    #1a1618 80%,
+    #0f0d12 100%
+  );
+  animation: dungeonPulse 8s ease-in-out infinite;
+}
+
+.dungeon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 30% 40% at 75% 30%,
+    rgba(201, 162, 39, 0.06) 0%,
+    transparent 50%
+  );
+  animation: torchGlow 2s ease-in-out infinite;
+}
+
+/* Throne: purple/gold, stained glass */
+.throne {
+  background: linear-gradient(
+    145deg,
+    #1a1522 0%,
+    #2d2438 30%,
+    #3d3045 50%,
+    #2d2438 70%,
+    #1a1522 100%
+  );
+  animation: thronePulse 10s ease-in-out infinite;
+}
+
+.throne::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    rgba(201, 162, 39, 0.12) 0%,
+    rgba(139, 90, 180, 0.06) 50%,
+    transparent 100%
+  );
+  animation: stainedGlass 4s ease-in-out infinite;
+}
+
+/* Armory: metallic gradient */
+.armory {
+  background: linear-gradient(
+    165deg,
+    #252220 0%,
+    #3a3530 25%,
+    #4a4540 50%,
+    #3a3530 75%,
+    #252220 100%
+  );
+}
+
+/* Tower: vertical stone gradient */
+.tower {
+  background: linear-gradient(
+    180deg,
+    #1a1618 0%,
+    #2a2520 30%,
+    #3a3328 60%,
+    #2a2520 100%
+  );
+}
+
+.tower::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  right: 30%;
+  height: 40%;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 50%,
+    rgba(201, 162, 39, 0.1) 0%,
+    transparent 70%
+  );
+  animation: windowLight 5s ease-in-out infinite;
+}
+
+/* Chapel: cool gradient */
+.chapel {
+  background: linear-gradient(
+    180deg,
+    #1a1818 0%,
+    #2a2525 40%,
+    #252220 100%
+  );
+}
+
+/* Wine Cellar: dark brown */
+.wineCellar {
+  background: linear-gradient(
+    165deg,
+    #1a1512 0%,
+    #2a2218 30%,
+    #3d3025 60%,
+    #2a2218 100%
+  );
+}
+
+/* Guard Room: stone */
+.guardRoom {
+  background: linear-gradient(
+    165deg,
+    #1e1c1a 0%,
+    #2d2825 40%,
+    #252220 100%
+  );
+}
+
+/* Nursery: soft warm */
+.nursery {
+  background: linear-gradient(
+    165deg,
+    #2a2520 0%,
+    #3d3528 30%,
+    #4a4035 60%,
+    #3d3528 100%
+  );
+}
+
+/* Gallery: cream/gold */
+.gallery {
+  background: linear-gradient(
+    165deg,
+    #2a2520 0%,
+    #3d3528 25%,
+    #4a4035 50%,
+    #3d3528 75%,
+    #2a2520 100%
+  );
+}
+
+/* Alchemy Lab: green/purple */
+.alchemyLab {
+  background: linear-gradient(
+    165deg,
+    #1a1818 0%,
+    #1e2a1e 30%,
+    #2a1e2a 60%,
+    #1a1818 100%
+  );
+  animation: alchemyPulse 8s ease-in-out infinite;
+}
+
+/* Bathhouse: tile gradient */
+.bathhouse {
+  background: linear-gradient(
+    180deg,
+    #252220 0%,
+    #3a3530 40%,
+    #2d2825 100%
+  );
+}
+
+/* Stables: hay/wood */
+.stables {
+  background: linear-gradient(
+    165deg,
+    #2a2218 0%,
+    #3d3228 30%,
+    #4a4035 60%,
+    #3d3228 100%
+  );
+}
+
+/* Entrance (dark room uses different component) */
+.entrance {
+  background: linear-gradient(
+    180deg,
+    #0a0810 0%,
+    #1a1618 50%,
+    #0f0d12 100%
+  );
+}
+
+@keyframes libraryPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.97; }
+}
+
+@keyframes libraryGlow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes kitchenPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+}
+
+@keyframes hearthGlow {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes dungeonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+}
+
+@keyframes torchGlow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes thronePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.97; }
+}
+
+@keyframes stainedGlass {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+
+@keyframes windowLight {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes alchemyPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}

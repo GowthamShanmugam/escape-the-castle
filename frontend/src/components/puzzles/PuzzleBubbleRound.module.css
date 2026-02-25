@@ -1,0 +1,87 @@
+.puzzle {
+  padding: 1rem 2rem 2rem;
+  max-width: 480px;
+}
+
+.puzzle h2 {
+  margin-top: 0;
+  color: var(--castle-gold, #c9a227);
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--castle-muted, #8a8374);
+  margin: -0.25rem 0 0.5rem;
+}
+
+.instruction {
+  color: var(--castle-text, #d4ccb8);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.viewport {
+  position: relative;
+  margin: 0 auto 1rem;
+  border: 2px solid rgba(201, 162, 39, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0d1620;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.steamOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(120, 160, 200, 0.03) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(120, 160, 200, 0.04) 100%
+  );
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyHint {
+  font-size: 0.9rem;
+  color: var(--castle-muted, #8a8374);
+}
+
+.resetBtn,
+.resetSecondary,
+.closeBtn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(145deg, #4a4238 0%, #3d3528 100%);
+  border: 2px solid #5a5248;
+  color: var(--castle-text, #d4ccb8);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.resetBtn:hover,
+.resetSecondary:hover,
+.closeBtn:hover {
+  border-color: var(--castle-gold, #c9a227);
+  background: linear-gradient(145deg, #5a5248 0%, #4a4238 100%);
+}
+
+.resetSecondary {
+  opacity: 0.85;
+}

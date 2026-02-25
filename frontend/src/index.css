@@ -1,0 +1,64 @@
+:root {
+  --castle-bg: #0f0d12;
+  --castle-card: #1a161e;
+  --castle-accent: #6b5320;
+  --castle-gold: #a68b3c;
+  --castle-text: #d4ccb8;
+  --castle-muted: #6b6358;
+  --torch-glow: #c9a227;
+  --danger: #8b2e2e;
+  --success: #2d5a2d;
+  /* Story book theme */
+  --book-cover: #1a1510;
+  --book-page: #f4ecd8;
+  --book-page-aged: #e8dfc8;
+  --book-ink: #2a2520;
+  --frame-gold: #c9a227;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  background: var(--castle-bg);
+  color: var(--castle-text);
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+#root {
+  min-height: 100vh;
+}
+
+/* Story book page wrapper: wide margins, parchment feel */
+.pageWrapper {
+  min-height: 100vh;
+  padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  background: var(--castle-bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, #2d2438 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, select {
+  font-family: inherit;
+}

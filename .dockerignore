@@ -1,0 +1,9 @@
+backend/.venv
+backend/castle.db
+backend/__pycache__
+frontend/node_modules
+frontend/dist
+.git
+*.md
+.env
+.env.*

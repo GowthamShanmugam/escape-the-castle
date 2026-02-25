@@ -1,0 +1,40 @@
+.bat {
+  position: absolute;
+  top: 0;
+  width: 85px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 10;
+  transform: scaleY(-1);
+}
+
+.batImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  animation: batRevealOnFlash 10s ease-in-out infinite;
+}
+
+.batEmoji {
+  display: block;
+  font-size: 4.5rem;
+  line-height: 1;
+  filter: brightness(0) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  animation: batRevealOnFlash 10s ease-in-out infinite;
+}
+
+/* Sync with thunder flash — bat shows color only during flash */
+@keyframes batRevealOnFlash {
+  0%, 88%, 89.2%, 89.4%, 89.7%, 100% { filter: brightness(0) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+  89%, 89.1%, 89.3%, 89.5%, 89.6% { filter: brightness(1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+}
+
+.bat {
+  animation: batBreathe 3s ease-in-out infinite;
+}
+
+@keyframes batBreathe {
+  0%, 100% { transform: scaleY(-1) scale(1); }
+  50% { transform: scaleY(-1) scale(1.05); }
+}

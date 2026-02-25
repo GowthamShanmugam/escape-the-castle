@@ -1,0 +1,91 @@
+.room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.room.dark {
+  background: #0d0a0f;
+}
+
+.roomInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.torchLight {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(232, 184, 74, 0.5) 0%,
+    rgba(201, 162, 39, 0.2) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.roomImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #2d2438 0%, #1a1520 100%);
+}
+
+.room.dark .roomImage {
+  background: #0d0a0f;
+}
+
+.roomPlaceholder {
+  text-align: center;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.roomPlaceholder h2 {
+  margin: 0 0 0.5rem;
+  color: var(--castle-gold);
+  font-size: 1.5rem;
+}
+
+.atmosphere {
+  font-style: italic;
+  color: var(--castle-muted);
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.sceneText {
+  color: var(--castle-text);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+  text-align: left;
+  max-width: 36em;
+}
+
+.hint {
+  color: var(--castle-gold);
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}
+
+.clickHint {
+  color: var(--castle-muted);
+  font-size: 0.95rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}

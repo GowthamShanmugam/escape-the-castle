@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: escape-the-castle
+  namespace: escape-the-castle
+  labels:
+    app: escape-the-castle
+  annotations:
+    haproxy.router.openshift.io/timeout: "5m"
+spec:
+  to:
+    kind: Service
+    name: escape-the-castle
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+  wildcardPolicy: None
