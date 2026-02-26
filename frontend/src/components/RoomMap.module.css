@@ -142,3 +142,16 @@
   font-weight: 600;
   color: #8b6914;
 }
+
+@media (max-width: 768px) {
+  .roomMapChip {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .roomMapTrack {
+    min-height: 52px;
+  }
+}

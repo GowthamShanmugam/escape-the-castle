@@ -1,4 +1,5 @@
 .puzzle {
+  position: relative;
   padding: 1rem 2rem 2rem;
   max-width: 520px;
 }
@@ -139,9 +140,30 @@
   font-style: italic;
 }
 
+.viewportWrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .viewportWrapper {
+    height: min(280px, 52dvh);
+    max-width: 100%;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.viewportInner {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
 .viewport {
   position: relative;
-  margin: 0 auto 1rem;
+  margin: 0 auto;
   border: 2px solid rgba(201, 162, 39, 0.3);
   border-radius: 8px;
   overflow: hidden;
@@ -157,11 +179,34 @@
 }
 
 .controls {
+  position: relative;
+  z-index: 30;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: stretch;
+  }
+
+  .controls .keyHint {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn,
+  .closeBtn {
+    min-height: 36px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.9rem;
+  }
 }
 
 .keyHint {

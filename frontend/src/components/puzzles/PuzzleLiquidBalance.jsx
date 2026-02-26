@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { playEffect } from '../../audio/soundService'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import styles from './PuzzleLiquidBalance.module.css'
 
 const TICK_MS = 150
@@ -156,6 +157,11 @@ export default function PuzzleLiquidBalance({ onSolve, onClose, room }) {
   const isClose = range < CLOSE_THRESHOLD && !solved
   const instruction = room?.liquid_balance?.instruction || 'Click valve wheels to open/close pipes. Balance all vats at the marks.'
 
+  const vatsWrapperRef = useRef(null)
+  const contentW = Math.min(560, 90 * vatCount + 60)
+  const contentH = vatCount <= 3 ? 180 : 160
+  const vatsScale = useViewportScale(vatsWrapperRef, contentW, contentH)
+
   // 3-vat: vat+valve under each vat, pipes between (legacy layout). 5-vat: vat, pipe+valve, vat, ...
   const renderVatsRow = () => {
     if (vatCount === 3) {
@@ -232,8 +238,16 @@ export default function PuzzleLiquidBalance({ onSolve, onClose, room }) {
       <p className={styles.atmosphere}>{room?.atmosphere}</p>
       <p className={styles.hint}>{instruction}</p>
 
-      <div className={`${styles.vatsRow} ${vatCount > 3 ? styles.vatsRowCompact : ''} ${isClose ? styles.glow : ''} ${showSuccess ? styles.success : ''}`}>
-        {renderVatsRow()}
+      <div ref={vatsWrapperRef} className={styles.vatsWrapper}>
+        <div
+          className={`${styles.vatsRow} ${vatCount > 3 ? styles.vatsRowCompact : ''} ${isClose ? styles.glow : ''} ${showSuccess ? styles.success : ''}`}
+          style={{
+            transform: `scale(${vatsScale})`,
+            transformOrigin: 'center bottom',
+          }}
+        >
+          {renderVatsRow()}
+        </div>
       </div>
 
       <button type="button" onClick={onClose} className={styles.closeBtn}>

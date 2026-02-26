@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { playEffect } from '../../audio/soundService'
+import { TouchDpad, TouchActionButton, TouchActionGroup } from '../TouchControls'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import styles from './PuzzleGuardRoomStealth.module.css'
 
 const TICK_MS = 50
@@ -304,8 +306,15 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
 
   const exitLeft = roomWidth / 2 - EXIT_WIDTH / 2
 
+  const roomWrapperRef = useRef(null)
+  const roomScale = useViewportScale(roomWrapperRef, roomWidth, roomHeight)
+
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} touchSafe`}>
+      <TouchDpad keysRef={keysRef} />
+      <TouchActionGroup>
+        <TouchActionButton keysRef={keysRef} keyName="run" label="Run" />
+      </TouchActionGroup>
       <h2 className={styles.title}>{room?.title ?? 'Guard Room'}</h2>
       <p className={styles.instruction}>{instruction}</p>
       <p className={styles.keyHint}>
@@ -328,7 +337,16 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
         </span>
       </div>
 
-      <div className={styles.room} style={{ width: roomWidth, height: roomHeight }}>
+      <div ref={roomWrapperRef} className={styles.roomWrapper}>
+        <div
+          className={styles.room}
+          style={{
+            width: roomWidth,
+            height: roomHeight,
+            transform: `scale(${roomScale})`,
+            transformOrigin: 'top left',
+          }}
+        >
         <div className={styles.roomBg} />
         {DARK_ZONES.map((z, i) => (
           <div key={i} className={styles.shadow} style={{ left: z.x, top: z.y, width: z.w, height: z.h }} aria-hidden />
@@ -371,6 +389,7 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
             aria-hidden
           />
         )}
+        </div>
       </div>
 
       {status === 'fail' && (

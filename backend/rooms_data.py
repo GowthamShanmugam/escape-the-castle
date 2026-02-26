@@ -282,7 +282,7 @@ def get_rooms_public():
             "title": "Alchemy Lab",
             "puzzle_type": "reality_shift",
             "hint": "Reality bends here. Trust the artifacts—each one changes the path.",
-            "closer_hint": "First use Rotate (↻), then Rotate (↻) again.",
+            "closer_hint": "First use Rotate (↻), then Rotate (↻) again. You need to guess the remaining three steps.",
             "atmosphere": "Stone walls. A glowing exit. Three glowing artifacts—Rotate, Quadrant, and Mirror—hum with power. The exit is visible but unreachable.",
             "scene": "Stone walls. A glowing exit. Artifacts hum with power—stand on one and press E to transform the room.",
             "scene_preview": "Stone walls. A glowing exit. Three artifacts hum with power.",

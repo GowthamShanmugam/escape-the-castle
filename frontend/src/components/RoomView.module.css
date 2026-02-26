@@ -89,3 +89,19 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
+
+@media (max-width: 768px) {
+  .room {
+    min-height: 220px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .roomPlaceholder {
+    padding: 1rem;
+  }
+
+  .roomPlaceholder h2 {
+    font-size: 1.25rem;
+  }
+}

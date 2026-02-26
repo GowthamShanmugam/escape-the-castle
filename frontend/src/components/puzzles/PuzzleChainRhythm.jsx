@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { playEffect } from '../../audio/soundService'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import styles from './PuzzleChainRhythm.module.css'
 
 const CHAPEL_IMG = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Trakai_Island_Castle_Chapel%2C_Lithuania_-_Diliff.jpg/1200px-Trakai_Island_Castle_Chapel%2C_Lithuania_-_Diliff.jpg'
@@ -94,6 +95,9 @@ export default function PuzzleChainRhythm({ onSolve, onClose, room }) {
     setBlinkCount(0)
   }
 
+  const arenaWrapperRef = useRef(null)
+  const arenaScale = useViewportScale(arenaWrapperRef, ARENA_WIDTH, ARENA_HEIGHT)
+
   return (
     <div className={styles.wrap}>
       <h2 className={styles.title}>{room?.title ?? 'Chapel'}</h2>
@@ -103,10 +107,16 @@ export default function PuzzleChainRhythm({ onSolve, onClose, room }) {
         <span className={styles.strikeCount}>Strikes: {strikes.length} / {N_CHAINS}</span>
         <span className={styles.keyHint}>Keys 1–5 · Wrong chain resets</span>
       </div>
-      <div
-        className={styles.arena}
-        style={{ width: ARENA_WIDTH, height: ARENA_HEIGHT }}
-      >
+      <div ref={arenaWrapperRef} className={styles.arenaWrapper}>
+        <div
+          className={styles.arena}
+          style={{
+            width: ARENA_WIDTH,
+            height: ARENA_HEIGHT,
+            transform: `scale(${arenaScale})`,
+            transformOrigin: 'top left',
+          }}
+        >
         <div
           className={styles.arenaBg}
           style={{ backgroundImage: `url(${CHAPEL_IMG})` }}
@@ -130,6 +140,7 @@ export default function PuzzleChainRhythm({ onSolve, onClose, room }) {
             <span className={styles.chainLink} />
           </button>
         ))}
+        </div>
       </div>
       <div className={styles.actions}>
         <button type="button" onClick={handleReset} className={styles.resetBtn}>

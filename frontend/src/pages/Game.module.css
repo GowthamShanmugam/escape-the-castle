@@ -1,7 +1,12 @@
 .wrapper {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
+  flex-direction: row;
   background: var(--castle-bg);
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .sidebar {
@@ -24,6 +29,62 @@
   gap: 1rem;
   overflow-y: auto;
   max-height: 100vh;
+  max-height: 100dvh;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    max-height: 45vh;
+    border-right: none;
+    border-bottom: 2px solid rgba(201, 162, 39, 0.3);
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+  }
+
+  .main {
+    min-height: 50vh;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .roomContainer {
+    min-height: 280px;
+    width: 100%;
+  }
+
+  .modalBackdrop {
+    padding: 0.5rem;
+  }
+
+  .modal,
+  .modalDungeon,
+  .modalThrone {
+    max-height: 85vh;
+  }
+
+  .error {
+    left: 0.5rem;
+    right: 0.5rem;
+    transform: none;
+    font-size: 0.9rem;
+  }
+
+  .modalBody {
+    padding: 0.75rem 1rem 1rem;
+  }
+
+  .hintBtn {
+    padding: 0.6rem 1rem;
+    min-height: 44px;
+  }
 }
 
 .gameCode {
@@ -61,6 +122,7 @@
 .main {
   flex: 1;
   min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -72,9 +134,11 @@
   flex: 1;
   min-height: 0;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
   border: 1px solid rgba(201, 162, 39, 0.2);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 
 .roomWrap {
@@ -159,23 +223,26 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(201, 162, 39, 0.2);
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--castle-card, #1a161e);
+  position: relative;
+  z-index: 10;
 }
 
 .modalDungeon .modalHeaderBar {
   border-bottom-color: rgba(61, 54, 48, 0.6);
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--castle-card, #1a161e);
 }
 
 .modalThrone .modalHeaderBar {
   border-bottom-color: rgba(201, 162, 39, 0.2);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--castle-card, #1a161e);
 }
 
 .modalBody {
   flex: 1;
   overflow: auto;
   padding: 1rem 1.5rem 1.5rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 .hintBtn {
@@ -208,12 +275,19 @@
   position: relative;
   width: 32px;
   height: 32px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px;
+  margin: -6px;
   border: none;
   background: transparent;
   color: var(--castle-muted);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .closeModal:hover { color: var(--castle-text); }
 

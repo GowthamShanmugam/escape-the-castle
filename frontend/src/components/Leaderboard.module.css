@@ -6,6 +6,17 @@
   overflow-y: auto;
 }
 
+@media (max-width: 768px) {
+  .wrapper {
+    max-height: min(120px, 22vh);
+    padding: 0.5rem;
+  }
+
+  .title { font-size: 0.95rem; }
+  .item { font-size: 0.9rem; padding: 0.3rem 0; }
+  .room { font-size: 0.85rem; }
+}
+
 .title {
   margin: 0 0 0.5rem;
   font-size: 1.05rem;

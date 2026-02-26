@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { playEffect } from '../../audio/soundService'
+import { TouchDpad } from '../TouchControls'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import styles from './PuzzleTowerClimb.module.css'
 
 const TICK_MS = 50
@@ -94,6 +96,9 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
       window.removeEventListener('keyup', onKeyUp)
     }
   }, [])
+
+  const arenaWrapperRef = useRef(null)
+  const arenaScale = useViewportScale(arenaWrapperRef, AREA_WIDTH, AREA_HEIGHT)
 
   useEffect(() => {
     if (status === 'fail') playEffect('fail')
@@ -193,7 +198,8 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
   }, [status, onSolve])
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} touchSafe`}>
+      <TouchDpad keysRef={keysRef} />
       <h2 className={styles.title}>{room?.title ?? 'Tower'}</h2>
       <p className={styles.instruction}>{instruction}</p>
 
@@ -209,7 +215,16 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
         )}
       </div>
 
-      <div className={styles.arena} style={{ width: AREA_WIDTH, height: AREA_HEIGHT }}>
+      <div ref={arenaWrapperRef} className={styles.arenaWrapper}>
+        <div
+          className={styles.arena}
+          style={{
+            width: AREA_WIDTH,
+            height: AREA_HEIGHT,
+            transform: `scale(${arenaScale})`,
+            transformOrigin: 'top center',
+          }}
+        >
         <div className={styles.towerBg} />
         {status === 'playing' && (
           <div className={styles.archerIcon} title="Archer">🏹</div>
@@ -235,6 +250,7 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
           </div>
         )}
         <div className={styles.summit}>▼ Summit</div>
+        </div>
       </div>
 
       {status === 'fail' && (

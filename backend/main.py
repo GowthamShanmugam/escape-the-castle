@@ -87,11 +87,13 @@ def get_leaderboard(game_id: str) -> list[dict]:
         return []
     players = list(g.get("players", {}).values())
     def key(p):
-        coins = p.get("coins", 0) or 0
         completed = p.get("completed_rooms", [])
         cnt = len(completed) if isinstance(completed, list) else 0
+        coins = p.get("coins", 0) or 0
         t = p.get("room_entered_at", 0) or 0
-        return (-coins, -cnt, t)
+        # Score: rooms matter most (2 pts each), coins reward frugality (1 pt each)
+        score = cnt * 2 + coins
+        return (-score, t)
     players.sort(key=key)
     return [
         {

@@ -1,0 +1,137 @@
+.dpad, .moveControls {
+  position: absolute;
+  bottom: 1rem;
+  z-index: 25;
+  user-select: none;
+  touch-action: manipulation;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+.dpad {
+  left: 1rem;
+}
+
+.moveControls {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .moveControls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    left: 1rem;
+    right: auto;
+    width: 42%;
+    max-width: 130px;
+  }
+
+  .moveControls .dpadBtn,
+  .moveControls .dpadCenter {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .moveControls .activateBtn {
+    min-width: 48px;
+    min-height: 44px;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+.dpadRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Vertical D-pad (Bubble Round): flex column with gap so up/down buttons aren't joined */
+.dpadVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dpadBtn {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  border: 2px solid rgba(201, 162, 39, 0.5);
+  background: rgba(26, 22, 30, 0.85);
+  color: var(--castle-gold);
+  font-size: 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dpadBtn:active {
+  background: rgba(201, 162, 39, 0.3);
+  transform: scale(0.95);
+}
+
+.dpadCenter {
+  width: 52px;
+  height: 52px;
+}
+
+.actionBtn {
+  min-width: 64px;
+  min-height: 52px;
+  padding: 0 1rem;
+  border: 2px solid rgba(201, 162, 39, 0.5);
+  background: rgba(26, 22, 30, 0.85);
+  color: var(--castle-gold);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Lab E button: larger touch target, ensure hit area matches visual */
+.activateBtn {
+  min-width: 72px;
+  min-height: 56px;
+  font-size: 1.25rem;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 26;
+}
+
+.actionBtn:active {
+  background: rgba(201, 162, 39, 0.3);
+  transform: scale(0.95);
+}
+
+/* Action buttons group - right side, stacked */
+.actionGroup {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  user-select: none;
+  touch-action: manipulation;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+/* Visibility controlled by useShowTouchControls (viewport + touch detection).
+   No CSS hide - components return null when not needed. */
+

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { playEffect } from '../../audio/soundService'
+import { TouchMoveButtons } from '../TouchControls'
 import styles from './PuzzleRealityShift.module.css'
 
 const ROWS = 7
@@ -185,8 +186,17 @@ export default function PuzzleRealityShift({ onSolve, onClose, room }) {
     setActivationsUsed(0)
   }
 
+  const handleActivate = useCallback(() => {
+    const art = getArtifactAt(player[0], player[1])
+    if (art) {
+      activateArtifact(art.type)
+    } else {
+      playEffect('tick')
+    }
+  }, [player, getArtifactAt, activateArtifact])
+
   return (
-    <div className={styles.puzzle}>
+    <div className={`${styles.puzzle} touchSafe`}>
       <h2>{room?.title ?? 'Alchemy Lab'}</h2>
       <p className={styles.instruction}>{instruction}</p>
       {cfg.howToPlay && (
@@ -252,6 +262,7 @@ export default function PuzzleRealityShift({ onSolve, onClose, room }) {
           Close
         </button>
       </div>
+      <TouchMoveButtons onMove={tryMove} onActivate={handleActivate} />
     </div>
   )
 }

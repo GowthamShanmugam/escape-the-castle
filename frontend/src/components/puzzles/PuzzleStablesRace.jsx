@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import { playEffect } from '../../audio/soundService'
+import { TouchActionButton, TouchActionGroup } from '../TouchControls'
 import styles from './PuzzleStablesRace.module.css'
 
 const VIEW_W = 400
@@ -419,8 +421,11 @@ export default function PuzzleStablesRace({ room, onSolve, onClose }) {
     return () => cancelAnimationFrame(rafId)
   }, [phase, gameState, horse, scrollSpeed, jumpForce, isStone, isMist, canDash, canDoubleJump, isEmber, mudMultiplier, onSolve])
 
+  const viewportWrapperRef = useRef(null)
+  const viewportScale = useViewportScale(viewportWrapperRef, VIEW_W, VIEW_H)
+
   return (
-    <div className={styles.puzzle}>
+    <div className={`${styles.puzzle} touchSafe`}>
       <h2>{room?.title ?? 'Stables'}</h2>
       <p className={styles.subtitle}>The Royal Trial Race</p>
       <p className={styles.instruction}>{instruction}</p>
@@ -514,7 +519,29 @@ export default function PuzzleStablesRace({ room, onSolve, onClose }) {
 
       {phase === 'race' && (
         <>
-          <div className={styles.viewport}>
+          <TouchActionGroup>
+            <TouchActionButton keysRef={keysRef} keyName="jump" label="Jump" />
+            {isEmber && (
+              <TouchActionButton keysRef={keysRef} keyName="dash" label="Dash" title="Ember only: quick speed boost (E)" />
+            )}
+          </TouchActionGroup>
+          <div ref={viewportWrapperRef} className={styles.viewportWrapper}>
+            <div
+              className={styles.viewportInner}
+              style={{
+                width: Math.floor(VIEW_W * viewportScale),
+                height: Math.floor(VIEW_H * viewportScale),
+              }}
+            >
+              <div
+                className={styles.viewport}
+                style={{
+                  width: VIEW_W,
+                  height: VIEW_H,
+                  transform: `scale(${viewportScale})`,
+                  transformOrigin: 'top left',
+                }}
+              >
             <canvas
               ref={canvasRef}
               width={VIEW_W}
@@ -523,6 +550,8 @@ export default function PuzzleStablesRace({ room, onSolve, onClose }) {
               tabIndex={0}
               aria-label="Horse race. Use space or up arrow to jump. E to dash if riding Ember."
             />
+              </div>
+            </div>
           </div>
           <div className={styles.controls}>
             <span className={styles.keyHint}>Space Jump</span>

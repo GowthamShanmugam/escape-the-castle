@@ -362,6 +362,16 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+@media (max-width: 768px) {
+  .recipeBlock {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .recipeBlock .hint { font-size: 0.9rem; }
+  .recipeBlock .runeKey { font-size: 0.85rem; }
+}
+
 .recipeBlock .hint {
   margin-bottom: 0.35rem;
 }
@@ -380,14 +390,29 @@
 
 .sequence {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
   align-items: stretch;
   margin-bottom: 1rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
-  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .sequence {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .sequence .symbolBtn {
+    min-width: 4rem;
+    min-height: 3rem;
+    font-size: 1.1rem;
+    padding: 0.4rem 0.35rem;
+    flex: 1 1 auto;
+    max-width: 5rem;
+  }
 }
 
 .sequenceShake {
@@ -465,4 +490,37 @@
 
 .swapGrid .symbolBtn {
   min-height: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .puzzle {
+    padding-right: 1rem;
+  }
+
+  .dialRow button {
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .digit, .digitWrong {
+    width: 3.25rem;
+    height: 3.25rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .symbolBtn {
+    min-height: 44px;
+  }
+
+  .sliderTile {
+    min-height: 56px;
+  }
+
+  .solveBtn, .closeBtn {
+    min-height: 44px;
+    padding: 0.65rem 1.25rem;
+  }
 }

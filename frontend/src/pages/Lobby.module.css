@@ -1,5 +1,6 @@
 .wrapper {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,3 +66,9 @@
 .secondary:hover { background: rgba(255,255,255,0.05); }
 
 .error { color: var(--danger); margin-bottom: 1rem; }
+
+@media (max-width: 480px) {
+  .wrapper { padding: 1rem; }
+  .card { padding: 1.5rem; }
+  .actions { flex-direction: column; }
+}

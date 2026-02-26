@@ -96,3 +96,17 @@
 .continueBtn:hover {
   background: rgba(201, 162, 39, 0.35);
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .bribeBtn, .continueBtn {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+  }
+}

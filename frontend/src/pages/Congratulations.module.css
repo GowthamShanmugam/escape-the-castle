@@ -1,12 +1,14 @@
 .wrapper {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem clamp(1.5rem, 5vw, 4rem);
   overflow: hidden;
   background: radial-gradient(ellipse 100% 70% at 50% 50%, #2d2438 0%, #1a1520 70%, #0f0d12 100%);
+  box-sizing: border-box;
 }
 
 .bgLayer {
@@ -139,4 +141,50 @@
 .loading {
   color: var(--castle-muted);
   font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0.75rem;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card {
+    padding: 1.25rem;
+    max-height: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .crown { font-size: 2.5rem; margin-bottom: 0.25rem; }
+  .title { font-size: 1.35rem; margin-bottom: 0.25rem; }
+  .subtitle { font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .rank { font-size: 1rem; margin-bottom: 0.5rem; }
+  .gameCode { font-size: 0.85rem; margin-bottom: 0.75rem; }
+  .leaderboardWrap {
+    margin-bottom: 1rem;
+    max-height: min(140px, 25vh);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .backBtn {
+    min-height: 44px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper { padding: 0.75rem; }
+
+  .card { padding: 1rem; }
+
+  .crown { font-size: 2.25rem; }
+  .title { font-size: 1.25rem; }
+  .subtitle { font-size: 0.85rem; }
 }

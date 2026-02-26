@@ -22,12 +22,14 @@
 
 body {
   margin: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-family: 'Crimson Text', Georgia, serif;
   font-size: 1.05rem;
   line-height: 1.6;
   background: var(--castle-bg);
   color: var(--castle-text);
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 h1, h2, h3 {
@@ -59,6 +61,30 @@ button {
   cursor: pointer;
 }
 
+/* Touch-friendly: prevent iOS zoom on input focus */
+@media (pointer: coarse) {
+  input, select {
+    font-size: 16px;
+  }
+}
+
+/* Reduce tap highlight on mobile */
+html {
+  -webkit-tap-highlight-color: rgba(201, 162, 39, 0.2);
+}
+
 input, select {
   font-family: inherit;
+}
+
+/* Prevent horizontal overflow on mobile - ensure game screen fits viewport */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .touchSafe {
+    padding-bottom: 8.5rem !important;
+  }
 }

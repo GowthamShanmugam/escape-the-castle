@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useViewportScale } from '../../hooks/useViewportScale'
 import { playEffect } from '../../audio/soundService'
+import { TouchDpad } from '../TouchControls'
 import styles from './PuzzleBubbleRound.module.css'
 
 const VIEW_W = 400
@@ -454,12 +456,25 @@ export default function PuzzleBubbleRound({ room, onSolve, onClose }) {
     return () => cancelAnimationFrame(rafId)
   }, [gameState])
 
+  const viewportWrapperRef = useRef(null)
+  const viewportScale = useViewportScale(viewportWrapperRef, VIEW_W, VIEW_H)
+
   return (
-    <div className={styles.puzzle}>
+    <div className={`${styles.puzzle} touchSafe`}>
+      <TouchDpad keysRef={keysRef} variant="vertical" />
       <h2>{room?.title ?? 'Bathhouse'}</h2>
       <p className={styles.subtitle}>The Steam Passage</p>
       <p className={styles.instruction}>{instruction}</p>
-      <div className={styles.viewport}>
+      <div ref={viewportWrapperRef} className={styles.viewportWrapper}>
+        <div
+          className={styles.viewport}
+          style={{
+            width: VIEW_W,
+            height: VIEW_H,
+            transform: `scale(${viewportScale})`,
+            transformOrigin: 'top left',
+          }}
+        >
         <canvas
           ref={canvasRef}
           width={VIEW_W}
@@ -469,6 +484,7 @@ export default function PuzzleBubbleRound({ room, onSolve, onClose }) {
           aria-label="Bubble escape game. Use up and down arrows to control the bubble."
         />
         <div className={styles.steamOverlay} aria-hidden />
+        </div>
       </div>
       <div className={styles.controls}>
         <span className={styles.keyHint}>↑ Rise &nbsp; ↓ Fall</span>

@@ -42,11 +42,13 @@
   border: 1px solid rgba(201, 162, 39, 0.2);
 }
 
-/* Torch with flicker */
+/* Torch with flicker - pointer-events: none so shards remain clickable */
 .torchWrap {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  pointer-events: none;
+  z-index: 4;
 }
 
 .torch {
@@ -69,8 +71,10 @@
   50% { opacity: 0.85; }
 }
 
-/* Glass shards */
+/* Glass shards - z-index above torch so Shard C stays clickable */
 .shards {
+  position: relative;
+  z-index: 6;
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
@@ -237,6 +241,32 @@
 .zoomEmoji {
   font-size: 5rem;
   line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .zoomBackdrop {
+    padding: 0.5rem;
+  }
+
+  .zoomModal {
+    max-width: 92%;
+    padding: 1rem;
+  }
+
+  .zoomFrame {
+    width: 120px;
+    min-height: 150px;
+    padding: 0.4rem;
+    border-width: 6px;
+  }
+
+  .zoomFrameFounder {
+    min-height: 200px;
+  }
+
+  .zoomEmoji {
+    font-size: 3.5rem;
+  }
 }
 
 .perspectiveControl {
