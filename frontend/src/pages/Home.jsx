@@ -5,10 +5,9 @@ import styles from './Home.module.css'
 
 export default function Home({ onJoin }) {
   const navigate = useNavigate()
-  const [mode, setMode] = useState('join') // 'join' | 'create' — players join; only admin can create
+  const [mode, setMode] = useState('join') // 'join' | 'create'
   const [playerName, setPlayerName] = useState('')
   const [gameCode, setGameCode] = useState('')
-  const [adminPassword, setAdminPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -16,10 +15,9 @@ export default function Home({ onJoin }) {
     e.preventDefault()
     setError('')
     if (!playerName.trim()) return setError('Enter your name')
-    if (!adminPassword.trim()) return setError('Admin password required to create a game')
     setLoading(true)
     try {
-      const data = await createGame(playerName.trim(), adminPassword.trim())
+      const data = await createGame(playerName.trim())
       onJoin(data.game_code, data.player_id, data.player_name)
       navigate('/lobby', { state: { gameCode: data.game_code, playerId: data.player_id, playerName: data.player_name } })
     } catch (err) {
@@ -55,7 +53,7 @@ export default function Home({ onJoin }) {
 
         <div className={styles.tabs}>
           <button type="button" className={mode === 'join' ? styles.tabActive : styles.tab} onClick={() => setMode('join')}>Join Game</button>
-          <button type="button" className={mode === 'create' ? styles.tabActive : styles.tab} onClick={() => setMode('create')}>Create Game (Admin)</button>
+          <button type="button" className={mode === 'create' ? styles.tabActive : styles.tab} onClick={() => setMode('create')}>Create Game</button>
         </div>
 
         {error && <p className={styles.error}>{error}</p>}
@@ -72,8 +70,6 @@ export default function Home({ onJoin }) {
           <form onSubmit={handleCreate} className={styles.form}>
             <label>Your name</label>
             <input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} placeholder="Knight or nickname" />
-            <label>Admin password</label>
-            <input type="password" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} placeholder="Admin password" />
             <button type="submit" disabled={loading}>Create & Enter Lobby</button>
           </form>
         )}

@@ -15,25 +15,6 @@
   z-index: 1;
 }
 
-/* Thunder lightning flash — brief white flash, reveals bat in real color */
-.thunderFlash {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 6;
-  background: rgba(255, 255, 255, 0.4);
-  opacity: 0;
-  animation: thunderFlash 10s ease-in-out infinite;
-}
-
-@keyframes thunderFlash {
-  0%, 88%, 100% { opacity: 0; }
-  89% { opacity: 1; }
-  89.3% { opacity: 0; }
-  89.5% { opacity: 0.6; }
-  89.8%, 100% { opacity: 0; }
-}
-
 .letterbox {
   position: absolute;
   left: 0;
@@ -54,8 +35,6 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.batLeft { left: 8%; }
-.batRight { right: 8%; left: auto; }
 .letterboxTop { top: 0; }
 .letterboxBottom { bottom: 0; }
 
@@ -84,7 +63,6 @@
   justify-content: center;
 }
 
-.imageLayer,
 .videoLayer {
   position: absolute;
   inset: -10%;

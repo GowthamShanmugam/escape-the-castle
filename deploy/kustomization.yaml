@@ -6,7 +6,6 @@ namespace: escape-the-castle
 resources:
   - namespace.yaml
   - pvc.yaml
-  - secret.yaml
   - deployment.yaml
   - service.yaml
   - route.yaml

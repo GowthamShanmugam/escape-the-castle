@@ -1,17 +1,11 @@
 /**
- * Sound service: intro/room ambient, game background (thriller), and UI effects.
+ * Sound service: intro/room ambient and UI effects.
  * Uses Web Audio API (no asset files required). Call init() after user gesture if needed.
  */
 
 let audioContext = null
 let ambientSource = null
 let ambientGain = null
-let gameBackgroundNodes = []
-let gameBackgroundAudio = null
-let gameBackgroundLoadFailed = false
-
-/** One track for intro + all levels. Place mixkit-meditation-441.mp3 in public/sounds/ */
-const GAME_BACKGROUND_URL = `${import.meta.env.BASE_URL || '/'}sounds/mixkit-meditation-441.mp3`.replace(/\/+/g, '/')
 
 function getContext() {
   if (!audioContext) {
@@ -65,51 +59,12 @@ export function stopAmbient() {
   }
 }
 
-/** Persistent game background: plays mixkit-meditation-441.mp3. Must be called directly from user click (no await before play()). */
-export function startGameBackground() {
-  if (isMuted()) return
-  if (gameBackgroundAudio && !gameBackgroundAudio.paused) return
-  gameBackgroundLoadFailed = false
-  stopGameBackground()
-  const audio = new Audio(GAME_BACKGROUND_URL)
-  audio.loop = true
-  audio.volume = 0.08
-  audio.onerror = () => {
-    gameBackgroundLoadFailed = true
-  }
-  const playPromise = audio.play()
-  gameBackgroundAudio = audio
-  if (playPromise && typeof playPromise.then === 'function') {
-    playPromise.catch(() => { gameBackgroundLoadFailed = true })
-  }
-}
+export function startGameBackground() {}
 
-export function didGameBackgroundFailToLoad() {
-  return gameBackgroundLoadFailed
-}
+export function stopGameBackground() {}
 
-export function stopGameBackground() {
-  if (gameBackgroundAudio) {
-    try {
-      gameBackgroundAudio.pause()
-      gameBackgroundAudio.currentTime = 0
-      gameBackgroundAudio.src = ''
-    } catch (_) {}
-    gameBackgroundAudio = null
-  }
-  gameBackgroundNodes.forEach((node) => {
-    try {
-      if (node.stop) node.stop()
-      if (node.disconnect) node.disconnect()
-    } catch (_) {}
-  })
-  gameBackgroundNodes = []
-}
-
-/** Call this directly from a click handler (no async before it) so play() runs in the same user gesture. */
 export function unlockAndStartGameBackground() {
   resumeIfNeeded()
-  startGameBackground()
 }
 
 /** One-shot effect: 'click' | 'open' | 'close' | 'success' | 'fail' | 'page' | 'tick' | 'drip' */

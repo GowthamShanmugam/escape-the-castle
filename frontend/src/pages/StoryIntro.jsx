@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { STORY_INTRO_SLIDES } from '../data/storyIntro'
 import { unlockAndStartGameBackground, stopGameBackground } from '../audio/soundService'
-import VideoBackground from '../components/VideoBackground'
+import ImageBackground from '../components/ImageBackground'
 import ProceduralSlideBg from '../components/ProceduralSlideBg'
-import HangingBat from '../components/HangingBat'
 import styles from './StoryIntro.module.css'
 
 const SLIDE_DURATION_MS = 15000
@@ -46,14 +45,11 @@ export default function StoryIntro({ onComplete }) {
   const panX = slide.panX ?? 2
   const panY = slide.panY ?? 2
   const slideDurationSec = SLIDE_DURATION_MS / 1000
-  const isVideo = slide.type === 'video' && slide.video
+  const isImage = slide.type === 'image' && slide.image
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.thunderFlash} aria-hidden />
       <div className={styles.grain} aria-hidden />
-      <HangingBat className={styles.batLeft} />
-      <HangingBat className={styles.batRight} delay={1} />
       <div className={`${styles.letterbox} ${styles.letterboxTop}`} aria-hidden />
       <div className={`${styles.letterbox} ${styles.letterboxBottom}`} aria-hidden />
       <button type="button" className={styles.skipBtn} onClick={handleSkip} aria-label="Skip intro">
@@ -69,7 +65,7 @@ export default function StoryIntro({ onComplete }) {
           exit={{ opacity: 0, x: -80 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          {isVideo ? (
+          {isImage ? (
             <motion.div
               className={styles.videoLayer}
               initial={{ scale: 1.2, x: `${-panX}%`, y: `${-panY}%` }}
@@ -83,7 +79,7 @@ export default function StoryIntro({ onComplete }) {
                 ease: [0.2, 0, 0.4, 1],
               }}
             >
-              <VideoBackground src={slide.video} overlay={true} />
+              <ImageBackground src={slide.image} overlay={true} />
               <div className={styles.horrorOverlay} aria-hidden />
             </motion.div>
           ) : (

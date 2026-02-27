@@ -2,11 +2,10 @@
 Escape the Castle - Python FastAPI backend.
 Game state stored in SQLite (server-side only). Leaderboard/state sent to client via API only.
 Puzzle answers validated server-side; each of 19 rooms is unique.
-Admin password (CASTLE_ADMIN_PASSWORD env) required to create games; players can only join.
+Anyone can create or join games (no admin password).
 """
 import asyncio
 import json
-import os
 import uuid
 import time
 from typing import Optional, Any
@@ -31,7 +30,6 @@ TOTAL_ROOMS = rooms_data.TOTAL_ROOMS
 
 class CreateGameRequest(BaseModel):
     player_name: str
-    admin_password: str = ""
 
 
 class JoinGameRequest(BaseModel):
@@ -110,18 +108,9 @@ def get_leaderboard(game_id: str) -> list[dict]:
     ]
 
 
-def _check_admin_password(password: str) -> bool:
-    expected = os.environ.get("CASTLE_ADMIN_PASSWORD", "")
-    if not expected:
-        return True
-    return password == expected
-
-
 @app.post("/api/games")
 def create_game(body: CreateGameRequest):
-    """Create a new game. Requires admin password. State stored in DB."""
-    if not _check_admin_password(body.admin_password or ""):
-        raise HTTPException(status_code=403, detail="Admin password required to create a game")
+    """Create a new game. State stored in DB."""
     try:
         code = game_code()
         while db_module.game_exists(code):

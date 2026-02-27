@@ -5,6 +5,8 @@ Multiplayer puzzle race: 15 castle rooms, one puzzle per room. First to escape w
 - **Frontend:** React (Vite) — room view, puzzles, leaderboard, WebSocket updates
 - **Backend:** Python (FastAPI) — create/join game, advance room, leaderboard, WebSocket broadcast
 - **Data:** All game and player state is stored in **SQLite on the server**. Nothing sensitive is kept in the browser.
+- **License:** Apache 2.0 — see [LICENSE](LICENSE)
+- **Assets:** All images/audio are CC-licensed — see [ASSETS.md](ASSETS.md)
 
 ## Quick start
 
@@ -82,24 +84,24 @@ Open http://localhost:5173 — create a game, share the code, start game. Second
 
 ## Docker / Podman & Quay
 
-Build and push to [quay.io/gshanmug-quay/gowtham-hack](https://quay.io/repository/gshanmug-quay/gowtham-hack):
+Build and push to [quay.io/gshanmug-quay/escape-the-castle](https://quay.io/repository/gshanmug-quay/escape-the-castle):
 
 ```bash
 # Build (amd64 for x86_64 hosts)
-podman build --platform linux/amd64 -t quay.io/gshanmug-quay/gowtham-hack:latest .
+podman build --platform linux/amd64 -t quay.io/gshanmug-quay/escape-the-castle:latest .
 
 # Login (one-time)
 podman login quay.io
 
 # Push
-podman push quay.io/gshanmug-quay/gowtham-hack:latest
+podman push quay.io/gshanmug-quay/escape-the-castle:latest
 ```
 
 Or use the helper script: `./push-quay.sh [tag]`
 
 **Run the image:**
 ```bash
-podman run -p 8000:8000 -e CASTLE_ADMIN_PASSWORD=your-secret quay.io/gshanmug-quay/gowtham-hack:latest
+podman run -p 8000:8000 quay.io/gshanmug-quay/escape-the-castle:latest
 ```
 Open http://localhost:8000 — backend serves the built frontend.
 
@@ -108,8 +110,6 @@ Open http://localhost:8000 — backend serves the built frontend.
 Deploy to OCP with a new namespace and public route:
 
 ```bash
-# 1. Set admin password in deploy/secret.yaml (replace "change-me")
-# 2. Deploy
 cd deploy && oc apply -k . && oc rollout status deployment/escape-the-castle -n escape-the-castle
 
 # Get public URL
@@ -117,3 +117,7 @@ oc get route escape-the-castle -n escape-the-castle
 ```
 
 See `deploy/README.md` for details.
+
+## Red Hat Arcade
+
+See [ASSETS.md](ASSETS.md) for asset attribution. All assets are CC-licensed or procedural.

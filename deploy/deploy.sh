@@ -1,6 +1,6 @@
 #!/bin/bash
 # Deploy Escape the Castle to OpenShift
-# Prerequisite: oc login, set admin password in secret.yaml or create secret manually
+# Prerequisite: oc login
 
 set -e
 echo "Deploying to OCP namespace escape-the-castle..."

@@ -4,7 +4,7 @@
 # Prerequisite: podman login quay.io
 
 set -e
-REPO="quay.io/gshanmug-quay/gowtham-hack"
+REPO="quay.io/gshanmug-quay/escape-the-castle"
 TAG="${1:-latest}"
 
 echo "Building ${REPO}:${TAG} (linux/amd64)..."

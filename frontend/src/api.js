@@ -9,11 +9,11 @@ async function parseError(res) {
   }
 }
 
-export async function createGame(playerName, adminPassword) {
+export async function createGame(playerName) {
   const res = await fetch(`${API}/games`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ player_name: playerName, admin_password: adminPassword || '' }),
+    body: JSON.stringify({ player_name: playerName }),
   })
   if (!res.ok) throw new Error(await parseError(res))
   return res.json()

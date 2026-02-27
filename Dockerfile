@@ -1,5 +1,5 @@
 # Escape the Castle - multi-stage build
-# Push to quay.io/gshanmug-quay/gowtham-hack
+# Push to quay.io/gshanmug-quay/escape-the-castle
 
 # Stage 1: Build frontend
 FROM node:20-alpine AS frontend-build

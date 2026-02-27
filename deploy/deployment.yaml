@@ -21,17 +21,12 @@ spec:
             claimName: castle-db
       containers:
         - name: castle
-          image: quay.io/gshanmug-quay/gowtham-hack:latest
+          image: quay.io/gshanmug-quay/escape-the-castle:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
               name: http
           env:
-            - name: CASTLE_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: castle-admin
-                  key: admin-password
             - name: CASTLE_DB_PATH
               value: /data/castle.db
           volumeMounts:
