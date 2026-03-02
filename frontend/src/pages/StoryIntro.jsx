@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { STORY_INTRO_SLIDES } from '../data/storyIntro'
-import { unlockAndStartGameBackground, stopGameBackground } from '../audio/soundService'
+import { unlockAndStartGameBackground, stopGameBackground, playThunder, stopThunder, startRain, stopRain, setIntroSoundsActive } from '../audio/soundService'
 import ImageBackground from '../components/ImageBackground'
 import ProceduralSlideBg from '../components/ProceduralSlideBg'
 import styles from './StoryIntro.module.css'
@@ -11,11 +11,47 @@ const SLIDE_DURATION_MS = 15000
 export default function StoryIntro({ onComplete }) {
   const [index, setIndex] = useState(0)
   const [skip, setSkip] = useState(false)
+  const [transitioning, setTransitioning] = useState(false)
+  const hasUnlocked = useRef(false)
+  const prevIndexRef = useRef(null)
+
+  const THUNDER_FIRST_MS = 10800  // First slide
+  const THUNDER_THIRD_MS = 34800  // Third slide (30s + 4.8s into slide)
+
+  const handleUnlock = () => {
+    if (hasUnlocked.current) return
+    hasUnlocked.current = true
+    unlockAndStartGameBackground()
+  }
 
   useEffect(() => {
+    setIntroSoundsActive(true)
     unlockAndStartGameBackground()
-    return () => stopGameBackground()
+    startRain()
+    return () => {
+      setIntroSoundsActive(false)
+      stopGameBackground()
+      stopThunder()
+      stopRain()
+    }
   }, [])
+
+  useEffect(() => {
+    const t1 = setTimeout(() => playThunder(), THUNDER_FIRST_MS)
+    const t2 = setTimeout(() => playThunder(), THUNDER_THIRD_MS)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+      stopThunder()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (prevIndexRef.current !== null && prevIndexRef.current !== index) {
+      setTransitioning(true)
+    }
+    prevIndexRef.current = index
+  }, [index])
 
   useEffect(() => {
     if (skip) {
@@ -37,7 +73,10 @@ export default function StoryIntro({ onComplete }) {
     return () => clearTimeout(t)
   }, [index, skip, onComplete])
 
-  const handleSkip = () => setSkip(true)
+  const handleSkip = () => {
+    setIntroSoundsActive(false)
+    setSkip(true)
+  }
 
   const slide = STORY_INTRO_SLIDES[index]
   if (!slide) return null
@@ -48,7 +87,9 @@ export default function StoryIntro({ onComplete }) {
   const isImage = slide.type === 'image' && slide.image
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onClick={handleUnlock}>
+      <div className={`${styles.rain} ${transitioning ? styles.rainHidden : ''}`} aria-hidden />
+      <div className={styles.thunderFlash} aria-hidden />
       <div className={styles.grain} aria-hidden />
       <div className={`${styles.letterbox} ${styles.letterboxTop}`} aria-hidden />
       <div className={`${styles.letterbox} ${styles.letterboxBottom}`} aria-hidden />
@@ -64,6 +105,7 @@ export default function StoryIntro({ onComplete }) {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -80 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          onAnimationComplete={() => setTransitioning(false)}
         >
           {isImage ? (
             <motion.div

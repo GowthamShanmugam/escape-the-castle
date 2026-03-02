@@ -44,10 +44,10 @@
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(255, 180, 80, 0.55) 0%,
-    rgba(255, 160, 60, 0.35) 25%,
-    rgba(220, 120, 40, 0.15) 50%,
-    rgba(180, 90, 30, 0.06) 70%,
+    rgba(255, 180, 80, 0.42) 0%,
+    rgba(255, 160, 60, 0.26) 25%,
+    rgba(220, 120, 40, 0.11) 50%,
+    rgba(180, 90, 30, 0.045) 70%,
     transparent 100%
   );
   pointer-events: none;
@@ -365,6 +365,256 @@
   pointer-events: none;
 }
 
+/* Extra clutter — strict grid, no overlaps; many at bottom */
+.objectDecoyScroll { left: 32%; top: 4%; width: 3%; height: 3%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyHammer { left: 2%; top: 48%; width: 2.5%; height: 2.5%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyDagger { left: 72%; top: 8%; width: 1.5%; height: 3.5%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyPurse { left: 34%; top: 8%; width: 2.5%; height: 2.5%; background: linear-gradient(140deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyHourglass { left: 42%; top: 8%; width: 2.5%; height: 3.5%; background: linear-gradient(180deg, #4a4438 0%, #3d3528 50%, #4a4438 100%); border-radius: 1px; }
+.objectDecoyQuill { left: 2%; top: 54%; width: 1.8%; height: 2%; background: linear-gradient(95deg, #2d261c 0%, #1a1618 100%); border-radius: 1px; transform: rotate(-20deg); }
+.objectDecoyInkwell { left: 32%; top: 50%; width: 2.5%; height: 2.5%; background: linear-gradient(135deg, #2a2520 0%, #1a1618 100%); border-radius: 0 0 30% 30%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4); }
+.objectDecoyTorch { left: 72%; top: 4%; width: 2%; height: 4%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyLock { left: 64%; top: 90%; width: 2.5%; height: 2.5%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyHinge { left: 52%; top: 4%; width: 2.5%; height: 1.8%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyCandlestick { left: 62%; top: 8%; width: 2.5%; height: 4%; background: linear-gradient(180deg, #4a4540 0%, #3d3528 60%, #2d261c 100%); border-radius: 1px; }
+.objectDecoySmallChest { left: 4%; top: 92%; width: 3.5%; height: 3.5%; background: linear-gradient(165deg, #423628 0%, #3d3220 100%); border: 1px solid #4a4035; border-radius: 1px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 1px 1px 3px rgba(0,0,0,0.25); }
+.objectDecoySpoon { left: 74%; top: 56%; width: 1.8%; height: 1.2%; background: linear-gradient(90deg, #4a4540 0%, #3d3835 100%); border-radius: 1px; transform: rotate(-25deg); }
+.objectDecoyBowl { left: 34%; top: 56%; width: 3%; height: 2.5%; background: linear-gradient(180deg, #4a4438 0%, #3d3528 50%, #2d261c 100%); border-radius: 0 0 40% 40%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2); }
+.objectDecoyFlask { left: 74%; top: 62%; width: 1.8%; height: 3%; background: linear-gradient(110deg, #3d3a35 0%, #4a4035 30%, #352d24 100%); border-radius: 0 0 25% 25%; box-shadow: inset 1px 0 0 rgba(255,255,255,0.06); }
+.objectDecoyTinderbox { left: 4%; top: 58%; width: 1.8%; height: 1.8%; background: linear-gradient(165deg, #423628 0%, #3d3220 100%); border: 1px solid #4a4035; border-radius: 1px; }
+.objectDecoyWhetstone { left: 38%; top: 52%; width: 2.2%; height: 1.8%; background: linear-gradient(95deg, #3a332b 0%, #2a2520 100%); border-radius: 2px; }
+.objectDecoyKey1 { left: 12%; top: 52%; width: 1.6%; height: 2.2%; background: linear-gradient(95deg, #4a4540 0%, #3d3835 100%); border-radius: 1px; transform: rotate(-30deg); box-shadow: 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyKey2 { left: 32%; top: 90%; width: 1.4%; height: 2%; background: linear-gradient(100deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(20deg); }
+.objectDecoyKey3 { left: 36%; top: 90%; width: 1.5%; height: 2.2%; background: linear-gradient(90deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyBuckle { left: 58%; top: 56%; width: 1.8%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyChain { left: 68%; top: 90%; width: 2.2%; height: 1.8%; background: linear-gradient(90deg, #2a2724 0%, #35322e 50%, #2a2724 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyGoblet { left: 46%; top: 4%; width: 2.2%; height: 2.5%; background: linear-gradient(120deg, #4a4438 0%, #3d3528 60%, #2d261c 100%); border-radius: 0 0 35% 35%; box-shadow: inset 2px 0 0 rgba(255,255,255,0.06); }
+.objectDecoyPlate { left: 56%; top: 52%; width: 2.5%; height: 1.2%; background: linear-gradient(180deg, #4a4438 0%, #3d3528 100%); border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2); }
+.objectDecoyBread { left: 42%; top: 52%; width: 2.2%; height: 1.6%; background: linear-gradient(165deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; }
+.objectDecoyKnife { left: 76%; top: 52%; width: 1.4%; height: 2.5%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-5deg); }
+.objectDecoyFork { left: 78%; top: 54%; width: 1.4%; height: 2.2%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyCloth { left: 6%; top: 90%; width: 2.5%; height: 2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyBone { left: 14%; top: 90%; width: 1.8%; height: 2%; background: linear-gradient(95deg, #4a4540 0%, #3d3835 100%); border-radius: 1px; transform: rotate(25deg); }
+.objectDecoyBottle2 { left: 22%; top: 90%; width: 1.8%; height: 2.5%; background: linear-gradient(110deg, #3d3a35 0%, #4a4035 30%, #352d24 100%); border-radius: 0 0 20% 20%; }
+.objectDecoyCandle { left: 38%; top: 56%; width: 1.4%; height: 2.5%; background: linear-gradient(180deg, #4a4035 0%, #3d3528 70%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyScroll2 { left: 48%; top: 56%; width: 2.2%; height: 3%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoyParchment { left: 54%; top: 8%; width: 2.5%; height: 1.8%; background: linear-gradient(100deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyWax { left: 62%; top: 56%; width: 1.8%; height: 1.2%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyRivet { left: 76%; top: 90%; width: 1.4%; height: 1.4%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyHook2 { left: 84%; top: 90%; width: 1.8%; height: 1.8%; background: linear-gradient(140deg, #4a4540 0%, #3d3835 50%, #2a2724 100%); border-radius: 1px; transform: rotate(20deg); }
+.objectDecoyCoil2 { left: 92%; top: 90%; width: 1.8%; height: 1.2%; background: linear-gradient(95deg, #352d24 0%, #3d3528 50%, #2d261c 100%); border-radius: 50%; }
+.objectDecoyNail2 { left: 36%; top: 4%; width: 1.2%; height: 1.6%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyBolt { left: 96%; top: 92%; width: 2.2%; height: 1.8%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyGear { left: 8%; top: 92%; width: 1.8%; height: 1.8%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyStrap { left: 18%; top: 92%; width: 2.2%; height: 1.2%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-20deg); }
+.objectDecoyLadle { left: 66%; top: 52%; width: 1.8%; height: 2.2%; background: linear-gradient(95deg, #4a4540 0%, #3d3835 100%); border-radius: 0 0 30% 30%; }
+.objectDecoyPot2 { left: 26%; top: 92%; width: 2%; height: 2%; background: linear-gradient(130deg, #4a4238 0%, #4a4035 30%, #3d3528 100%); border-radius: 0 0 30% 30%; box-shadow: inset 1px 0 0 rgba(255,255,255,0.05); }
+.objectDecoyCup2 { left: 58%; top: 94%; width: 1.8%; height: 2%; background: linear-gradient(120deg, #3d3828 0%, #3d3528 40%, #2d261c 100%); border-radius: 0 0 30% 30%; }
+.objectDecoyBox3 { left: 58%; top: 92%; width: 2%; height: 1.8%; background: linear-gradient(165deg, #423628 0%, #3d3220 100%); border: 1px solid #4a4035; border-radius: 1px; }
+.objectDecoySack2 { left: 72%; top: 92%; width: 2.5%; height: 2%; background: linear-gradient(140deg, rgba(255,255,255,0.03) 0%, transparent 30%, rgba(0,0,0,0.1) 60%), linear-gradient(165deg, #5c4d38 0%, #4a3d2a 40%, #3d3220 70%, #352a1e 100%); border-radius: 50% 50% 45% 45%; }
+.objectDecoyRope2 { left: 80%; top: 92%; width: 2%; height: 1.5%; background: linear-gradient(95deg, #352d24 0%, #3d3528 30%, #352d24 50%, #2d261c 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyPin { left: 12%; top: 6%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyThimble { left: 20%; top: 6%; width: 1.8%; height: 1.8%; background: linear-gradient(180deg, #4a4035 0%, #3d3528 100%); border-radius: 0 0 40% 40%; }
+.objectDecoyNeedle { left: 28%; top: 12%; width: 1.2%; height: 2%; background: linear-gradient(95deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyButton { left: 44%; top: 12%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyRing2 { left: 50%; top: 14%; width: 1.4%; height: 1.4%; border: 1px solid #4a4035; border-radius: 50%; background: transparent; }
+.objectDecoyBead { left: 56%; top: 4%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4438 0%, #3d3528 100%); border-radius: 50%; }
+.objectDecoyCoin { left: 68%; top: 14%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyClip { left: 74%; top: 14%; width: 1.2%; height: 1.8%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyFeather { left: 2%; top: 62%; width: 1.5%; height: 2.5%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-25deg); }
+.objectDecoyStone { left: 6%; top: 64%; width: 1.8%; height: 1.5%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 2px; }
+.objectDecoyTwig { left: 10%; top: 62%; width: 1.2%; height: 2.2%; background: linear-gradient(95deg, #352d24 0%, #2d261c 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyPebble { left: 28%; top: 58%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyShell { left: 32%; top: 62%; width: 1.8%; height: 1.5%; background: linear-gradient(120deg, #4a4438 0%, #3d3528 100%); border-radius: 0 0 50% 50%; }
+.objectDecoyCork { left: 40%; top: 58%; width: 1.5%; height: 1.5%; background: linear-gradient(165deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 50%; }
+.objectDecoyStraw { left: 44%; top: 60%; width: 1.2%; height: 2%; background: linear-gradient(95deg, #4a4035 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoySeed { left: 50%; top: 58%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #3d3528 0%, #2d261c 100%); border-radius: 50%; }
+.objectDecoyNut { left: 54%; top: 60%; width: 1.5%; height: 1.2%; background: linear-gradient(140deg, #423628 0%, #3d3220 100%); border-radius: 2px; }
+.objectDecoyHorn { left: 58%; top: 62%; width: 1.2%; height: 2%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 0 0 30% 30%; transform: rotate(-20deg); }
+.objectDecoyLeather { left: 62%; top: 58%; width: 2%; height: 1.2%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoyString { left: 66%; top: 60%; width: 1.8%; height: 1%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyWool { left: 70%; top: 58%; width: 1.8%; height: 1.5%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyAsh { left: 74%; top: 56%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyEmber { left: 78%; top: 58%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyDust { left: 12%; top: 74%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.7; }
+.objectDecoyShard { left: 16%; top: 76%; width: 1.2%; height: 1.5%; background: linear-gradient(95deg, #3d3a35 0%, #352d24 100%); border-radius: 1px; transform: rotate(20deg); }
+.objectDecoySplinter { left: 20%; top: 78%; width: 1%; height: 2%; background: linear-gradient(95deg, #352d24 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-30deg); }
+.objectDecoyScrap { left: 24%; top: 74%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyChip { left: 28%; top: 76%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoySliver { left: 32%; top: 78%; width: 1%; height: 1.8%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyFiber { left: 36%; top: 74%; width: 1.8%; height: 1%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyThread { left: 40%; top: 76%; width: 1.5%; height: 0.8%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyLint { left: 44%; top: 78%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.6; }
+.objectDecoyCrumb { left: 48%; top: 74%; width: 1%; height: 1%; background: linear-gradient(135deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 50%; }
+.objectDecoyGrain { left: 52%; top: 76%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoySpice { left: 56%; top: 74%; width: 1.2%; height: 1.2%; background: linear-gradient(140deg, #423628 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoySalt { left: 60%; top: 78%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; }
+.objectDecoyFlake { left: 64%; top: 76%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-5deg); }
+.objectDecoyPebble2 { left: 68%; top: 74%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyMoss { left: 72%; top: 78%; width: 1.8%; height: 1.2%; background: linear-gradient(140deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-18deg); }
+.objectDecoyRust { left: 76%; top: 76%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 2px; }
+.objectDecoyGrime { left: 80%; top: 74%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; opacity: 0.7; }
+.objectDecoySoot { left: 84%; top: 76%; width: 1.5%; height: 1%; background: linear-gradient(135deg, #2a2520 0%, #1a1618 100%); border-radius: 50%; }
+.objectDecoyChar { left: 88%; top: 74%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #1a1618 0%, #0d0a0c 100%); border-radius: 50%; }
+.objectDecoyCinder { left: 92%; top: 76%; width: 1%; height: 1%; background: linear-gradient(135deg, #2a2520 0%, #1a1618 100%); border-radius: 50%; }
+.objectDecoySpur { left: 2%; top: 82%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(25deg); }
+.objectDecoySpike { left: 6%; top: 84%; width: 1.2%; height: 1.8%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyStud { left: 10%; top: 86%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 2px; }
+.objectDecoyLatch { left: 14%; top: 84%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3); }
+.objectDecoyHaspe { left: 18%; top: 82%; width: 1.8%; height: 1.2%; background: linear-gradient(95deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyBrace { left: 22%; top: 86%; width: 1.5%; height: 1.5%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyBracket { left: 26%; top: 84%; width: 1.8%; height: 1.2%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoyBand { left: 30%; top: 86%; width: 2%; height: 1%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyStrap2 { left: 34%; top: 82%; width: 1.8%; height: 1.2%; background: linear-gradient(95deg, #423628 0%, #3d3220 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyBelt { left: 38%; top: 86%; width: 2%; height: 1.2%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; }
+.objectDecoyCord { left: 42%; top: 84%; width: 1.5%; height: 1%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-20deg); }
+.objectDecoyTwine { left: 46%; top: 86%; width: 1.8%; height: 0.8%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyYarn { left: 50%; top: 82%; width: 1.5%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyRibbon { left: 54%; top: 84%; width: 1.8%; height: 1%; background: linear-gradient(95deg, #423628 0%, #3d3220 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyTape { left: 58%; top: 86%; width: 1.5%; height: 1%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyPatch { left: 62%; top: 82%; width: 1.8%; height: 1.5%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyScrap2 { left: 66%; top: 84%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyRag { left: 70%; top: 86%; width: 1.8%; height: 1.5%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(20deg); }
+.objectDecoyWick { left: 74%; top: 82%; width: 1%; height: 1.8%; background: linear-gradient(180deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyTallow { left: 78%; top: 84%; width: 1.5%; height: 1.2%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyPitch { left: 82%; top: 86%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #1a1618 0%, #0d0a0c 100%); border-radius: 50%; }
+.objectDecoyTar { left: 86%; top: 84%; width: 1.5%; height: 1%; background: linear-gradient(95deg, #1a1618 0%, #0d0a0c 100%); border-radius: 1px; }
+.objectDecoyResin { left: 90%; top: 86%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #3d3528 0%, #2d261c 100%); border-radius: 50%; }
+.objectDecoyGum { left: 94%; top: 84%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+/* More clutter — fill remaining gaps */
+.objectDecoyPebble3 { left: 8%; top: 10%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyShard2 { left: 14%; top: 8%; width: 1%; height: 1.2%; background: linear-gradient(95deg, #3d3a35 0%, #352d24 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyBead2 { left: 22%; top: 10%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4438 0%, #3d3528 100%); border-radius: 50%; }
+.objectDecoyCoin2 { left: 38%; top: 6%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyClip2 { left: 58%; top: 10%; width: 1%; height: 1.5%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyPin2 { left: 80%; top: 6%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyNail3 { left: 86%; top: 10%; width: 1%; height: 1.4%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoyRivet2 { left: 4%; top: 16%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyStud2 { left: 10%; top: 18%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 2px; }
+.objectDecoyLatch2 { left: 18%; top: 14%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyBracket2 { left: 26%; top: 16%; width: 1.4%; height: 1%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-5deg); }
+.objectDecoyBand2 { left: 46%; top: 18%; width: 1.5%; height: 0.8%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyCord2 { left: 62%; top: 14%; width: 1.2%; height: 0.8%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyTwine2 { left: 78%; top: 16%; width: 1.4%; height: 0.8%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; }
+.objectDecoyYarn2 { left: 90%; top: 12%; width: 1.2%; height: 1%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyRibbon2 { left: 2%; top: 24%; width: 1.5%; height: 0.8%; background: linear-gradient(95deg, #423628 0%, #3d3220 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyTape2 { left: 8%; top: 26%; width: 1.2%; height: 0.8%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyPatch2 { left: 14%; top: 22%; width: 1.4%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyScrap3 { left: 20%; top: 26%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyRag2 { left: 28%; top: 24%; width: 1.4%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyWick2 { left: 34%; top: 26%; width: 0.8%; height: 1.4%; background: linear-gradient(180deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyTallow2 { left: 48%; top: 24%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyPitch2 { left: 54%; top: 22%; width: 1%; height: 1%; background: linear-gradient(135deg, #1a1618 0%, #0d0a0c 100%); border-radius: 50%; }
+.objectDecoyTar2 { left: 66%; top: 26%; width: 1.2%; height: 0.8%; background: linear-gradient(95deg, #1a1618 0%, #0d0a0c 100%); border-radius: 1px; }
+.objectDecoyResin2 { left: 72%; top: 24%; width: 1%; height: 1%; background: linear-gradient(135deg, #3d3528 0%, #2d261c 100%); border-radius: 50%; }
+.objectDecoyGum2 { left: 80%; top: 22%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyDust2 { left: 88%; top: 26%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.6; }
+.objectDecoyAsh2 { left: 94%; top: 24%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyEmber2 { left: 4%; top: 32%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyCinder2 { left: 10%; top: 34%; width: 0.8%; height: 0.8%; background: linear-gradient(135deg, #2a2520 0%, #1a1618 100%); border-radius: 50%; }
+.objectDecoyChar2 { left: 16%; top: 36%; width: 1%; height: 1%; background: linear-gradient(135deg, #1a1618 0%, #0d0a0c 100%); border-radius: 50%; }
+.objectDecoySoot2 { left: 22%; top: 32%; width: 1.2%; height: 0.8%; background: linear-gradient(135deg, #2a2520 0%, #1a1618 100%); border-radius: 50%; }
+.objectDecoyGrime2 { left: 30%; top: 34%; width: 1%; height: 1%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; opacity: 0.7; }
+.objectDecoyRust2 { left: 50%; top: 32%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 2px; }
+.objectDecoyMoss2 { left: 58%; top: 36%; width: 1.4%; height: 1%; background: linear-gradient(140deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyFlake2 { left: 64%; top: 34%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoySalt2 { left: 70%; top: 32%; width: 0.8%; height: 0.8%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; }
+.objectDecoySpice2 { left: 76%; top: 36%; width: 1%; height: 1%; background: linear-gradient(140deg, #423628 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyGrain2 { left: 82%; top: 34%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyCrumb2 { left: 90%; top: 32%; width: 0.8%; height: 0.8%; background: linear-gradient(135deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 50%; }
+.objectDecoyLint2 { left: 96%; top: 36%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.5; }
+.objectDecoyThread2 { left: 6%; top: 44%; width: 1.2%; height: 0.6%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(20deg); }
+.objectDecoyFiber2 { left: 12%; top: 46%; width: 1.4%; height: 0.8%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-18deg); }
+.objectDecoySliver2 { left: 18%; top: 44%; width: 0.8%; height: 1.4%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoyChip2 { left: 24%; top: 48%; width: 1%; height: 1%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyScrap4 { left: 30%; top: 46%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoySplinter2 { left: 52%; top: 44%; width: 0.8%; height: 1.6%; background: linear-gradient(95deg, #352d24 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-25deg); }
+.objectDecoyShard3 { left: 60%; top: 46%; width: 1%; height: 1.2%; background: linear-gradient(95deg, #3d3a35 0%, #352d24 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyDust3 { left: 66%; top: 44%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.65; }
+.objectDecoyEmber3 { left: 74%; top: 48%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyAsh3 { left: 80%; top: 46%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyWool2 { left: 86%; top: 44%; width: 1.4%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyString2 { left: 92%; top: 48%; width: 1.2%; height: 0.8%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyLeather2 { left: 4%; top: 54%; width: 1.6%; height: 1%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(-22deg); }
+.objectDecoyHorn2 { left: 12%; top: 56%; width: 1%; height: 1.6%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 0 0 25% 25%; transform: rotate(18deg); }
+.objectDecoyNut2 { left: 20%; top: 54%; width: 1.2%; height: 1%; background: linear-gradient(140deg, #423628 0%, #3d3220 100%); border-radius: 2px; }
+.objectDecoySeed2 { left: 26%; top: 56%; width: 1%; height: 1%; background: linear-gradient(135deg, #3d3528 0%, #2d261c 100%); border-radius: 50%; }
+.objectDecoyStraw2 { left: 38%; top: 54%; width: 1%; height: 1.6%; background: linear-gradient(95deg, #4a4035 0%, #3d3528 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyCork2 { left: 46%; top: 56%; width: 1.2%; height: 1.2%; background: linear-gradient(165deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 50%; }
+.objectDecoyShell2 { left: 64%; top: 54%; width: 1.4%; height: 1.2%; background: linear-gradient(120deg, #4a4438 0%, #3d3528 100%); border-radius: 0 0 45% 45%; }
+.objectDecoyPebble4 { left: 70%; top: 56%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyStone2 { left: 76%; top: 54%; width: 1.4%; height: 1.2%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 2px; }
+.objectDecoyTwig2 { left: 82%; top: 56%; width: 1%; height: 1.8%; background: linear-gradient(95deg, #352d24 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-20deg); }
+.objectDecoyFeather2 { left: 88%; top: 54%; width: 1.2%; height: 2%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(25deg); }
+.objectDecoyNeedle2 { left: 94%; top: 56%; width: 0.8%; height: 1.4%; background: linear-gradient(95deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyButton2 { left: 8%; top: 68%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyRing3 { left: 14%; top: 70%; width: 1.2%; height: 1.2%; border: 1px solid #4a4035; border-radius: 50%; background: transparent; }
+.objectDecoyBead3 { left: 20%; top: 68%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4438 0%, #3d3528 100%); border-radius: 50%; }
+.objectDecoyCoin3 { left: 30%; top: 70%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyClip3 { left: 38%; top: 68%; width: 0.8%; height: 1.2%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-18deg); }
+.objectDecoyThimble2 { left: 44%; top: 70%; width: 1.4%; height: 1.4%; background: linear-gradient(180deg, #4a4035 0%, #3d3528 100%); border-radius: 0 0 35% 35%; }
+.objectDecoyPin3 { left: 52%; top: 68%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyNail4 { left: 58%; top: 70%; width: 0.8%; height: 1.2%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(22deg); }
+.objectDecoyRivet3 { left: 64%; top: 68%; width: 1%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoyStud3 { left: 72%; top: 70%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 2px; }
+.objectDecoyLatch3 { left: 78%; top: 68%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyBracket3 { left: 86%; top: 70%; width: 1.2%; height: 0.8%; background: linear-gradient(90deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyBand3 { left: 92%; top: 68%; width: 1.4%; height: 0.8%; background: linear-gradient(95deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(12deg); }
+.objectDecoySpur2 { left: 4%; top: 78%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-20deg); }
+.objectDecoySpike2 { left: 10%; top: 80%; width: 1%; height: 1.4%; background: linear-gradient(180deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(18deg); }
+.objectDecoyHaspe2 { left: 16%; top: 78%; width: 1.4%; height: 1%; background: linear-gradient(95deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyBrace2 { left: 22%; top: 80%; width: 1.2%; height: 1.2%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyStrap3 { left: 28%; top: 78%; width: 1.5%; height: 1%; background: linear-gradient(95deg, #423628 0%, #3d3220 100%); border-radius: 1px; transform: rotate(10deg); }
+.objectDecoyBelt2 { left: 34%; top: 80%; width: 1.6%; height: 1%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; }
+.objectDecoyCord3 { left: 40%; top: 78%; width: 1.2%; height: 0.8%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-25deg); }
+.objectDecoyTwine3 { left: 46%; top: 80%; width: 1.4%; height: 0.8%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; }
+.objectDecoyYarn3 { left: 52%; top: 78%; width: 1.2%; height: 1%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoyRibbon3 { left: 58%; top: 80%; width: 1.5%; height: 0.8%; background: linear-gradient(95deg, #423628 0%, #3d3220 100%); border-radius: 1px; transform: rotate(8deg); }
+.objectDecoyTape3 { left: 64%; top: 78%; width: 1.2%; height: 0.8%; background: linear-gradient(90deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyPatch3 { left: 70%; top: 80%; width: 1.4%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(-18deg); }
+.objectDecoyScrap5 { left: 76%; top: 78%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyRag3 { left: 82%; top: 80%; width: 1.4%; height: 1.2%; background: linear-gradient(140deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 1px; transform: rotate(15deg); }
+.objectDecoyWick3 { left: 88%; top: 78%; width: 0.8%; height: 1.4%; background: linear-gradient(180deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; }
+.objectDecoyTallow3 { left: 94%; top: 80%; width: 1.2%; height: 1%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoyPebble5 { left: 6%; top: 88%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; }
+.objectDecoyShard4 { left: 12%; top: 90%; width: 0.8%; height: 1%; background: linear-gradient(95deg, #3d3a35 0%, #352d24 100%); border-radius: 1px; transform: rotate(-15deg); }
+.objectDecoySplinter3 { left: 20%; top: 88%; width: 0.6%; height: 1.2%; background: linear-gradient(95deg, #352d24 0%, #2d261c 100%); border-radius: 1px; transform: rotate(25deg); }
+.objectDecoyChip3 { left: 26%; top: 90%; width: 0.8%; height: 0.8%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 50%; }
+.objectDecoySliver3 { left: 32%; top: 88%; width: 0.6%; height: 1.2%; background: linear-gradient(95deg, #4a4540 0%, #2a2724 100%); border-radius: 1px; transform: rotate(-10deg); }
+.objectDecoyFiber3 { left: 38%; top: 90%; width: 1.2%; height: 0.6%; background: linear-gradient(90deg, #352d24 0%, #3d3528 100%); border-radius: 1px; transform: rotate(18deg); }
+.objectDecoyThread3 { left: 44%; top: 88%; width: 1%; height: 0.6%; background: linear-gradient(95deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-12deg); }
+.objectDecoyLint3 { left: 50%; top: 90%; width: 0.8%; height: 0.6%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; opacity: 0.55; }
+.objectDecoyCrumb3 { left: 56%; top: 88%; width: 0.6%; height: 0.6%; background: linear-gradient(135deg, #5c4d38 0%, #4a3d2a 100%); border-radius: 50%; }
+.objectDecoyGrain3 { left: 62%; top: 90%; width: 0.8%; height: 0.6%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoySpice3 { left: 68%; top: 88%; width: 0.8%; height: 0.8%; background: linear-gradient(140deg, #423628 0%, #3d3220 100%); border-radius: 50%; }
+.objectDecoySalt3 { left: 74%; top: 90%; width: 0.6%; height: 0.6%; background: linear-gradient(135deg, #4a4540 0%, #3d3835 100%); border-radius: 50%; }
+.objectDecoyFlake3 { left: 80%; top: 88%; width: 0.8%; height: 0.6%; background: linear-gradient(135deg, #3d3835 0%, #2a2724 100%); border-radius: 1px; }
+.objectDecoyMoss3 { left: 86%; top: 90%; width: 1%; height: 0.8%; background: linear-gradient(140deg, #3d3528 0%, #2d261c 100%); border-radius: 1px; transform: rotate(-8deg); }
+.objectDecoyRust3 { left: 92%; top: 88%; width: 1%; height: 0.8%; background: linear-gradient(135deg, #4a4035 0%, #3d3220 100%); border-radius: 2px; }
+.objectDecoyGrime3 { left: 98%; top: 90%; width: 0.8%; height: 0.6%; background: linear-gradient(135deg, #3a332b 0%, #2a2520 100%); border-radius: 50%; opacity: 0.6; }
+
+/* Decoy objects — shared base */
+.objectDecoyScroll, .objectDecoyHammer, .objectDecoyDagger, .objectDecoyPurse, .objectDecoyHourglass, .objectDecoyQuill, .objectDecoyInkwell, .objectDecoyTorch,
+.objectDecoyLock, .objectDecoyHinge, .objectDecoyCandlestick, .objectDecoySmallChest, .objectDecoySpoon, .objectDecoyBowl, .objectDecoyFlask, .objectDecoyTinderbox,
+.objectDecoyWhetstone, .objectDecoyKey1, .objectDecoyKey2, .objectDecoyKey3, .objectDecoyBuckle, .objectDecoyChain, .objectDecoyGoblet, .objectDecoyPlate,
+.objectDecoyBread, .objectDecoyKnife, .objectDecoyFork, .objectDecoyCloth, .objectDecoyBone, .objectDecoyBottle2, .objectDecoyCandle, .objectDecoyScroll2,
+.objectDecoyParchment, .objectDecoyWax, .objectDecoyRivet, .objectDecoyHook2, .objectDecoyCoil2, .objectDecoyNail2, .objectDecoyBolt, .objectDecoyGear,
+.objectDecoyStrap, .objectDecoyLadle, .objectDecoyPot2, .objectDecoyCup2, .objectDecoyBox3, .objectDecoySack2, .objectDecoyRope2,
+.objectDecoyPin, .objectDecoyThimble, .objectDecoyNeedle, .objectDecoyButton, .objectDecoyRing2, .objectDecoyBead, .objectDecoyCoin, .objectDecoyClip,
+.objectDecoyFeather, .objectDecoyStone, .objectDecoyTwig, .objectDecoyPebble, .objectDecoyShell, .objectDecoyCork, .objectDecoyStraw, .objectDecoySeed, .objectDecoyNut, .objectDecoyHorn, .objectDecoyLeather, .objectDecoyString, .objectDecoyWool, .objectDecoyAsh, .objectDecoyEmber,
+.objectDecoyDust, .objectDecoyShard, .objectDecoySplinter, .objectDecoyScrap, .objectDecoyChip, .objectDecoySliver, .objectDecoyFiber, .objectDecoyThread, .objectDecoyLint, .objectDecoyCrumb, .objectDecoyGrain, .objectDecoySpice, .objectDecoySalt, .objectDecoyFlake, .objectDecoyPebble2, .objectDecoyMoss, .objectDecoyRust, .objectDecoyGrime, .objectDecoySoot, .objectDecoyChar, .objectDecoyCinder,
+.objectDecoySpur, .objectDecoySpike, .objectDecoyStud, .objectDecoyLatch, .objectDecoyHaspe, .objectDecoyBrace, .objectDecoyBracket, .objectDecoyBand, .objectDecoyStrap2, .objectDecoyBelt, .objectDecoyCord, .objectDecoyTwine, .objectDecoyYarn, .objectDecoyRibbon, .objectDecoyTape, .objectDecoyPatch, .objectDecoyScrap2, .objectDecoyRag, .objectDecoyWick, .objectDecoyTallow, .objectDecoyPitch, .objectDecoyTar, .objectDecoyResin, .objectDecoyGum,
+.objectDecoyPebble3, .objectDecoyShard2, .objectDecoyBead2, .objectDecoyCoin2, .objectDecoyClip2, .objectDecoyPin2, .objectDecoyNail3, .objectDecoyRivet2, .objectDecoyStud2, .objectDecoyLatch2, .objectDecoyBracket2, .objectDecoyBand2, .objectDecoyCord2, .objectDecoyTwine2, .objectDecoyYarn2, .objectDecoyRibbon2, .objectDecoyTape2, .objectDecoyPatch2, .objectDecoyScrap3, .objectDecoyRag2, .objectDecoyWick2, .objectDecoyTallow2, .objectDecoyPitch2, .objectDecoyTar2, .objectDecoyResin2, .objectDecoyGum2, .objectDecoyDust2, .objectDecoyAsh2,
+.objectDecoyEmber2, .objectDecoyCinder2, .objectDecoyChar2, .objectDecoySoot2, .objectDecoyGrime2, .objectDecoyRust2, .objectDecoyMoss2, .objectDecoyFlake2, .objectDecoySalt2, .objectDecoySpice2, .objectDecoyGrain2, .objectDecoyCrumb2, .objectDecoyLint2,
+.objectDecoyThread2, .objectDecoyFiber2, .objectDecoySliver2, .objectDecoyChip2, .objectDecoyScrap4, .objectDecoySplinter2, .objectDecoyShard3, .objectDecoyDust3, .objectDecoyEmber3, .objectDecoyAsh3, .objectDecoyWool2, .objectDecoyString2,
+.objectDecoyLeather2, .objectDecoyHorn2, .objectDecoyNut2, .objectDecoySeed2, .objectDecoyStraw2, .objectDecoyCork2, .objectDecoyShell2, .objectDecoyPebble4, .objectDecoyStone2, .objectDecoyTwig2, .objectDecoyFeather2, .objectDecoyNeedle2,
+.objectDecoyButton2, .objectDecoyRing3, .objectDecoyBead3, .objectDecoyCoin3, .objectDecoyClip3, .objectDecoyThimble2, .objectDecoyPin3, .objectDecoyNail4, .objectDecoyRivet3, .objectDecoyStud3, .objectDecoyLatch3, .objectDecoyBracket3, .objectDecoyBand3,
+.objectDecoySpur2, .objectDecoySpike2, .objectDecoyHaspe2, .objectDecoyBrace2, .objectDecoyStrap3, .objectDecoyBelt2, .objectDecoyCord3, .objectDecoyTwine3, .objectDecoyYarn3, .objectDecoyRibbon3, .objectDecoyTape3, .objectDecoyPatch3, .objectDecoyScrap5, .objectDecoyRag3, .objectDecoyWick3, .objectDecoyTallow3,
+.objectDecoyPebble5, .objectDecoyShard4, .objectDecoySplinter3, .objectDecoyChip3, .objectDecoySliver3, .objectDecoyFiber3, .objectDecoyThread3, .objectDecoyLint3, .objectDecoyCrumb3, .objectDecoyGrain3, .objectDecoySpice3, .objectDecoySalt3, .objectDecoyFlake3, .objectDecoyMoss3, .objectDecoyRust3, .objectDecoyGrime3 {
+  position: absolute;
+  pointer-events: none;
+}
+
 /* Wood chest — lid and iron strap */
 .objectChest {
   position: absolute;
@@ -613,10 +863,10 @@
 /* Small wood box */
 .objectBox {
   position: absolute;
-  left: 54%;
-  top: 71%;
+  left: 60%;
+  top: 94%;
   width: 5%;
-  height: 7%;
+  height: 5%;
   background: linear-gradient(165deg, #4a3d2a 0%, #423628 40%, #3d3220 100%);
   border: 1px solid #5a4a35;
   border-radius: 1px;
@@ -627,7 +877,7 @@
 /* Iron chains — metallic */
 .objectChains {
   position: absolute;
-  left: 74%;
+  left: 70%;
   top: 52%;
   width: 4%;
   height: 18%;
@@ -640,7 +890,7 @@
 /* Ceramic vase — glaze highlight */
 .objectVase {
   position: absolute;
-  left: 48%;
+  left: 52%;
   top: 22%;
   width: 4%;
   height: 6%;
@@ -670,7 +920,7 @@
   position: absolute;
   left: 76%;
   top: 46%;
-  width: 3%;
+  width: 2%;
   height: 7%;
   background: linear-gradient(90deg, #2a2724 0%, #3d3a36 50%, #2a2724 100%);
   border-radius: 2px;
@@ -695,7 +945,7 @@
 /* Earthenware pot */
 .objectPot {
   position: absolute;
-  left: 24%;
+  left: 36%;
   top: 51%;
   width: 4%;
   height: 4%;
@@ -737,7 +987,7 @@
 /* Small wood box 2 */
 .objectBox2 {
   position: absolute;
-  left: 60%;
+  left: 61%;
   top: 22%;
   width: 4%;
   height: 4%;
@@ -751,8 +1001,8 @@
 /* Wall sconce 2 — iron */
 .objectSconce2 {
   position: absolute;
-  left: 74%;
-  top: 36%;
+  left: 73%;
+  top: 44%;
   width: 3%;
   height: 7%;
   background: linear-gradient(90deg, #2a2724 0%, #3d3a36 50%, #2a2724 100%);
@@ -764,7 +1014,7 @@
 /* Metal bucket 2 */
 .objectBucket2 {
   position: absolute;
-  left: 69%;
+  left: 68%;
   top: 24%;
   width: 3%;
   height: 4%;
@@ -803,7 +1053,7 @@
 /* Clay jug — belly and rim */
 .objectJug {
   position: absolute;
-  left: 58%;
+  left: 56%;
   top: 22%;
   width: 4%;
   height: 5%;

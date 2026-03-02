@@ -215,6 +215,20 @@
     0 0 24px rgba(201, 162, 39, 0.15);
 }
 
+/* Large screens: use more viewport so content fits without scrolling */
+@media (min-width: 1024px) and (min-height: 800px) {
+  .modal,
+  .modalDungeon,
+  .modalThrone {
+    max-height: 96vh;
+    max-width: 640px;
+  }
+
+  .modalBody {
+    padding: 1rem 1.5rem 1.25rem;
+  }
+}
+
 .modalHeaderBar {
   flex-shrink: 0;
   display: flex;

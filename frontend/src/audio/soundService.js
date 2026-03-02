@@ -174,6 +174,82 @@ export async function playEffect(name) {
   } catch (_) {}
 }
 
+let thunderBuffer = null
+let thunderSource = null
+let introSoundsActive = false
+
+/** Call when entering intro page. */
+export function setIntroSoundsActive(active) {
+  introSoundsActive = active
+  if (!active) {
+    if (thunderSource) { try { thunderSource.stop() } catch (_) {} thunderSource = null }
+    stopRain()
+  }
+}
+
+/** Play thunder sound (CC BY 4.0, Orange Free Sounds). Stops any playing thunder first. */
+export async function playThunder() {
+  if (!introSoundsActive || isMuted()) return
+  try {
+    await resumeIfNeeded()
+    const ctx = getContext()
+    if (thunderSource) {
+      try { thunderSource.stop() } catch (_) {}
+      thunderSource = null
+    }
+    if (!thunderBuffer) {
+      const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
+      const res = await fetch(`${base}sounds/thunder.mp3`)
+      if (!res.ok) return
+      thunderBuffer = await ctx.decodeAudioData(await res.arrayBuffer())
+    }
+    const src = ctx.createBufferSource()
+    src.buffer = thunderBuffer
+    const gain = ctx.createGain()
+    gain.gain.value = 0.5
+    src.connect(gain)
+    gain.connect(ctx.destination)
+    src.start(0)
+    thunderSource = src
+    src.onended = () => { thunderSource = null }
+  } catch (_) {}
+}
+
+/** Stop thunder (call when leaving intro page). */
+export function stopThunder() {
+  if (thunderSource) {
+    try { thunderSource.stop() } catch (_) {}
+    thunderSource = null
+  }
+}
+
+let rainAudio = null
+
+/** Start looping rain (CC BY 4.0, Orange Free Sounds). Uses HTML Audio for reliable stop. */
+export function startRain() {
+  if (!introSoundsActive || isMuted()) return
+  stopRain()
+  try {
+    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
+    const audio = new Audio(`${base}sounds/rain.mp3`)
+    audio.loop = true
+    audio.volume = 0.12
+    audio.play().catch(() => {})
+    rainAudio = audio
+  } catch (_) {}
+}
+
+/** Stop rain — pause and reset HTML Audio for immediate silence. */
+export function stopRain() {
+  if (rainAudio) {
+    try {
+      rainAudio.pause()
+      rainAudio.currentTime = 0
+    } catch (_) {}
+    rainAudio = null
+  }
+}
+
 export function isMuted() {
   return typeof localStorage !== 'undefined' && localStorage.getItem('soundMuted') === '1'
 }
@@ -185,5 +261,6 @@ export function setMuted(muted) {
   if (muted) {
     stopAmbient()
     stopGameBackground()
+    stopRain()
   }
 }
