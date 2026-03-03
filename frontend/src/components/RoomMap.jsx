@@ -3,12 +3,14 @@ import styles from './RoomMap.module.css'
 export default function RoomMap({ rooms, currentRoomIndex, totalRooms, completedRooms = [], onRoomSelect }) {
   const completedSet = new Set(Array.isArray(completedRooms) ? completedRooms : [])
   const count = totalRooms || rooms?.length || 15
+  const hasClickable = completedSet.size < count && onRoomSelect
 
   return (
     <div className={styles.roomMap}>
       <div className={styles.roomMapScroll}>
         <div className={styles.roomMapScrollInner}>
           <div className={styles.roomMapTitle}>Castle Map</div>
+          {hasClickable && <span className={styles.roomMapHint}>Tap a room to jump there</span>}
           <div className={styles.roomMapTrack}>
             <span className={styles.roomMapLandmark} aria-hidden>🏰</span>
             <div className={styles.roomMapChips}>
@@ -29,7 +31,8 @@ export default function RoomMap({ rooms, currentRoomIndex, totalRooms, completed
                     `}
                     disabled={!isClickable}
                     onClick={isClickable ? () => onRoomSelect(i) : undefined}
-                    aria-label={isCompleted ? `Room ${i + 1} completed` : isCurrent ? `Room ${i + 1} current` : `Room ${i + 1}`}
+                    title={isClickable ? `Jump to room ${i + 1}` : undefined}
+                    aria-label={isCompleted ? `Room ${i + 1} completed` : isCurrent ? `Room ${i + 1} current` : isClickable ? `Room ${i + 1} — click to jump` : `Room ${i + 1}`}
                   >
                     {isCompleted ? (
                       <span className={styles.roomMapChipCheck}>✓</span>

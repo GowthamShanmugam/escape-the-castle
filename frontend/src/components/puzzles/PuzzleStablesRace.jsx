@@ -146,7 +146,7 @@ export default function PuzzleStablesRace({ room, onSolve, onClose }) {
   const prepSpeed = horse ? (prep.saddle ? horse.speed * 1.08 : horse.speed) : 1
   const mudMultiplier = isStone ? 1 : (prep.hooves ? 0.7 : 0.5)
   const scrollSpeed = horse ? BASE_SCROLL * prepSpeed : BASE_SCROLL
-  const jumpForce = horse ? BASE_JUMP * (prep.feed ? horse.jump * 1.06 : horse.jump) : BASE_JUMP
+  const jumpForce = (horse ? BASE_JUMP * (prep.feed ? horse.jump * 1.06 : horse.jump) : BASE_JUMP) * 1.06
   const canDoubleJump = isMist
   const canDash = isEmber
 

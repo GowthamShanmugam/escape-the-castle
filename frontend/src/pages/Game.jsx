@@ -6,6 +6,7 @@ import { getNpcDialogue } from '../data/npcDialogues'
 import RoomView from '../components/RoomView'
 import RoomMap from '../components/RoomMap'
 import Leaderboard from '../components/Leaderboard'
+import GameTour from '../components/GameTour'
 import NPCPopup from '../components/NPCPopup'
 import PuzzleTorch from '../components/puzzles/PuzzleTorch'
 import PuzzleBook from '../components/puzzles/PuzzleBook'
@@ -178,12 +179,14 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
 
   return (
     <div className={styles.wrapper}>
+      <GameTour onReady={!!(game && rooms.length > 0)} />
       <aside className={styles.sidebar}>
-        <p className={styles.gameCode}>Game code: <strong>{gameCode}</strong></p>
-        <p className={styles.coins}>🪙 {me?.coins ?? 0} coins</p>
+        <p className={styles.gameCode} data-tour-id="tour-gamecode">Game code: <strong>{gameCode}</strong></p>
+        <p className={styles.coins} data-tour-id="tour-coins">🪙 {me?.coins ?? 0} coins</p>
         <button
           type="button"
           className={styles.hintBtn}
+          data-tour-id="tour-hint"
           onClick={() => {
             playEffect('click')
             const roomIdx = shownRoomIndex
@@ -229,11 +232,14 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
         >
           🧙 Ask NPC for hint
         </button>
-        <Leaderboard leaderboard={leaderboard} totalRooms={totalRooms} youId={playerId} />
-        <div className={styles.roomProgress}>
-          Room {shownRoomIndex + 1} of {totalRooms}
+        <div data-tour-id="tour-leaderboard">
+          <Leaderboard leaderboard={leaderboard} totalRooms={totalRooms} youId={playerId} />
         </div>
-        <RoomMap
+        <div data-tour-id="tour-map">
+          <div className={styles.roomProgress}>
+            Room {shownRoomIndex + 1} of {totalRooms}
+          </div>
+          <RoomMap
           rooms={rooms}
           currentRoomIndex={shownRoomIndex}
           totalRooms={totalRooms}
@@ -256,10 +262,11 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
             }
           }}
         />
-        <button type="button" onClick={() => { playEffect('click'); onLeave?.() }} className={styles.leaveBtn}>Leave Game</button>
+        </div>
+        <button type="button" onClick={() => { playEffect('click'); onLeave?.() }} className={styles.leaveBtn} data-tour-id="tour-leave">Leave Game</button>
       </aside>
 
-      <main className={styles.main} role="main">
+      <main className={styles.main} role="main" data-tour-id="tour-gamearea">
         {error && <p className={styles.error}>{error}</p>}
         <div className={styles.roomContainer}>
           <AnimatePresence mode="wait" initial={false}>

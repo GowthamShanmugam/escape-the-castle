@@ -32,7 +32,16 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: #6b5344;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.2rem;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.roomMapHint {
+  display: block;
+  font-size: 0.65rem;
+  color: #6b5344;
+  opacity: 0.9;
+  margin-bottom: 0.4rem;
   font-family: Georgia, 'Times New Roman', serif;
 }
 
