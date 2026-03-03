@@ -47,7 +47,7 @@ export default function Home({ onJoin }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <span className={styles.crown} aria-hidden>👑</span>
+        <span className={styles.crown} aria-hidden>🏰</span>
         <h1 className={styles.title}>Escape the Castle</h1>
         <p className={styles.subtitle}>Enter the castle. Solve its puzzles. Escape or perish.</p>
 

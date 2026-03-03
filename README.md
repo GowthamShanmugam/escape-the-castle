@@ -1,5 +1,9 @@
 # Escape the Castle
 
+<p align="center">
+  <img src="frontend/public/arcade-banner.jpg" width="400" alt="Escape the Castle — Red Hat Arcade banner" />
+</p>
+
 Multiplayer puzzle race: 15 castle rooms, one puzzle per room. First to escape wins. Real-time leaderboard.
 
 - **Frontend:** React (Vite) — room view, puzzles, leaderboard, WebSocket updates

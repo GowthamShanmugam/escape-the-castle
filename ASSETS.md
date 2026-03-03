@@ -18,6 +18,12 @@ All game assets are CC-licensed (Creative Commons) to comply with Red Hat Arcade
 | Thunder | Intro thunder flash | [Orange Free Sounds](https://orangefreesounds.com/thunder/) — Alexander | CC BY 4.0 |
 | Rain | Intro rain ambiance | [Orange Free Sounds](https://orangefreesounds.com/sleep-sounds-rain/) — Alexander | CC BY 4.0 |
 
+## Generated Assets (No External Attribution)
+
+| Asset | Usage | Source | License |
+|-------|-------|--------|---------|
+| Arcade banner | Red Hat Arcade thumbnail (`arcade-banner.jpg`, `arcade-banner.png`) | Generated from `frontend/public/arcade-banner-source.html` via Puppeteer. Uses Google Fonts (Cinzel, Crimson Text). | Original work, no external image assets |
+
 ## Code/No External Assets
 
 - **UI sound effects:** Web Audio API (procedural, no files)
