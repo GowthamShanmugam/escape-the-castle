@@ -439,6 +439,9 @@ async def websocket_game_live(websocket: WebSocket, game_code: str):
 _STATIC_DIR = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 if _STATIC_DIR.exists():
     app.mount("/assets", StaticFiles(directory=_STATIC_DIR / "assets"), name="assets")
+    _images = _STATIC_DIR / "images"
+    if _images.exists():
+        app.mount("/images", StaticFiles(directory=_images), name="images")
     _sounds = _STATIC_DIR / "sounds"
     if _sounds.exists():
         app.mount("/sounds", StaticFiles(directory=_sounds), name="sounds")
