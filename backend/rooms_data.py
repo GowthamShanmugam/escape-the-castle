@@ -119,7 +119,7 @@ def get_rooms_public():
             "index": 3,
             "title": "Dungeon",
             "puzzle_type": "code_lock",
-            "hint": "Something is carved into the stone. Read it.",
+            "hint": "The carving holds the digits—but perhaps not in the order they appear.",
             "closer_hint": "The lock answers to the year the old lord died. Four digits.",
             "atmosphere": "Damp stone. The chains have left their mark. Words are scratched into the stone.",
             "scene": "In the seventh year he died. He had one son. Eight years had passed before the rebellion. The fourth year brought the plague. Words are carved into the wall.",
