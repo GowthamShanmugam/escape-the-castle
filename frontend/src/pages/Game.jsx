@@ -143,13 +143,15 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
       const result = await advanceRoom(gameCode, playerId, roomIndex, puzzleAnswer)
       applyAdvanceResult(result)
       playEffect('success')
-      closePuzzle(true)
+      if (puzzleOpen?.type !== 'throne_game') {
+        closePuzzle(true)
+      }
       if (!result.finished) {
         setNpcPopup({ message: getNpcDialogue(roomIndex + 1), dismissAfterMs: 5000 })
       }
     } catch (e) {
       playEffect('fail')
-      setError(e.message)
+      if (puzzleOpen?.type !== 'throne_game' && puzzleOpen?.type !== 'jigsaw') setError(e.message)
       if (puzzleOpen?.type === 'book_clue') {
         setPuzzleSubmitError('The lock does not turn.')
       }
@@ -165,6 +167,7 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
       if (puzzleOpen?.type === 'bubble_round') {
         setPuzzleSubmitError('The bubble pops. Try again.')
       }
+      if (puzzleOpen?.type === 'throne_game' || puzzleOpen?.type === 'jigsaw') throw e
     }
   }
 

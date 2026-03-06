@@ -291,6 +291,7 @@ async def advance_room_with_player(game_code: str, body: AdvanceRoomBody):
             "Wrong rhythm. The bell rings; the guards are alerted." if ptype == "chain_rhythm" else
             "The bubble pops. You must reach the exit without popping." if ptype == "bubble_round" else
             "You did not win the race. Try again." if ptype == "stables_race" else
+            "The light triggers a trap!" if ptype == "throne_game" else
             "Incorrect. Try again."
         )
         raise HTTPException(status_code=400, detail=detail)

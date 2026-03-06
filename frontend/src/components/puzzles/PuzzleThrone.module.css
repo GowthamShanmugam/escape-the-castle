@@ -94,6 +94,41 @@
   z-index: 0;
 }
 
+.trapBeam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 8px;
+  background: linear-gradient(
+    180deg,
+    rgba(192, 64, 64, 0.4) 0%,
+    rgba(160, 50, 50, 0.25) 30%,
+    rgba(140, 40, 40, 0.15) 60%,
+    rgba(160, 50, 50, 0.3) 100%
+  );
+  animation: trapBeamPulse 0.8s ease-out forwards;
+  z-index: 0;
+}
+
+@keyframes trapBeamPulse {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.1);
+    transform-origin: top;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
 @keyframes beamTravel {
   0% {
     opacity: 0;
@@ -197,6 +232,29 @@
   animation: symbolsBrighten 0.7s ease-out;
 }
 
+.glass.symbolsTrap {
+  box-shadow: 0 0 24px rgba(192, 64, 64, 0.6), inset 0 0 16px rgba(192, 64, 64, 0.2);
+  border-color: rgba(200, 80, 80, 0.8);
+  animation: symbolsTrapPulse 0.6s ease-out;
+}
+
+@keyframes symbolsTrapPulse {
+  0% {
+    box-shadow: 0 0 12px rgba(192, 64, 64, 0.3), inset 0 0 8px rgba(192, 64, 64, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(192, 64, 64, 0.7), inset 0 0 20px rgba(192, 64, 64, 0.25);
+  }
+  100% {
+    box-shadow: 0 0 24px rgba(192, 64, 64, 0.6), inset 0 0 16px rgba(192, 64, 64, 0.2);
+  }
+}
+
+.glass.symbolsTrap .symbols {
+  color: rgba(220, 120, 120, 0.95);
+  text-shadow: 0 0 16px rgba(192, 64, 64, 0.8);
+}
+
 @keyframes symbolsBrighten {
   0%, 100% { text-shadow: 0 0 12px rgba(201, 162, 39, 0.4); }
   45% { text-shadow: 0 0 20px rgba(232, 197, 71, 0.8), 0 0 30px rgba(201, 162, 39, 0.5); }
@@ -229,13 +287,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: rgba(201, 162, 39, 0.9);
   background: linear-gradient(145deg, rgba(55, 50, 60, 0.95) 0%, rgba(35, 32, 42, 0.95) 50%, rgba(45, 42, 52, 0.9) 100%);
   border: 1px solid rgba(201, 162, 39, 0.45);
   border-radius: 4px;
   box-shadow: inset -2px -2px 6px rgba(0, 0, 0, 0.4), inset 2px 2px 6px rgba(255, 255, 255, 0.06);
   transition: transform 0.25s ease;
+}
+
+.mirrorFace {
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px rgba(201, 162, 39, 0.4));
 }
 
 .angleBtn {

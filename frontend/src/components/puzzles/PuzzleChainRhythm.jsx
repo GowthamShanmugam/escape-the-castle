@@ -3,7 +3,7 @@ import { playEffect } from '../../audio/soundService'
 import { useViewportScale } from '../../hooks/useViewportScale'
 import styles from './PuzzleChainRhythm.module.css'
 
-const CHAPEL_IMG = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Trakai_Island_Castle_Chapel%2C_Lithuania_-_Diliff.jpg/1200px-Trakai_Island_Castle_Chapel%2C_Lithuania_-_Diliff.jpg'
+const CHAPEL_IMG = '/images/chapel-chain-rhythm.jpg'
 const ARENA_WIDTH = 520
 const ARENA_HEIGHT = 340
 const N_CHAINS = 5

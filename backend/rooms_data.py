@@ -9,7 +9,7 @@ PUZZLE_ANSWERS = [
     {"type": "book_clue", "answer": "midnight"},  # 1 Library
     {"type": "sequence", "order": [1, 4, 0, 3, 2]},  # 2 Kitchen
     {"type": "code_lock", "code": "1847"},  # 3 Dungeon
-    {"type": "throne_game", "angles": "90,180,0"},  # 4 Throne Room
+    {"type": "throne_game", "angles": "90,180,0,270"},  # 4 Throne Room
     {"type": "jigsaw", "order": list(range(20))},  # 5 Armory
     {"type": "tower_climb", "answer": "summit"},  # 6 Tower
     {"type": "chain_rhythm", "order": [2, 0, 4, 1, 3], "intervals_ms": [800, 600, 800, 600], "tolerance_ms": 400},  # 7 Chapel
@@ -131,14 +131,15 @@ def get_rooms_public():
             "title": "Throne Room",
             "puzzle_type": "throne_game",
             "hint": "Sunlight through the stained glass must strike the royal symbols. Rotate the mirrors to align the light.",
-            "closer_hint": "First mirror: a quarter of the wheel. Second: half the circle. Third: as the smith left it.",
+            "closer_hint": "First mirror: a quarter of the wheel. Second: half the circle. Third: as the smith left it. Fourth: three quarters round.",
             "atmosphere": "Coloured light falls through the high windows. Shields and mirrors line the chamber—one wrong angle and the mechanism may trigger a trap.",
             "scene": "Coloured light falls through the stained glass. Mirrors line the chamber—rotate them to align the light.",
             "scene_preview": "Coloured light falls through the stained glass. Mirrors line the chamber.",
             "throne_game": {
                 "instruction": "Click each mirror to rotate (0°, 90°, 180°, 270°). Align the light with the symbols.",
-                "numMirrors": 3,
+                "numMirrors": 4,
                 "trapMessage": "The light triggers a trap!",
+                "symbols": "⚜ 👑 ⚜",
             },
         },
         {
@@ -152,8 +153,8 @@ def get_rooms_public():
             "jigsaw": {
                 "rows": 4,
                 "cols": 5,
-                "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Dresden%2C_R%C3%BCstkammer_%28Dezember_2023%29.jpg/800px-Dresden%2C_R%C3%BCstkammer_%28Dezember_2023%29.jpg",
-                "instruction": "Drag a piece onto another to swap. Reassemble the image.",
+                "imageUrl": "/images/armory-jigsaw.jpg",
+                "instruction": "Drag a piece onto another to swap. Reassemble the image. You have 10 checks—wrong 10 times and the puzzle reshuffles.",
             },
         },
         {

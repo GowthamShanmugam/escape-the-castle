@@ -106,6 +106,27 @@
   font-weight: 600;
 }
 
+.warning {
+  color: #d08040;
+  font-weight: 600;
+}
+
+.reshuffled {
+  color: #c9a227;
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.attemptsBar {
+  margin: 0.5rem 0;
+}
+
+.attemptsLabel {
+  font-size: 0.85rem;
+  color: #8a8278;
+}
+
 .actions {
   display: flex;
   gap: 0.75rem;

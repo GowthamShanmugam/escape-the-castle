@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import styles from './PuzzleJigsaw.module.css'
 
 function shuffle(arr) {
@@ -27,6 +27,8 @@ const FALLBACK_SVG = (
   )
 )
 
+const MAX_ATTEMPTS = 10
+
 export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
   const rows = room?.jigsaw?.rows ?? 6
   const cols = room?.jigsaw?.cols ?? 6
@@ -34,12 +36,14 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
   const instruction = room?.jigsaw?.instruction || 'Reassemble the shattered image by swapping pieces. Drag a piece onto another to swap.'
 
   const total = rows * cols
-  const initialOrder = useMemo(() => shuffle(Array.from({ length: total }, (_, i) => i)), [total])
+  const createShuffledOrder = useCallback(() => shuffle(Array.from({ length: total }, (_, i) => i)), [total])
 
-  const [order, setOrder] = useState(initialOrder)
+  const [order, setOrder] = useState(() => createShuffledOrder())
   const [dragSlot, setDragSlot] = useState(null)
   const [imageError, setImageError] = useState(false)
   const [wrong, setWrong] = useState(false)
+  const [reshuffled, setReshuffled] = useState(false)
+  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS)
 
   const imageSrc = imageUrl && !imageError ? imageUrl : FALLBACK_SVG
 
@@ -91,8 +95,19 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
       await onSolve(order.join(','))
     } catch {
       setWrong(true)
+      setAttemptsLeft((prev) => {
+        const next = prev - 1
+        if (next <= 0) {
+          setOrder(createShuffledOrder())
+          setWrong(false)
+          setReshuffled(true)
+          setTimeout(() => setReshuffled(false), 3000)
+          return MAX_ATTEMPTS
+        }
+        return next
+      })
     }
-  }, [order, onSolve])
+  }, [order, onSolve, createShuffledOrder])
 
   return (
     <div className={styles.wrapper}>
@@ -147,7 +162,25 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
         })}
       </div>
 
-      {wrong && <p className={styles.wrong}>Not quite. Keep rearranging the pieces.</p>}
+      {wrong && (
+        <p className={styles.wrong}>
+          Not quite. Keep rearranging the pieces.
+          {attemptsLeft < MAX_ATTEMPTS && (
+            <span className={styles.warning}>
+              {' '}
+              {attemptsLeft} {attemptsLeft === 1 ? 'attempt' : 'attempts'} remaining—wrong again and the puzzle will reshuffle.
+            </span>
+          )}
+        </p>
+      )}
+
+      {reshuffled && <p className={styles.reshuffled}>The puzzle has reshuffled. Try again.</p>}
+
+      <div className={styles.attemptsBar}>
+        <span className={styles.attemptsLabel}>
+          {attemptsLeft} / {MAX_ATTEMPTS} checks left
+        </span>
+      </div>
 
       <div className={styles.actions}>
         <button type="button" onClick={handleCheck} className={styles.checkBtn}>

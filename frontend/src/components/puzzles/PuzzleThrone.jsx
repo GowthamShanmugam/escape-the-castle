@@ -3,21 +3,30 @@ import styles from './PuzzleThrone.module.css'
 
 const ANGLES = [0, 90, 180, 270]
 const LIGHT_HIT_DURATION_MS = 700
+const SUCCESS_ANIMATION_MS = 1000
 
 export default function PuzzleThrone({ onSolve, onClose, room }) {
   const numMirrors = room?.throne_game?.numMirrors ?? 3
   const instruction = room?.throne_game?.instruction || 'Click each mirror to rotate (0°, 90°, 180°, 270°). Match the carved clue above.'
   const trapMessage = room?.throne_game?.trapMessage || 'The light triggers a trap!'
+  const symbols = room?.throne_game?.symbols || '⚜ 👑 ⚜'
 
   const [angles, setAngles] = useState(Array(numMirrors).fill(0))
   const [trap, setTrap] = useState(false)
   const [lightHit, setLightHit] = useState(false)
+  const [trapBeam, setTrapBeam] = useState(false)
 
   useEffect(() => {
     if (!lightHit) return
     const t = setTimeout(() => setLightHit(false), LIGHT_HIT_DURATION_MS)
     return () => clearTimeout(t)
   }, [lightHit])
+
+  useEffect(() => {
+    if (!trapBeam) return
+    const t = setTimeout(() => setTrapBeam(false), 800)
+    return () => clearTimeout(t)
+  }, [trapBeam])
 
   const cycleMirror = (i) => {
     const idx = ANGLES.indexOf(angles[i])
@@ -26,15 +35,19 @@ export default function PuzzleThrone({ onSolve, onClose, room }) {
     nextAngles[i] = ANGLES[next]
     setAngles(nextAngles)
     setTrap(false)
-    setLightHit(true)
   }
 
   const handleCheck = async () => {
     setTrap(false)
     try {
       await onSolve(angles.join(','))
+      setLightHit(true)
+      await new Promise((r) => setTimeout(r, SUCCESS_ANIMATION_MS))
+      onClose()
     } catch {
+      setLightHit(false)
       setTrap(true)
+      setTrapBeam(true)
     }
   }
 
@@ -46,6 +59,7 @@ export default function PuzzleThrone({ onSolve, onClose, room }) {
 
       <div className={`${styles.lightPuzzle} ${trap ? styles.trapActive : ''}`}>
         {lightHit && <div className={styles.lightBeam} aria-hidden />}
+        {trapBeam && <div className={styles.trapBeam} aria-hidden />}
         <div className={styles.sunWrap}>
           <div className={styles.sun} aria-hidden>☀</div>
           <span className={styles.zoneLabel}>Light</span>
@@ -59,8 +73,9 @@ export default function PuzzleThrone({ onSolve, onClose, room }) {
                   className={styles.mirror}
                   style={{ transform: `rotate(${angle}deg)` }}
                   title={`Mirror ${i + 1}: ${angle}°`}
+                  aria-hidden
                 >
-                  ◇
+                  <span className={styles.mirrorFace}>▲</span>
                 </div>
                 <button
                   type="button"
@@ -75,8 +90,8 @@ export default function PuzzleThrone({ onSolve, onClose, room }) {
           </div>
         </div>
         <div className={styles.glassWrap}>
-          <div className={`${styles.glass} ${lightHit ? styles.symbolsHit : ''}`}>
-            <span className={styles.symbols}>◆ ★ ◆</span>
+          <div className={`${styles.glass} ${lightHit ? styles.symbolsHit : ''} ${trap ? styles.symbolsTrap : ''}`}>
+            <span className={styles.symbols}>{symbols}</span>
           </div>
           <span className={styles.zoneLabel}>Symbols</span>
         </div>

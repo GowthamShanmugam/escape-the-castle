@@ -462,7 +462,7 @@ export default function DarkRoomScene({ room, backgroundImage, onSolve, onClose,
           onDragEnd={handleKeyDragEnd}
         >
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/1/11/Key-dynamic-premium.png"
+            src="/images/key-icon.png"
             alt="Key"
             className={styles.draggableKeyImg}
             draggable={false}

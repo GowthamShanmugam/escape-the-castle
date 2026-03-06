@@ -292,7 +292,7 @@
   width: 2.2%;
   height: 3.2%;
   pointer-events: none;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/1/11/Key-dynamic-premium.png') center / contain no-repeat;
+  background: url('/images/key-icon.png') center / contain no-repeat;
 }
 
 /* Decoys near key to confuse: small metal/object clutter so user has to look carefully */
