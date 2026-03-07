@@ -6,7 +6,7 @@ import styles from './PuzzleTowerClimb.module.css'
 
 const TICK_MS = 50
 const AREA_WIDTH = 200
-const AREA_HEIGHT = 380
+const DEFAULT_AREA_HEIGHT = 480
 const PLAYER_W = 24
 const PLAYER_H = 32
 const ARROW_W = 8
@@ -21,23 +21,26 @@ const CLIMB_SPEED = 1.8
 const MOVE_SPEED = 2.2
 const SUMMIT_Y = 20
 
-export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
+export default function PuzzleTowerClimb({ room, onSolve, onClose, coins = 0, purchasedEasyMode = false, onSpendCoinForEasy }) {
   const cfg = room?.tower_climb || {}
+  const easyCfg = cfg.easyMode || {}
   const instruction = cfg.instruction || "↑↓←→ or arrow keys to climb. Dodge the arrows. Stamina depletes. Reach the top to unlock the door."
   const staminaMax = cfg.staminaMax ?? 100
   const staminaDrain = cfg.staminaDrain ?? 0.9
   const staminaRefill = cfg.staminaRefill ?? 0.5
   const windStrength = cfg.windStrength ?? 0.8
-  const arrowInterval = cfg.arrowInterval ?? 4500
+  const [easyMode, setEasyMode] = useState(purchasedEasyMode)
+  const areaHeight = easyMode ? (easyCfg.areaHeight ?? 360) : (cfg.areaHeight ?? DEFAULT_AREA_HEIGHT)
+  const arrowInterval = easyMode ? (easyCfg.arrowInterval ?? 4500) : (cfg.arrowInterval ?? 3500)
   const arrowSpeed = cfg.arrowSpeed ?? 0.82
-  const arrowsPerVolley = cfg.arrowsPerVolley ?? 3
-  const arrowVolleyDelay = cfg.arrowVolleyDelay ?? 600
+  const arrowsPerVolley = easyMode ? (easyCfg.arrowsPerVolley ?? 3) : (cfg.arrowsPerVolley ?? 5)
+  const arrowVolleyDelay = easyMode ? (easyCfg.arrowVolleyDelay ?? 600) : (cfg.arrowVolleyDelay ?? 500)
 
   const [status, setStatus] = useState('playing') // 'playing' | 'fail' | 'success'
   const [failReason, setFailReason] = useState('')
   const [stamina, setStamina] = useState(staminaMax)
   const [playerX, setPlayerX] = useState(AREA_WIDTH / 2 - PLAYER_W / 2)
-  const [playerY, setPlayerY] = useState(AREA_HEIGHT - PLAYER_H - 20)
+  const [playerY, setPlayerY] = useState(() => DEFAULT_AREA_HEIGHT - PLAYER_H - 20)
   const [arrows, setArrows] = useState([])
   const [windOffset, setWindOffset] = useState(0)
 
@@ -48,18 +51,19 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
   const arrowsSpawnedThisVolleyRef = useRef(0)
   const windPhaseRef = useRef(0)
   const playerXRef = useRef(AREA_WIDTH / 2 - PLAYER_W / 2)
-  const playerYRef = useRef(AREA_HEIGHT - PLAYER_H - 20)
+  const playerYRef = useRef(DEFAULT_AREA_HEIGHT - PLAYER_H - 20)
   const staminaRef = useRef(staminaMax)
-  const configRef = useRef({ staminaMax, staminaDrain, staminaRefill, windStrength, arrowInterval, arrowSpeed, arrowsPerVolley, arrowVolleyDelay })
+  const configRef = useRef({ staminaMax, staminaDrain, staminaRefill, windStrength, arrowInterval, arrowSpeed, arrowsPerVolley, arrowVolleyDelay, areaHeight })
 
-  configRef.current = { staminaMax, staminaDrain, staminaRefill, windStrength, arrowInterval, arrowSpeed, arrowsPerVolley, arrowVolleyDelay }
+  configRef.current = { staminaMax, staminaDrain, staminaRefill, windStrength, arrowInterval, arrowSpeed, arrowsPerVolley, arrowVolleyDelay, areaHeight }
 
   const reset = useCallback(() => {
     const now = Date.now()
+    const startY = areaHeight - PLAYER_H - 20
     setStatus('playing')
     setFailReason('')
     playerXRef.current = AREA_WIDTH / 2 - PLAYER_W / 2
-    playerYRef.current = AREA_HEIGHT - PLAYER_H - 20
+    playerYRef.current = startY
     staminaRef.current = staminaMax
     setStamina(staminaMax)
     setPlayerX(playerXRef.current)
@@ -71,7 +75,19 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
     arrowsSpawnedThisVolleyRef.current = 0
     windPhaseRef.current = 0
     setWindOffset(0)
-  }, [staminaMax])
+  }, [staminaMax, areaHeight])
+
+  useEffect(() => {
+    if (purchasedEasyMode) setEasyMode(true)
+  }, [purchasedEasyMode])
+
+  useEffect(() => {
+    reset()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- init player at correct position for areaHeight
+
+  useEffect(() => {
+    if (easyMode) reset()
+  }, [easyMode, reset])
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -98,7 +114,7 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
   }, [])
 
   const arenaWrapperRef = useRef(null)
-  const arenaScale = useViewportScale(arenaWrapperRef, AREA_WIDTH, AREA_HEIGHT)
+  const arenaScale = useViewportScale(arenaWrapperRef, AREA_WIDTH, areaHeight)
 
   useEffect(() => {
     if (status === 'fail') playEffect('fail')
@@ -143,7 +159,7 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
           return
         }
         if (keysRef.current.up) y = Math.max(0, y - CLIMB_SPEED)
-        if (keysRef.current.down) y = Math.min(AREA_HEIGHT - PLAYER_H, y + CLIMB_SPEED * 0.6)
+        if (keysRef.current.down) y = Math.min(configRef.current.areaHeight - PLAYER_H, y + CLIMB_SPEED * 0.6)
         if (keysRef.current.left) x = Math.max(0, x - MOVE_SPEED)
         if (keysRef.current.right) x = Math.min(AREA_WIDTH - PLAYER_W, x + MOVE_SPEED)
       } else {
@@ -165,7 +181,7 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
 
       arrowsList = arrowsList.filter((arr) => {
         arr.y += cfg.arrowSpeed
-        if (arr.y > AREA_HEIGHT) return false
+        if (arr.y > configRef.current.areaHeight) return false
         const px = x + PLAYER_W / 2
         const py = y + PLAYER_H / 2
         const ax = arr.x + ARROW_W / 2
@@ -203,6 +219,21 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
       <h2 className={styles.title}>{room?.title ?? 'Tower'}</h2>
       <p className={styles.instruction}>{instruction}</p>
 
+      {status === 'playing' && coins >= 1 && !easyMode && !purchasedEasyMode && onSpendCoinForEasy && (
+        <button
+          type="button"
+          className={styles.easyModeBtn}
+          onClick={async () => {
+            try {
+              await onSpendCoinForEasy()
+              setEasyMode(true)
+            } catch (_) {}
+          }}
+        >
+          Reduce difficulty — {'\u{1FA99}'} 1 coin
+        </button>
+      )}
+
       <div className={styles.hud}>
         <div className={styles.staminaLabel}>Stamina</div>
         <div className={styles.staminaTrack}>
@@ -220,7 +251,7 @@ export default function PuzzleTowerClimb({ room, onSolve, onClose }) {
           className={styles.arena}
           style={{
             width: AREA_WIDTH,
-            height: AREA_HEIGHT,
+            height: areaHeight,
             transform: `scale(${arenaScale})`,
             transformOrigin: 'top center',
           }}

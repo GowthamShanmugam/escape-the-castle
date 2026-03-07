@@ -65,6 +65,16 @@ export async function getLeaderboard(gameCode) {
   return res.json()
 }
 
+export async function spendCoinForResume(gameCode, playerId, purpose) {
+  const res = await fetch(`${API}/games/${encodeURIComponent(gameCode)}/players/spend-coin`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ player_id: playerId, purpose }),
+  })
+  if (!res.ok) throw new Error(await parseError(res))
+  return res.json()
+}
+
 export async function bribeNpc(gameCode, playerId) {
   const res = await fetch(`${API}/games/${encodeURIComponent(gameCode)}/players/bribe`, {
     method: 'POST',

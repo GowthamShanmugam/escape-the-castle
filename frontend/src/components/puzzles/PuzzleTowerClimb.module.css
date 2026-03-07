@@ -18,6 +18,22 @@
   line-height: 1.4;
 }
 
+.easyModeBtn {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  background: rgba(201, 162, 39, 0.2);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  color: #c9a227;
+  cursor: pointer;
+}
+
+.easyModeBtn:hover {
+  background: rgba(201, 162, 39, 0.3);
+  border-color: rgba(201, 162, 39, 0.7);
+}
+
 .hud {
   display: flex;
   flex-wrap: wrap;

@@ -139,6 +139,12 @@
   background: linear-gradient(145deg, #5a5248 0%, #4a4238 100%);
 }
 
+.noResumeHint {
+  font-size: 0.9rem;
+  color: var(--castle-muted, #8a8374);
+  font-style: italic;
+}
+
 .resetSecondary {
   opacity: 0.85;
 }

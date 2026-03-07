@@ -122,6 +122,11 @@ def init_db():
             conn.commit()
         except sqlite3.OperationalError:
             pass
+        try:
+            conn.execute("ALTER TABLE players ADD COLUMN coin_spends TEXT")
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass
     finally:
         conn.close()
 
@@ -153,7 +158,7 @@ def get_player_by_name(game_code: str, player_name: str) -> dict | None:
     conn = get_conn()
     try:
         row = conn.execute(
-            "SELECT player_id, player_name, current_room, completed_rooms, room_entered_at, finished_at, coins, bribed_hints FROM players WHERE game_code = ? AND LOWER(TRIM(player_name)) = LOWER(TRIM(?))",
+            "SELECT player_id, player_name, current_room, completed_rooms, room_entered_at, finished_at, coins, bribed_hints, coin_spends FROM players WHERE game_code = ? AND LOWER(TRIM(player_name)) = LOWER(TRIM(?))",
             (gc, name),
         ).fetchone()
         if not row:
@@ -171,6 +176,11 @@ def get_player_by_name(game_code: str, player_name: str) -> dict | None:
             bribed_hints = json.loads(bh) if bh else {}
         except (TypeError, ValueError):
             bribed_hints = {}
+        cs = row["coin_spends"] if "coin_spends" in row.keys() else None
+        try:
+            coin_spends = json.loads(cs) if cs else {}
+        except (TypeError, ValueError):
+            coin_spends = {}
         return {
             "player_id": row["player_id"],
             "player_name": row["player_name"],
@@ -180,6 +190,7 @@ def get_player_by_name(game_code: str, player_name: str) -> dict | None:
             "finished_at": row["finished_at"],
             "coins": (row["coins"] or 0) if "coins" in row.keys() else 0,
             "bribed_hints": bribed_hints,
+            "coin_spends": coin_spends,
         }
     finally:
         conn.close()
@@ -205,7 +216,7 @@ def get_game(game_code: str) -> dict | None:
         if not row:
             return None
         players_rows = conn.execute(
-            "SELECT player_id, player_name, current_room, completed_rooms, room_entered_at, finished_at, coins, bribed_hints FROM players WHERE game_code = ?",
+            "SELECT player_id, player_name, current_room, completed_rooms, room_entered_at, finished_at, coins, bribed_hints, coin_spends FROM players WHERE game_code = ?",
             (gc,),
         ).fetchall()
         players = {}
@@ -223,6 +234,11 @@ def get_game(game_code: str) -> dict | None:
                 bribed_hints = json.loads(bh) if bh else {}
             except (TypeError, ValueError):
                 bribed_hints = {}
+            cs = r["coin_spends"] if "coin_spends" in r.keys() else None
+            try:
+                coin_spends = json.loads(cs) if cs else {}
+            except (TypeError, ValueError):
+                coin_spends = {}
             players[r["player_id"]] = {
                 "player_id": r["player_id"],
                 "player_name": r["player_name"],
@@ -232,6 +248,7 @@ def get_game(game_code: str) -> dict | None:
                 "finished_at": r["finished_at"],
                 "coins": (r["coins"] or 0) if "coins" in r.keys() else 0,
                 "bribed_hints": bribed_hints,
+                "coin_spends": coin_spends,
             }
         return {
             "game_code": row["game_code"],
@@ -340,6 +357,65 @@ def advance_player(game_code: str, player_id: str, current_room: int, total_room
         )
         conn.commit()
         return new_room, False
+    finally:
+        conn.close()
+
+
+def spend_coin(game_code: str, player_id: str) -> tuple[bool, int]:
+    """Spend 1 coin. Returns (success, coins_remaining)."""
+    gc = game_code.upper()
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT coins FROM players WHERE game_code = ? AND player_id = ?",
+            (gc, player_id),
+        ).fetchone()
+        if not row:
+            return False, 0
+        coins = row["coins"] or 0
+        if coins < 1:
+            return False, coins
+        new_coins = coins - 1
+        conn.execute(
+            "UPDATE players SET coins = ? WHERE game_code = ? AND player_id = ?",
+            (new_coins, gc, player_id),
+        )
+        conn.commit()
+        return True, new_coins
+    finally:
+        conn.close()
+
+
+def spend_coin_with_purpose(game_code: str, player_id: str, purpose: str) -> tuple[bool, int]:
+    """Spend 1 coin for a specific purpose (tower_easy, bathhouse_50). Records the purchase.
+    If already purchased for this purpose, returns success without deducting. Returns (success, coins_remaining)."""
+    gc = game_code.upper()
+    conn = get_conn()
+    try:
+        row = conn.execute(
+            "SELECT coins, coin_spends FROM players WHERE game_code = ? AND player_id = ?",
+            (gc, player_id),
+        ).fetchone()
+        if not row:
+            return False, 0
+        coins = row["coins"] or 0
+        cs = row["coin_spends"] if "coin_spends" in row.keys() else None
+        try:
+            coin_spends = json.loads(cs) if cs else {}
+        except (TypeError, ValueError):
+            coin_spends = {}
+        if coin_spends.get(purpose):
+            return True, coins
+        if coins < 1:
+            return False, coins
+        coin_spends[purpose] = True
+        new_coins = coins - 1
+        conn.execute(
+            "UPDATE players SET coins = ?, coin_spends = ? WHERE game_code = ? AND player_id = ?",
+            (new_coins, json.dumps(coin_spends), gc, player_id),
+        )
+        conn.commit()
+        return True, new_coins
     finally:
         conn.close()
 

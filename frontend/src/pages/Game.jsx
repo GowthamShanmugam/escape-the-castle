@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { getGame, getRooms, advanceRoom, jumpRoom, bribeNpc } from '../api'
+import { getGame, getRooms, advanceRoom, jumpRoom, bribeNpc, spendCoinForResume } from '../api'
 import { getNpcDialogue } from '../data/npcDialogues'
 import RoomView from '../components/RoomView'
 import RoomMap from '../components/RoomMap'
@@ -474,7 +474,26 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
                 />
               )}
               {puzzleOpen.type === 'tower_climb' && (
-                <PuzzleTowerClimb onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />
+                <PuzzleTowerClimb
+                  onSolve={handlePuzzleSolved}
+                  onClose={closePuzzle}
+                  room={puzzleOpen.room}
+                  coins={me?.coins ?? 0}
+                  purchasedEasyMode={me?.coin_spends?.tower_easy}
+                  onSpendCoinForEasy={async () => {
+                    setError('')
+                    try {
+                      await spendCoinForResume(gameCode, playerId, 'tower_easy')
+                      const fresh = await getGame(gameCode)
+                      if (fresh?.players) {
+                        setGame({ game_code: fresh.game_code, players: fresh.players, created_at: fresh.created_at })
+                        setLeaderboard(fresh.leaderboard || [])
+                      }
+                    } catch (e) {
+                      setError(e?.message || 'Failed to spend coin')
+                    }
+                  }}
+                />
               )}
               {puzzleOpen.type === 'chain_rhythm' && (
                 <PuzzleChainRhythm
@@ -500,7 +519,28 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
                 <PuzzleGalleryRoyalCode onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />
               )}
               {puzzleOpen.type === 'bubble_round' && (
-                <PuzzleBubbleRound onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />
+                <PuzzleBubbleRound
+                  onSolve={handlePuzzleSolved}
+                  onClose={closePuzzle}
+                  room={puzzleOpen.room}
+                  gameCode={gameCode}
+                  playerId={playerId}
+                  coins={me?.coins ?? 0}
+                  hasResumeFrom50Purchased={me?.coin_spends?.bathhouse_50}
+                  onSpendCoinForResume={async () => {
+                    setError('')
+                    try {
+                      await spendCoinForResume(gameCode, playerId, 'bathhouse_50')
+                      const fresh = await getGame(gameCode)
+                      if (fresh?.players) {
+                        setGame({ game_code: fresh.game_code, players: fresh.players, created_at: fresh.created_at })
+                        setLeaderboard(fresh.leaderboard || [])
+                      }
+                    } catch (e) {
+                      setError(e?.message || 'Failed to spend coin')
+                    }
+                  }}
+                />
               )}
               {puzzleOpen.type === 'stables_race' && (
                 <PuzzleStablesRace onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />

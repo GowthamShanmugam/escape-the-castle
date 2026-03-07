@@ -87,7 +87,7 @@ function getExtraHazards() {
   ]
 }
 
-export default function PuzzleBubbleRound({ room, onSolve, onClose }) {
+export default function PuzzleBubbleRound({ room, onSolve, onClose, coins = 0, hasResumeFrom50Purchased = false, onSpendCoinForResume }) {
   const cfg = room?.bubble_round || {}
   const instruction =
     cfg.instruction ||
@@ -115,6 +115,12 @@ export default function PuzzleBubbleRound({ room, onSolve, onClose }) {
 
   const hazardsRef = useRef([...getBaseHazards(), ...getExtraHazards()])
   const midCheckpoint = { x: CHECKPOINT_SPAWN_X, y: VIEW_H / 2 - BUBBLE_R }
+
+  useEffect(() => {
+    if (hasResumeFrom50Purchased) {
+      checkpointRef.current = { x: CHECKPOINT_SPAWN_X, y: VIEW_H / 2 - BUBBLE_R }
+    }
+  }, [hasResumeFrom50Purchased])
 
   const startPos = { x: 80, y: VIEW_H / 2 - BUBBLE_R }
   const reset = useCallback((fromCheckpoint = false) => {
@@ -491,9 +497,32 @@ export default function PuzzleBubbleRound({ room, onSolve, onClose }) {
         {gameState === 'popped' && (
           <>
             {checkpointRef.current.x >= CHECKPOINT_50_X - 100 && (
-              <button type="button" onClick={() => reset(true)} className={styles.resetBtn}>
-                Retry from checkpoint (50%)
-              </button>
+              hasResumeFrom50Purchased ? (
+                <button
+                  type="button"
+                  className={styles.resetBtn}
+                  onClick={() => reset(true)}
+                >
+                  Resume from halfway
+                </button>
+              ) : coins >= 1 && onSpendCoinForResume ? (
+                <button
+                  type="button"
+                  className={styles.resetBtn}
+                  onClick={async () => {
+                    try {
+                      await onSpendCoinForResume()
+                      reset(true)
+                    } catch (_) {
+                      /* Error shown by parent */
+                    }
+                  }}
+                >
+                  Resume from halfway — 🪙 1 coin
+                </button>
+              ) : (
+                <span className={styles.noResumeHint}>Need 1 coin to resume from halfway.</span>
+              )
             )}
             <button type="button" onClick={() => reset(false)} className={checkpointRef.current.x >= CHECKPOINT_50_X - 100 ? styles.resetSecondary : styles.resetBtn}>
               Start over

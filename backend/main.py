@@ -181,6 +181,11 @@ class BribeBody(BaseModel):
     player_id: str
 
 
+class SpendCoinBody(BaseModel):
+    player_id: str
+    purpose: str  # "tower_easy" | "bathhouse_50"
+
+
 def _normalize(s: str) -> str:
     return (s or "").strip().lower().replace(" ", "")
 
@@ -354,6 +359,25 @@ async def mark_player_complete(game_code: str, body: CompletePlayerBody):
         raise HTTPException(status_code=500, detail="Failed to update")
     await broadcast_game_state(gc)
     return {"ok": True, "current_room": TOTAL_ROOMS, "finished": True, "player_id": pid}
+
+
+@app.post("/api/games/{game_code}/players/spend-coin")
+async def spend_coin_for_resume(game_code: str, body: SpendCoinBody):
+    """Spend 1 coin for a purpose (tower_easy, bathhouse_50). Records purchase; persists across refresh."""
+    gc = game_code.upper()
+    if body.purpose not in ("tower_easy", "bathhouse_50"):
+        raise HTTPException(status_code=400, detail="Invalid purpose")
+    g = db_module.get_game(gc)
+    if not g:
+        raise HTTPException(status_code=404, detail="Game not found")
+    p = g["players"].get(body.player_id)
+    if not p:
+        raise HTTPException(status_code=404, detail="Player not found")
+    ok, coins_left = db_module.spend_coin_with_purpose(gc, body.player_id, body.purpose)
+    if not ok:
+        raise HTTPException(status_code=400, detail="Not enough coins" if coins_left < 1 else "Spend failed")
+    await broadcast_game_state(gc)
+    return {"success": True, "coins": coins_left}
 
 
 @app.post("/api/games/{game_code}/players/bribe")
