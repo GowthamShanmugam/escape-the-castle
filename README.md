@@ -14,7 +14,7 @@ Multiplayer puzzle race: 15 castle rooms, one puzzle per room. First to escape w
 
 ## Quick start
 
-### Backend (Python)
+### Backend (Python 3.10+)
 
 ```bash
 cd escape-the-castle/backend
@@ -31,6 +31,20 @@ source .venv/bin/activate
 pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
+
+**Using pyenv:** If `python3 --version` still shows 3.9, use pyenv’s 3.10 from the **project root** so `.python-version` is used:
+
+```bash
+cd escape-the-castle          # repo root, not backend
+pyenv local 3.10              # use 3.10 in this project
+cd backend
+python3 -m venv .venv --clear # recreate venv with 3.10
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+Ensure pyenv is in your shell (e.g. in `~/.zshrc`: `eval "$(pyenv init -)"`), then open a new terminal or run that `eval` before the steps above.
 
 ### Frontend (React)
 

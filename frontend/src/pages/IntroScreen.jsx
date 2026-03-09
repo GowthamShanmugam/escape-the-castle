@@ -11,7 +11,7 @@ export default function IntroScreen() {
       onComplete={() => {
         setIntroSoundsActive(false)
         sessionStorage.setItem(INTRO_SEEN_KEY, '1')
-        navigate('/game', { replace: true })
+        navigate('/game', { replace: true, state: { fromIntro: true } })
       }}
     />
   )

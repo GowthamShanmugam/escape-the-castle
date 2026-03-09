@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { driver } from 'driver.js'
 import 'driver.js/dist/driver.css'
+import './GameTour.css'
+
 const TOUR_STORAGE_KEY = 'escape-the-castle_tourCompleted'
 
 export function isTourCompleted() {
@@ -85,6 +87,9 @@ export default function GameTour({ onReady }) {
       showButtons: ['next', 'previous', 'close'],
       smoothScroll: true,
       steps: TOUR_STEPS,
+      popoverClass: 'driver-popover-castle',
+      overlayColor: '15, 13, 18',
+      overlayOpacity: 0.88,
       onDestroyed: () => {
         markTourCompleted()
       },

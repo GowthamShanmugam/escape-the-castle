@@ -6,6 +6,16 @@
   overflow: hidden;
 }
 
+/* Slow fade to black at end of intro — connects to game blink (eyes closed) */
+.fadeOutOverlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 50;
+  pointer-events: none;
+  transition: opacity ease-out;
+}
+
 .wrapper::after {
   content: '';
   position: absolute;

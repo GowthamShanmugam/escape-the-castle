@@ -1,0 +1,89 @@
+/* Castle-themed one-time tour (driver.js) – matches game UI */
+
+.driver-popover.driver-popover-castle {
+  background: var(--castle-card) !important;
+  color: var(--castle-text) !important;
+  border: 2px solid rgba(201, 162, 39, 0.55) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.15) inset,
+    0 0 20px rgba(201, 162, 39, 0.35),
+    0 0 40px rgba(201, 162, 39, 0.2),
+    0 12px 40px rgba(0, 0, 0, 0.5) !important;
+  padding: 1rem 1.25rem !important;
+  min-width: 260px !important;
+  max-width: 320px !important;
+  animation: tourGlow 2.5s ease-in-out infinite !important;
+}
+
+@keyframes tourGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(201, 162, 39, 0.15) inset,
+      0 0 20px rgba(201, 162, 39, 0.35),
+      0 0 40px rgba(201, 162, 39, 0.2),
+      0 12px 40px rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(201, 162, 39, 0.55) !important;
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(201, 162, 39, 0.2) inset,
+      0 0 28px rgba(201, 162, 39, 0.5),
+      0 0 56px rgba(201, 162, 39, 0.3),
+      0 12px 40px rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(201, 162, 39, 0.75) !important;
+  }
+}
+
+.driver-popover.driver-popover-castle * {
+  font-family: 'Crimson Text', Georgia, serif !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-title {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  font-size: 1.15rem !important;
+  letter-spacing: 0.02em !important;
+  color: var(--castle-gold) !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-description {
+  font-size: 1rem !important;
+  line-height: 1.55 !important;
+  color: var(--castle-text) !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-close-btn {
+  color: var(--castle-muted) !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-close-btn:hover,
+.driver-popover.driver-popover-castle .driver-popover-close-btn:focus {
+  color: var(--castle-gold) !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-progress-text {
+  font-size: 0.9rem !important;
+  color: var(--castle-muted) !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-footer button {
+  background: rgba(201, 162, 39, 0.2) !important;
+  color: var(--castle-gold) !important;
+  border: 1px solid rgba(201, 162, 39, 0.5) !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.95rem !important;
+  text-shadow: none !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-footer button:hover,
+.driver-popover.driver-popover-castle .driver-popover-footer button:focus {
+  background: rgba(201, 162, 39, 0.3) !important;
+  border-color: rgba(201, 162, 39, 0.6) !important;
+}
+
+.driver-popover.driver-popover-castle .driver-popover-arrow {
+  border-color: var(--castle-card) !important;
+}

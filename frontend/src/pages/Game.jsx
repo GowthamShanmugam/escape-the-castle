@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getGame, getRooms, advanceRoom, jumpRoom, bribeNpc, spendCoinForResume } from '../api'
 import { getNpcDialogue } from '../data/npcDialogues'
@@ -24,7 +24,7 @@ import PuzzleStablesRace from '../components/puzzles/PuzzleStablesRace'
 import PuzzleGuardRoomStealth from '../components/puzzles/PuzzleGuardRoomStealth'
 import PuzzleRoyalLineage from '../components/puzzles/PuzzleRoyalLineage'
 import PuzzleGalleryRoyalCode from '../components/puzzles/PuzzleGalleryRoyalCode'
-import { stopGameBackground, playEffect } from '../audio/soundService'
+import { stopGameBackground, playEffect, playWhereAmISound } from '../audio/soundService'
 import styles from './Game.module.css'
 
 const KNOWN_PUZZLE_TYPES = [
@@ -35,6 +35,11 @@ const KNOWN_PUZZLE_TYPES = [
 
 export default function Game({ gameCode, playerId, playerName, onLeave }) {
   const navigate = useNavigate()
+  const location = useLocation()
+  const [showWakeUp, setShowWakeUp] = useState(() => !!location.state?.fromIntro)
+  const [wakingUpStarted, setWakingUpStarted] = useState(false)
+  const [blinkStarted, setBlinkStarted] = useState(false)
+  const [contentClear, setContentClear] = useState(false)
   const [game, setGame] = useState(null)
   const [rooms, setRooms] = useState([])
   const [leaderboard, setLeaderboard] = useState([])
@@ -45,6 +50,8 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
   const [chainRhythmKey, setChainRhythmKey] = useState(0)
   const [optimisticRoomIndex, setOptimisticRoomIndex] = useState(null)
   const wsRef = useRef(null)
+  const hasPlayedWhereAmI = useRef(false)
+  const hasPlayedWhereAmIInWakeUp = useRef(false)
 
   const totalRooms = rooms.length || 15
   const me = game?.players?.[playerId]
@@ -63,6 +70,50 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
   useEffect(() => {
     return () => stopGameBackground()
   }, [])
+
+  // First level loaded: play "Where I am" once (after wake-up when coming from intro)
+  useEffect(() => {
+    if (showWakeUp || !game || rooms.length === 0 || currentRoomIndex !== 0 || hasPlayedWhereAmI.current) return
+    hasPlayedWhereAmI.current = true
+    const t = setTimeout(() => playWhereAmISound(), 500)
+    return () => clearTimeout(t)
+  }, [showWakeUp, game, rooms.length, currentRoomIndex])
+
+  // Wake-up: first open (1.2s) → 2 blinks (2.2s); "Where I am" and blur→normal during blinks; then finish
+  useEffect(() => {
+    if (!showWakeUp) return
+    const blinkDuration = 2200
+    const openDelay = 500
+    const openDuration = 1200
+    const tOpen = setTimeout(() => setWakingUpStarted(true), openDelay)
+    const tBlink = setTimeout(() => {
+      setBlinkStarted(true)
+      setContentClear(true)   // blur (brighter/hazy) → normal during blinks
+      if (!hasPlayedWhereAmIInWakeUp.current) {
+        hasPlayedWhereAmIInWakeUp.current = true
+        hasPlayedWhereAmI.current = true
+        playWhereAmISound()
+      }
+    }, openDelay + openDuration)   // start blinks + "Where I am" + content clear
+    const tEnd = setTimeout(() => {
+      setShowWakeUp(false)
+      setWakingUpStarted(false)
+      setBlinkStarted(false)
+      setContentClear(false)
+    }, openDelay + openDuration + blinkDuration + 800)   // open + blinks + short hold
+    return () => {
+      clearTimeout(tOpen)
+      clearTimeout(tBlink)
+      clearTimeout(tEnd)
+    }
+  }, [showWakeUp])
+
+  // Clear fromIntro state so refresh doesn’t re-show wake-up
+  useEffect(() => {
+    if (location.state?.fromIntro && !showWakeUp) {
+      navigate(location.pathname, { replace: true, state: {} })
+    }
+  }, [showWakeUp, location.state?.fromIntro, location.pathname, navigate])
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -180,9 +231,22 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
     return null
   }
 
+  const contentClass = [
+    styles.wakeUpContent,
+    (showWakeUp && !contentClear) ? styles.wakeUpGroggy : styles.wakingUpContent,
+  ].filter(Boolean).join(' ')
+
   return (
     <div className={styles.wrapper}>
-      <GameTour onReady={!!(game && rooms.length > 0)} />
+      {showWakeUp && (
+        <div className={`${styles.eyeWrapper} ${wakingUpStarted ? styles.wakingUp : ''} ${blinkStarted ? styles.blinking : ''}`}>
+          <div className={`${styles.eyelid} ${styles.eyelidTop}`} />
+          <div className={`${styles.eyelid} ${styles.eyelidBottom}`} />
+          <div className={styles.lightLeak} />
+        </div>
+      )}
+      <GameTour onReady={!!(game && rooms.length > 0) && !showWakeUp} />
+      <div className={contentClass}>
       <aside className={styles.sidebar}>
         <p className={styles.gameCode} data-tour-id="tour-gamecode">Game code: <strong>{gameCode}</strong></p>
         <p className={styles.coins} data-tour-id="tour-coins">🪙 {me?.coins ?? 0} coins</p>
@@ -345,6 +409,7 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
           </AnimatePresence>
         </div>
       </main>
+      </div>
 
       <AnimatePresence>
         {npcPopup && (

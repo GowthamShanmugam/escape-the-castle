@@ -1,3 +1,9 @@
+:root {
+  --eye-open-duration: 1.2s;   /* first open (peel away) */
+  --eye-blink-duration: 2.2s;   /* 2 blinks, slightly slower */
+  --eye-focus-duration: 2.2s;  /* slow recovery over blinks; fully clear on last blink */
+}
+
 .wrapper {
   min-height: 100vh;
   min-height: 100dvh;
@@ -7,6 +13,97 @@
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+/* ----- Waking up: POV eyelids + light-leak (light from dark) ----- */
+.eyeWrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: transparent;
+}
+
+.eyelid {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 55%;
+  background: #000;
+  transition: transform var(--eye-open-duration) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.eyelidTop {
+  top: 0;
+  border-radius: 0 0 50% 50%;
+}
+
+.eyelidBottom {
+  bottom: 0;
+  border-radius: 50% 50% 0 0;
+}
+
+.lightLeak {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.1);
+  filter: blur(10px);
+  transition: opacity 1.5s;
+}
+
+.wakingUp .eyelidTop {
+  transform: translateY(-105%);
+}
+.wakingUp .eyelidBottom {
+  transform: translateY(105%);
+}
+.wakingUp .lightLeak {
+  opacity: 0;
+}
+
+/* 2 blinks: vision comes clear after a few blinks */
+.blinking .eyelid {
+  transition: none;
+}
+.blinking .eyelidTop {
+  animation: blinkTop var(--eye-blink-duration) ease-in-out 1 forwards;
+}
+.blinking .eyelidBottom {
+  animation: blinkBottom var(--eye-blink-duration) ease-in-out 1 forwards;
+}
+@keyframes blinkTop {
+  0%, 100% { transform: translateY(-105%); }
+  23% { transform: translateY(-8%); }
+  45% { transform: translateY(-105%); }
+  68% { transform: translateY(-8%); }
+}
+@keyframes blinkBottom {
+  0%, 100% { transform: translateY(105%); }
+  23% { transform: translateY(8%); }
+  45% { transform: translateY(105%); }
+  68% { transform: translateY(8%); }
+}
+
+/* Content: slowly recovering during blinks; fully clear only on last blink */
+.wakeUpContent {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-width: 0;
+  transition: filter var(--eye-focus-duration) ease-out;
+}
+
+.wakeUpGroggy {
+  filter: blur(12px) brightness(0.82);
+}
+
+.wakingUpContent {
+  filter: blur(0) brightness(1);
 }
 
 .sidebar {

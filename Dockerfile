@@ -1,8 +1,8 @@
 # Escape the Castle - multi-stage build
 # Push to quay.io/gshanmug-quay/escape-the-castle
 
-# Stage 1: Build frontend
-FROM node:20-alpine AS frontend-build
+# Stage 1: Build frontend (use BUILDPLATFORM to avoid QEMU emulation and esbuild Go runtime crash)
+FROM --platform=$BUILDPLATFORM node:20-alpine AS frontend-build
 WORKDIR /app/frontend
 
 COPY frontend/package*.json ./
@@ -12,7 +12,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Run backend + serve frontend
-FROM python:3.12-slim
+FROM python:3.10-slim
 WORKDIR /app
 
 # Copy backend
