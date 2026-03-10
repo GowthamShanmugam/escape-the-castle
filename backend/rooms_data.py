@@ -146,15 +146,15 @@ def get_rooms_public():
             "index": 5,
             "title": "Armory",
             "puzzle_type": "jigsaw",
-            "hint": "A shattered coat of arms hangs on the wall.",
-            "closer_hint": "Drag a piece onto another to swap. Reassemble the image to unlock the door.",
+            "hint": "Drag a piece onto another to swap. Reassemble the image to unlock the door.",
             "atmosphere": "Rust and leather. A broken crest lies in fragments.",
             "scene": "The armory holds a shattered coat of arms.",
             "jigsaw": {
                 "rows": 4,
                 "cols": 5,
+                "maxAttempts": 5,
                 "imageUrl": "/images/armory-jigsaw.jpg",
-                "instruction": "Drag a piece onto another to swap. Reassemble the image. You have 10 checks—wrong 10 times and the puzzle reshuffles.",
+                "instruction": "Drag a piece onto another to swap. Reassemble the image. You have 5 checks—wrong 5 times and the puzzle reshuffles.",
             },
         },
         {
@@ -218,8 +218,7 @@ def get_rooms_public():
             "index": 9,
             "title": "Guard Room",
             "puzzle_type": "guard_room_stealth",
-            "hint": "Guards patrol the room. Stay out of their sight.",
-            "closer_hint": "Stay in shadow. Move when they look away. Shift to run only when you must.",
+            "hint": "Guards patrol the room. Stay out of their sight. Stay in shadow. Move when they look away. Shift to run only when you must.",
             "atmosphere": "Weapons on the walls. Guards walk the floor. The exit door is across the room.",
             "scene": "Reach the far door without being seen. If they see you too long, they take you.",
             "guard_room_stealth": {

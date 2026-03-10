@@ -118,6 +118,10 @@
   font-weight: 600;
 }
 
+.coinOptionWrap {
+  margin-bottom: 0.75rem;
+}
+
 .attemptsBar {
   margin: 0.5rem 0;
 }
@@ -129,8 +133,24 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 0.5rem;
+}
+
+.easyBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: rgba(201, 162, 39, 0.2);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  color: var(--castle-gold, #c9a227);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.easyBtn:hover {
+  background: rgba(201, 162, 39, 0.3);
+  border-color: rgba(201, 162, 39, 0.6);
 }
 
 .checkBtn {

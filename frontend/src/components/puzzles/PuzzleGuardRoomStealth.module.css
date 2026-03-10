@@ -17,6 +17,22 @@
   line-height: 1.4;
 }
 
+.easyBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: rgba(201, 162, 39, 0.2);
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  color: var(--castle-gold, #c9a227);
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.easyBtn:hover {
+  background: rgba(201, 162, 39, 0.3);
+  border-color: rgba(201, 162, 39, 0.6);
+}
+
 .keyHint {
   font-size: 0.85rem;
   color: var(--castle-text, #d4ccb8);
@@ -157,6 +173,19 @@
   width: 0;
   height: 0;
   pointer-events: none;
+}
+
+.guardAlert {
+  position: absolute;
+  left: 7px;
+  top: -15px;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #e83030;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(232, 48, 48, 0.6);
+  line-height: 1;
+  z-index: 4;
 }
 
 .visionCone {

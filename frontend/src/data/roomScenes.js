@@ -34,7 +34,3 @@ export function getRoomSceneConfig(roomIndex) {
   }
   return { placeholder: true }
 }
-
-export function getAllSceneConfigs() {
-  return SCENES
-}

@@ -365,7 +365,7 @@ async def mark_player_complete(game_code: str, body: CompletePlayerBody):
 async def spend_coin_for_resume(game_code: str, body: SpendCoinBody):
     """Spend 1 coin for a purpose (tower_easy, bathhouse_50). Records purchase; persists across refresh."""
     gc = game_code.upper()
-    if body.purpose not in ("tower_easy", "bathhouse_50"):
+    if body.purpose not in ("tower_easy", "bathhouse_50", "jigsaw_easy", "guard_room_easy"):
         raise HTTPException(status_code=400, detail="Invalid purpose")
     g = db_module.get_game(gc)
     if not g:

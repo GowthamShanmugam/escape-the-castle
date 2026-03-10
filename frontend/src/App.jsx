@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Home from './pages/Home'
 import Lobby from './pages/Lobby'
+import Loading from './pages/Loading'
 import IntroScreen from './pages/IntroScreen'
 import Game from './pages/Game'
 import Congratulations from './pages/Congratulations'
@@ -72,6 +73,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home onJoin={saveSession} />} />
       <Route path="/lobby" element={gameCode && playerId ? <Lobby gameCode={gameCode} playerId={playerId} playerName={playerName} onLeave={clearSession} /> : <Navigate to="/" replace />} />
+      <Route path="/loading" element={gameCode && playerId ? <Loading /> : <Navigate to="/" replace />} />
       <Route path="/intro" element={gameCode && playerId ? <IntroScreen /> : <Navigate to="/" replace />} />
       <Route path="/game" element={gameCode && playerId ? <Game gameCode={gameCode} playerId={playerId} playerName={playerName} onLeave={clearSession} /> : <Navigate to="/" replace />} />
       <Route path="/congrats" element={<Congratulations onLeave={clearSession} />} />

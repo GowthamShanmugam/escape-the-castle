@@ -24,7 +24,7 @@ import PuzzleStablesRace from '../components/puzzles/PuzzleStablesRace'
 import PuzzleGuardRoomStealth from '../components/puzzles/PuzzleGuardRoomStealth'
 import PuzzleRoyalLineage from '../components/puzzles/PuzzleRoyalLineage'
 import PuzzleGalleryRoyalCode from '../components/puzzles/PuzzleGalleryRoyalCode'
-import { stopGameBackground, playEffect, playWhereAmISound } from '../audio/soundService'
+import { stopGameBackground, playEffect, playWhereAmISound, unlockAndStartGameBackground } from '../audio/soundService'
 import styles from './Game.module.css'
 
 const KNOWN_PUZZLE_TYPES = [
@@ -69,6 +69,29 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
 
   useEffect(() => {
     return () => stopGameBackground()
+  }, [])
+
+  // Try to resume Web Audio on mount (e.g. context may already be running from intro)
+  useEffect(() => {
+    unlockAndStartGameBackground()
+  }, [])
+
+  // Unlock Web Audio on first interaction so game sounds (level change, guard, etc.) play when coming from intro
+  useEffect(() => {
+    let unlocked = false
+    const unlock = () => {
+      if (unlocked) return
+      unlocked = true
+      unlockAndStartGameBackground()
+      document.removeEventListener('click', unlock, true)
+      document.removeEventListener('touchstart', unlock, true)
+    }
+    document.addEventListener('click', unlock, true)
+    document.addEventListener('touchstart', unlock, true)
+    return () => {
+      document.removeEventListener('click', unlock, true)
+      document.removeEventListener('touchstart', unlock, true)
+    }
   }, [])
 
   // First level loaded: play "Where I am" once (after wake-up when coming from intro)
@@ -536,6 +559,21 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
                   onClose={closePuzzle}
                   room={puzzleOpen.room}
                   bribedHint={bribedHints[puzzleOpen.roomIndex] ?? bribedHints[String(puzzleOpen.roomIndex)]}
+                  coins={me?.coins ?? 0}
+                  purchasedEasyMode={me?.coin_spends?.jigsaw_easy}
+                  onSpendCoinForEasy={async () => {
+                    setError('')
+                    try {
+                      await spendCoinForResume(gameCode, playerId, 'jigsaw_easy')
+                      const fresh = await getGame(gameCode)
+                      if (fresh?.players) {
+                        setGame({ game_code: fresh.game_code, players: fresh.players, created_at: fresh.created_at })
+                        setLeaderboard(fresh.leaderboard || [])
+                      }
+                    } catch (e) {
+                      setError(e?.message || 'Failed to spend coin')
+                    }
+                  }}
                 />
               )}
               {puzzleOpen.type === 'tower_climb' && (
@@ -575,7 +613,26 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
                 <PuzzleRealityShift onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />
               )}
               {puzzleOpen.type === 'guard_room_stealth' && (
-                <PuzzleGuardRoomStealth onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />
+                <PuzzleGuardRoomStealth
+                  onSolve={handlePuzzleSolved}
+                  onClose={closePuzzle}
+                  room={puzzleOpen.room}
+                  coins={me?.coins ?? 0}
+                  purchasedEasyMode={me?.coin_spends?.guard_room_easy}
+                  onSpendCoinForEasy={async () => {
+                    setError('')
+                    try {
+                      await spendCoinForResume(gameCode, playerId, 'guard_room_easy')
+                      const fresh = await getGame(gameCode)
+                      if (fresh?.players) {
+                        setGame({ game_code: fresh.game_code, players: fresh.players, created_at: fresh.created_at })
+                        setLeaderboard(fresh.leaderboard || [])
+                      }
+                    } catch (e) {
+                      setError(e?.message || 'Failed to spend coin')
+                    }
+                  }}
+                />
               )}
               {puzzleOpen.type === 'royal_lineage' && (
                 <PuzzleRoyalLineage onSolve={handlePuzzleSolved} onClose={closePuzzle} room={puzzleOpen.room} />

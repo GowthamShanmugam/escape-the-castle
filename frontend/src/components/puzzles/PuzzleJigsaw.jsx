@@ -27,13 +27,16 @@ const FALLBACK_SVG = (
   )
 )
 
-const MAX_ATTEMPTS = 10
+const DEFAULT_MAX_ATTEMPTS = 5
+const EASY_MODE_ATTEMPTS = 10
 
-export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
+export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint, coins = 0, purchasedEasyMode = false, onSpendCoinForEasy }) {
   const rows = room?.jigsaw?.rows ?? 6
   const cols = room?.jigsaw?.cols ?? 6
   const imageUrl = room?.jigsaw?.imageUrl || null
   const instruction = room?.jigsaw?.instruction || 'Reassemble the shattered image by swapping pieces. Drag a piece onto another to swap.'
+  const baseMaxAttempts = room?.jigsaw?.maxAttempts ?? DEFAULT_MAX_ATTEMPTS
+  const maxAttempts = purchasedEasyMode ? EASY_MODE_ATTEMPTS : baseMaxAttempts
 
   const total = rows * cols
   const createShuffledOrder = useCallback(() => shuffle(Array.from({ length: total }, (_, i) => i)), [total])
@@ -43,9 +46,13 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
   const [imageError, setImageError] = useState(false)
   const [wrong, setWrong] = useState(false)
   const [reshuffled, setReshuffled] = useState(false)
-  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS)
+  const [attemptsLeft, setAttemptsLeft] = useState(maxAttempts)
 
   const imageSrc = imageUrl && !imageError ? imageUrl : FALLBACK_SVG
+
+  useEffect(() => {
+    setAttemptsLeft(maxAttempts)
+  }, [maxAttempts])
 
   useEffect(() => {
     if (!imageUrl) return
@@ -102,18 +109,35 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
           setWrong(false)
           setReshuffled(true)
           setTimeout(() => setReshuffled(false), 3000)
-          return MAX_ATTEMPTS
+          return maxAttempts
         }
         return next
       })
     }
-  }, [order, onSolve, createShuffledOrder])
+  }, [order, onSolve, createShuffledOrder, maxAttempts])
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>{room?.title ?? 'Armory'}</h2>
       <p className={styles.atmosphere}>{room?.atmosphere}</p>
       <p className={styles.instruction}>{instruction}</p>
+
+      {!purchasedEasyMode && coins >= 1 && onSpendCoinForEasy && (
+        <div className={styles.coinOptionWrap}>
+          <button
+            type="button"
+            className={styles.easyBtn}
+            onClick={async () => {
+              try {
+                await onSpendCoinForEasy()
+                setAttemptsLeft(EASY_MODE_ATTEMPTS)
+              } catch (_) { /* parent shows error */ }
+            }}
+          >
+            More attempts — 🪙 1 coin ({EASY_MODE_ATTEMPTS} checks)
+          </button>
+        </div>
+      )}
 
       {bribedHint && <p className={styles.closerClue}>{bribedHint}</p>}
 
@@ -165,7 +189,7 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
       {wrong && (
         <p className={styles.wrong}>
           Not quite. Keep rearranging the pieces.
-          {attemptsLeft < MAX_ATTEMPTS && (
+          {attemptsLeft < maxAttempts && (
             <span className={styles.warning}>
               {' '}
               {attemptsLeft} {attemptsLeft === 1 ? 'attempt' : 'attempts'} remaining—wrong again and the puzzle will reshuffle.
@@ -178,7 +202,7 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint }) {
 
       <div className={styles.attemptsBar}>
         <span className={styles.attemptsLabel}>
-          {attemptsLeft} / {MAX_ATTEMPTS} checks left
+          {attemptsLeft} / {maxAttempts} checks left
         </span>
       </div>
 

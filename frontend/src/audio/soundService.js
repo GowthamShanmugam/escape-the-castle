@@ -1,7 +1,8 @@
 /**
  * Sound service: intro/room ambient and UI effects.
- * Uses Web Audio API (no asset files required). Call init() after user gesture if needed.
+ * Uses getAssetUrl() so URLs match the loading-page preload and assets are served from cache.
  */
+import { getAssetUrl } from '../data/preloadAssets'
 
 let audioContext = null
 let ambientSource = null
@@ -58,8 +59,6 @@ export function stopAmbient() {
     ambientGain = null
   }
 }
-
-export function startGameBackground() {}
 
 export function stopGameBackground() {}
 
@@ -191,9 +190,20 @@ export function setIntroSoundsActive(active) {
   }
 }
 
-/** Preload intro and wake-up sounds so they are cached before timers fire (avoids delay/miss on slow server). */
+/** Decode thunder (same URL as Loading = cache). Call during Loading so buffer is ready before intro; intro then plays instantly. */
+export function ensureThunderDecoded() {
+  if (thunderBuffer) return Promise.resolve()
+  return fetch(getAssetUrl('/sounds/thunder.mp3'))
+    .then((res) => (res.ok ? res.arrayBuffer() : null))
+    .then((buf) => (buf ? getContext().decodeAudioData(buf) : null))
+    .then((decoded) => {
+      if (decoded) thunderBuffer = decoded
+    })
+    .catch(() => {})
+}
+
+/** Preload intro sounds (same URLs as Loading = cache). Thunder buffer is filled during Loading via ensureThunderDecoded(). */
 export function preloadIntroSounds() {
-  const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
   const sounds = [
     'rain.mp3',
     'running.wav',
@@ -203,18 +213,11 @@ export function preloadIntroSounds() {
     'where-i-am.wav',
   ]
   sounds.forEach((file) => {
-    const a = new Audio(`${base}sounds/${file}`)
+    const a = new Audio(getAssetUrl(`/sounds/${file}`))
     a.preload = 'auto'
     a.load()
   })
-  // Thunder uses Web Audio API; preload buffer so first play is instant
-  if (!thunderBuffer) {
-    fetch(`${base}sounds/thunder.mp3`)
-      .then((res) => res.ok && res.arrayBuffer())
-      .then((buf) => buf && getContext().decodeAudioData(buf))
-      .then((decoded) => { thunderBuffer = decoded })
-      .catch(() => {})
-  }
+  ensureThunderDecoded().catch(() => {})
 }
 
 /** Play thunder sound (CC BY 4.0, Orange Free Sounds). Stops any playing thunder first. */
@@ -228,8 +231,7 @@ export async function playThunder() {
       thunderSource = null
     }
     if (!thunderBuffer) {
-      const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
-      const res = await fetch(`${base}sounds/thunder.mp3`)
+      const res = await fetch(getAssetUrl('/sounds/thunder.mp3'))
       if (!res.ok) return
       thunderBuffer = await ctx.decodeAudioData(await res.arrayBuffer())
     }
@@ -260,10 +262,9 @@ export function playRunningSound() {
   if (!introSoundsActive || isMuted()) return
   stopRunningSound()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/running.wav`
-    const mp3 = `${base}sounds/running.mp3`
+    const wav = getAssetUrl('/sounds/running.wav')
+    const mp3 = getAssetUrl('/sounds/running.mp3')
     audio.volume = 0.55
     audio.playbackRate = 1
     let triedMp3 = false
@@ -281,41 +282,14 @@ export function playRunningSound() {
   } catch (_) {}
 }
 
-/** Start looping running footsteps (intro, player escaping). Stops with stopRunningSound(). */
-export function startRunningLoop() {
-  if (!introSoundsActive || isMuted()) return
-  stopRunningSound()
-  try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
-    const audio = new Audio()
-    const wav = `${base}sounds/running.wav`
-    const mp3 = `${base}sounds/running.mp3`
-    audio.volume = 0.55
-    audio.loop = true
-    audio.playbackRate = 1
-    let triedMp3 = false
-    audio.addEventListener('error', () => {
-      if (!triedMp3) {
-        triedMp3 = true
-        audio.src = mp3
-        audio.play().catch(() => {})
-      }
-    })
-    audio.src = wav
-    audio.play().catch(() => {})
-    runningSoundAudio = audio
-  } catch (_) {}
-}
-
 /** Play running footsteps once at noticeably slower speed (intro). .wav playbackRate applied so it’s clearly slow. */
 export function playRunningSoundSlower() {
   if (!introSoundsActive || isMuted()) return
   stopRunningSound()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/running.wav`
-    const mp3 = `${base}sounds/running.mp3`
+    const wav = getAssetUrl('/sounds/running.wav')
+    const mp3 = getAssetUrl('/sounds/running.mp3')
     audio.volume = 0.55
     audio.playbackRate = 0.5
     let triedMp3 = false
@@ -344,10 +318,9 @@ export function playRunningSoundFaster() {
   if (!introSoundsActive || isMuted()) return
   stopRunningSound()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/running.wav`
-    const mp3 = `${base}sounds/running.mp3`
+    const wav = getAssetUrl('/sounds/running.wav')
+    const mp3 = getAssetUrl('/sounds/running.mp3')
     audio.volume = 0.55
     audio.playbackRate = 1.35
     let triedMp3 = false
@@ -383,10 +356,9 @@ export function playGuardShout() {
   if (!introSoundsActive || isMuted()) return
   stopGuardShout()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/guard-shout.wav`
-    const mp3 = `${base}sounds/guard-shout.mp3`
+    const wav = getAssetUrl('/sounds/guard-shout.wav')
+    const mp3 = getAssetUrl('/sounds/guard-shout.mp3')
     audio.volume = 0.7
     let triedMp3 = false
     audio.addEventListener('error', () => {
@@ -421,10 +393,9 @@ export function playGuardYouStop() {
   if (!introSoundsActive || isMuted()) return
   stopGuardYouStop()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/guard-you-stop.wav`
-    const mp3 = `${base}sounds/guard-you-stop.mp3`
+    const wav = getAssetUrl('/sounds/guard-you-stop.wav')
+    const mp3 = getAssetUrl('/sounds/guard-you-stop.mp3')
     audio.volume = 0.7
     let triedMp3 = false
     audio.addEventListener('error', () => {
@@ -459,10 +430,9 @@ export function playScreamingSound() {
   if (!introSoundsActive || isMuted()) return
   stopScreamingSound()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/screaming.wav`
-    const mp3 = `${base}sounds/screaming.mp3`
+    const wav = getAssetUrl('/sounds/screaming.wav')
+    const mp3 = getAssetUrl('/sounds/screaming.mp3')
     audio.volume = 0.78
     let triedMp3 = false
     audio.addEventListener('error', () => {
@@ -490,16 +460,16 @@ export function stopScreamingSound() {
   }
 }
 
-/** Play "Where I am" once (first level loaded — player opens eyes). CC-licensed: sounds/where-i-am.wav or where-i-am.mp3. */
+/** Play "Where I am" once (same URL as Loading = cache). Play on canplaythrough so cached data plays as soon as ready. */
 export function playWhereAmISound() {
   if (isMuted()) return
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
     const audio = new Audio()
-    const wav = `${base}sounds/where-i-am.wav`
-    const mp3 = `${base}sounds/where-i-am.mp3`
+    const wav = getAssetUrl('/sounds/where-i-am.wav')
+    const mp3 = getAssetUrl('/sounds/where-i-am.mp3')
     audio.volume = 0.6
     let triedMp3 = false
+    const play = () => audio.play().catch(() => {})
     audio.addEventListener('error', () => {
       if (!triedMp3) {
         triedMp3 = true
@@ -507,8 +477,10 @@ export function playWhereAmISound() {
         audio.play().catch(() => {})
       }
     })
+    audio.addEventListener('canplaythrough', play, { once: true })
     audio.src = wav
-    audio.play().catch(() => {})
+    if (audio.readyState >= 3) play()
+    else audio.load()
   } catch (_) {}
 }
 
@@ -519,8 +491,7 @@ export function startRain() {
   if (!introSoundsActive || isMuted()) return
   stopRain()
   try {
-    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || ''
-    const audio = new Audio(`${base}sounds/rain.mp3`)
+    const audio = new Audio(getAssetUrl('/sounds/rain.mp3'))
     audio.loop = true
     audio.volume = 0.12
     audio.play().catch(() => {})

@@ -19,6 +19,8 @@ const RUN_BUILDUP_MUL = 1.6         // when running: buildup increased
 const CAPTURE_AT = 3
 const EXIT_TOP = 24
 const EXIT_WIDTH = 80
+// When a guard has the player in their cone they move very slow to keep them in view; otherwise they patrol faster
+const GUARD_SPEED_WHEN_PLAYER_IN_CONE = 0.22
 
 // Dark zones (x, y, w, h) – detection reduced when player center inside
 const DARK_ZONES = [
@@ -30,8 +32,8 @@ const DARK_ZONES = [
   { x: 365, y: 140, w: 45, h: 55 },
 ]
 
-// Solid obstacles (x, y, w, h) – block player movement, provide cover. Spread across 420×300 so none overlap.
-const OBSTACLES = [
+// Solid obstacles (x, y, w, h) – block player movement, provide cover. No overlap. Easy mode uses base set.
+const OBSTACLES_EASY = [
   { x: 50, y: 60, w: 28, h: 42 },
   { x: 135, y: 58, w: 26, h: 35 },
   { x: 220, y: 62, w: 28, h: 34 },
@@ -55,6 +57,19 @@ const OBSTACLES = [
   { x: 268, y: 100, w: 26, h: 34 },
 ]
 
+// Extra obstacles for difficult mode only. A few gaps left intentionally for escape routes (e.g. center approach to exit).
+const OBSTACLES_DIFFICULT_EXTRA = [
+  { x: 0, y: 100, w: 24, h: 28 },
+  { x: 30, y: 205, w: 24, h: 24 },
+  { x: 90, y: 265, w: 24, h: 25 },
+  { x: 115, y: 95, w: 20, h: 22 },
+  { x: 170, y: 272, w: 24, h: 22 },
+  { x: 320, y: 100, w: 24, h: 28 },
+  { x: 395, y: 100, w: 20, h: 28 },
+]
+
+const OBSTACLES_DIFFICULT = [...OBSTACLES_EASY, ...OBSTACLES_DIFFICULT_EXTRA]
+
 // Guard definitions: mixed directions so no safe “one side” – left, right, and exit approach all covered
 const GUARD_PATHS = [
   { personality: 'walker', waypoints: [{ x: 320, y: 80 }, { x: 80, y: 80 }, { x: 80, y: 220 }, { x: 320, y: 220 }] },
@@ -76,6 +91,12 @@ const GUARD_PATHS = [
   { personality: 'walker', waypoints: [{ x: 380, y: 120 }, { x: 380, y: 250 }, { x: 40, y: 250 }, { x: 40, y: 120 }] },
   { personality: 'walker', waypoints: [{ x: 150, y: 200 }, { x: 270, y: 200 }, { x: 270, y: 70 }, { x: 150, y: 70 }] },
   { personality: 'drifter', waypoints: [{ x: 90, y: 180 }, { x: 330, y: 90 }, { x: 330, y: 230 }, { x: 90, y: 230 }] },
+  { personality: 'walker', waypoints: [{ x: 260, y: 75 }, { x: 160, y: 75 }, { x: 160, y: 195 }, { x: 260, y: 195 }] },
+  { personality: 'walker', waypoints: [{ x: 40, y: 150 }, { x: 40, y: 255 }, { x: 130, y: 255 }, { x: 130, y: 150 }] },
+  { personality: 'drifter', waypoints: [{ x: 230, y: 130 }, { x: 330, y: 210 }, { x: 90, y: 210 }, { x: 230, y: 150 }] },
+  { personality: 'walker', waypoints: [{ x: 355, y: 55 }, { x: 355, y: 245 }, { x: 255, y: 245 }, { x: 255, y: 55 }] },
+  { personality: 'walker', waypoints: [{ x: 180, y: 130 }, { x: 240, y: 130 }, { x: 240, y: 260 }, { x: 180, y: 260 }] },
+  { personality: 'inspector', waypoints: [{ x: 150, y: 95 }, { x: 270, y: 95 }, { x: 270, y: 185 }, { x: 150, y: 185 }, { x: 150, y: 95 }] },
 ]
 
 function angleBetween(ax, ay, bx, by) {
@@ -102,15 +123,20 @@ function rectOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
   return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
 }
 
-function canMoveTo(px, py) {
-  return !OBSTACLES.some((o) => rectOverlap(px, py, PLAYER_W, PLAYER_H, o.x, o.y, o.w, o.h))
+function canMoveTo(px, py, obstacles) {
+  return !obstacles.some((o) => rectOverlap(px, py, PLAYER_W, PLAYER_H, o.x, o.y, o.w, o.h))
 }
 
-export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
+// Difficult mode: guards faster + more obstacles. Easy mode (1 coin): current speed and obstacle count.
+const GUARD_SPEED_MULTIPLIER_DIFFICULT = 2.0
+
+export default function PuzzleGuardRoomStealth({ room, onSolve, onClose, coins = 0, purchasedEasyMode = false, onSpendCoinForEasy }) {
   const cfg = room?.guard_room_stealth || {}
   const roomWidth = cfg.roomWidth ?? 420
   const roomHeight = cfg.roomHeight ?? 300
   const instruction = cfg.instruction || 'Reach the exit without being caught. Move: W or ↑ up, S or ↓ down, A or ← left, D or → right. Shift to run.'
+  const guardSpeedMultiplier = purchasedEasyMode ? 1 : GUARD_SPEED_MULTIPLIER_DIFFICULT
+  const obstacles = purchasedEasyMode ? OBSTACLES_EASY : OBSTACLES_DIFFICULT
 
   const [status, setStatus] = useState('playing')
   const [detection, setDetection] = useState(0)
@@ -214,9 +240,9 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
       if (k.right) px += speed
       px = Math.max(0, Math.min(roomWidth - PLAYER_W, px))
       py = Math.max(0, Math.min(roomHeight - PLAYER_H, py))
-      if (!canMoveTo(px, py)) {
-        if (canMoveTo(px, prevY)) py = prevY
-        else if (canMoveTo(prevX, py)) px = prevX
+      if (!canMoveTo(px, py, obstacles)) {
+        if (canMoveTo(px, prevY, obstacles)) py = prevY
+        else if (canMoveTo(prevX, py, obstacles)) px = prevX
         else {
           px = prevX
           py = prevY
@@ -235,9 +261,13 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
       const now = Date.now() / 1000
       const halfAngle = VISION_ANGLE_DEG / 2
 
+      // For each guard: is the player in their vision cone? If yes, that guard moves very slow to keep player in view
       for (let i = 0; i < gList.length; i++) {
         const guard = gList[i]
         if (guard.pauseUntil > now) continue
+        const gcx = guard.x + GUARD_SIZE / 2
+        const gcy = guard.y + GUARD_SIZE / 2
+        const playerInThisGuardCone = inVisionCone(gcx, gcy, guard.angle, centerX, centerY, VISION_RANGE, halfAngle)
         const wps = guard.waypoints
         const next = wps[(guard.wpIndex + 1) % wps.length]
         const dx = next.x - guard.x
@@ -255,7 +285,8 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
             guard.angle += 90
           }
         } else {
-          const v = Math.min(0.6, dist * 0.05)
+          const baseV = Math.min(0.6, dist * 0.05) * guardSpeedMultiplier
+          const v = playerInThisGuardCone ? baseV * GUARD_SPEED_WHEN_PLAYER_IN_CONE : baseV
           guard.x += (dx / dist) * v
           guard.y += (dy / dist) * v
         }
@@ -302,7 +333,7 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
       }
     }, TICK_MS)
     return () => clearInterval(interval)
-  }, [status, roomWidth, roomHeight, onSolve])
+  }, [status, roomWidth, roomHeight, onSolve, guardSpeedMultiplier])
 
   const exitLeft = roomWidth / 2 - EXIT_WIDTH / 2
 
@@ -317,6 +348,19 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
       </TouchActionGroup>
       <h2 className={styles.title}>{room?.title ?? 'Guard Room'}</h2>
       <p className={styles.instruction}>{instruction}</p>
+      {!purchasedEasyMode && coins >= 1 && onSpendCoinForEasy && (
+        <button
+          type="button"
+          className={styles.easyBtn}
+          onClick={async () => {
+            try {
+              await onSpendCoinForEasy()
+            } catch (_) { /* parent shows error */ }
+          }}
+        >
+          Easy mode (slower guards) — 🪙 1 coin
+        </button>
+      )}
       <p className={styles.keyHint}>
         <kbd>W</kbd> <kbd>↑</kbd> up &nbsp; <kbd>S</kbd> <kbd>↓</kbd> down &nbsp; <kbd>A</kbd> <kbd>←</kbd> left &nbsp; <kbd>D</kbd> <kbd>→</kbd> right &nbsp; <kbd className={styles.shiftKey}>Shift</kbd> run
       </p>
@@ -351,37 +395,48 @@ export default function PuzzleGuardRoomStealth({ room, onSolve, onClose }) {
         {DARK_ZONES.map((z, i) => (
           <div key={i} className={styles.shadow} style={{ left: z.x, top: z.y, width: z.w, height: z.h }} aria-hidden />
         ))}
-        {OBSTACLES.map((o, i) => (
+        {obstacles.map((o, i) => (
           <div key={i} className={styles.obstacle} style={{ left: o.x, top: o.y, width: o.w, height: o.h }} aria-hidden />
         ))}
         <div className={styles.exitZone} style={{ left: exitLeft, top: 0, width: EXIT_WIDTH, height: EXIT_TOP + 10 }}>
           Exit
         </div>
         {status === 'playing' &&
-          guards.map((g, i) => (
-            <div key={i} className={styles.guardWrap} style={{ left: g.x, top: g.y }}>
-              <div
-                className={styles.visionCone}
-                style={{
-                  left: GUARD_SIZE / 2 - VISION_RANGE,
-                  top: GUARD_SIZE / 2 - VISION_RANGE,
-                  width: VISION_RANGE * 2,
-                  height: VISION_RANGE * 2,
-                  transform: `rotate(${g.angle}deg)`,
-                }}
-                aria-hidden
-              />
-              <div
-                className={styles.guard}
-                style={{
-                  width: GUARD_SIZE,
-                  height: GUARD_SIZE,
-                  transform: `rotate(${g.angle}deg)`,
-                }}
-                aria-hidden
-              />
-            </div>
-          ))}
+          guards.map((g, i) => {
+            const gcx = g.x + GUARD_SIZE / 2
+            const gcy = g.y + GUARD_SIZE / 2
+            const centerX = playerX + PLAYER_W / 2
+            const centerY = playerY + PLAYER_H / 2
+            const halfAngle = VISION_ANGLE_DEG / 2
+            const hasPlayerInCone = inVisionCone(gcx, gcy, g.angle, centerX, centerY, VISION_RANGE, halfAngle)
+            return (
+              <div key={i} className={styles.guardWrap} style={{ left: g.x, top: g.y }}>
+                {hasPlayerInCone && (
+                  <span className={styles.guardAlert} aria-hidden>!</span>
+                )}
+                <div
+                  className={styles.visionCone}
+                  style={{
+                    left: GUARD_SIZE / 2 - VISION_RANGE,
+                    top: GUARD_SIZE / 2 - VISION_RANGE,
+                    width: VISION_RANGE * 2,
+                    height: VISION_RANGE * 2,
+                    transform: `rotate(${g.angle}deg)`,
+                  }}
+                  aria-hidden
+                />
+                <div
+                  className={styles.guard}
+                  style={{
+                    width: GUARD_SIZE,
+                    height: GUARD_SIZE,
+                    transform: `rotate(${g.angle}deg)`,
+                  }}
+                  aria-hidden
+                />
+              </div>
+            )
+          })}
         {status === 'playing' && (
           <div
             className={styles.player}

@@ -59,12 +59,6 @@ export async function jumpRoom(gameCode, playerId, roomIndex) {
   return res.json()
 }
 
-export async function getLeaderboard(gameCode) {
-  const res = await fetch(`${API}/games/${encodeURIComponent(gameCode)}/leaderboard`)
-  if (!res.ok) throw new Error('Failed to load leaderboard')
-  return res.json()
-}
-
 export async function spendCoinForResume(gameCode, playerId, purpose) {
   const res = await fetch(`${API}/games/${encodeURIComponent(gameCode)}/players/spend-coin`, {
     method: 'POST',

@@ -19,11 +19,8 @@ export default function Lobby({ gameCode, playerId, playerName, onLeave }) {
   const players = game ? Object.values(game.players || {}) : []
   const INTRO_SEEN_KEY = 'castle_intro_seen'
   const startGame = () => {
-    if (sessionStorage.getItem(INTRO_SEEN_KEY)) {
-      navigate('/game')
-    } else {
-      navigate('/intro')
-    }
+    const next = sessionStorage.getItem(INTRO_SEEN_KEY) ? '/game' : '/intro'
+    navigate('/loading', { state: { next } })
   }
 
   return (
