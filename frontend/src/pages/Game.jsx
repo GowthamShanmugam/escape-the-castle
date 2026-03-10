@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getGame, getRooms, advanceRoom, jumpRoom, bribeNpc, spendCoinForResume } from '../api'
 import { getNpcDialogue } from '../data/npcDialogues'
@@ -354,6 +354,7 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
         />
         </div>
         <button type="button" onClick={() => { playEffect('click'); onLeave?.() }} className={styles.leaveBtn} data-tour-id="tour-leave">Leave Game</button>
+        <Link to="/credits" className={styles.creditsLink} onClick={() => playEffect('click')}>Credits</Link>
       </aside>
 
       <main className={styles.main} role="main" data-tour-id="tour-gamearea">

@@ -6,6 +6,7 @@ import Loading from './pages/Loading'
 import IntroScreen from './pages/IntroScreen'
 import Game from './pages/Game'
 import Congratulations from './pages/Congratulations'
+import Credits from './pages/Credits'
 
 const STORAGE_KEYS = { gameCode: 'castle_game_code', playerId: 'castle_player_id', playerName: 'castle_player_name' }
 
@@ -77,6 +78,7 @@ function AppRoutes() {
       <Route path="/intro" element={gameCode && playerId ? <IntroScreen /> : <Navigate to="/" replace />} />
       <Route path="/game" element={gameCode && playerId ? <Game gameCode={gameCode} playerId={playerId} playerName={playerName} onLeave={clearSession} /> : <Navigate to="/" replace />} />
       <Route path="/congrats" element={<Congratulations onLeave={clearSession} />} />
+      <Route path="/credits" element={<Credits />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

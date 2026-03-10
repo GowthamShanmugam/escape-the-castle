@@ -216,6 +216,16 @@
 }
 .leaveBtn:hover { background: rgba(166, 61, 61, 0.2); }
 
+.creditsLink {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--castle-muted);
+  text-decoration: none;
+}
+.creditsLink:hover { color: var(--castle-gold); }
+
 .main {
   flex: 1;
   min-width: 0;

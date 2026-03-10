@@ -37,7 +37,7 @@
   pointer-events: none;
 }
 
-.crown {
+.icon {
   display: block;
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -59,50 +59,58 @@
   text-align: center;
 }
 
-.tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
+.creditBlock {
+  margin-bottom: 1.5rem;
 }
 
-.tab, .tabActive {
-  flex: 1;
-  padding: 0.6rem;
-  border: 1px solid rgba(201, 162, 39, 0.4);
-  background: transparent;
+.name {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: var(--castle-text);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  text-align: center;
 }
 
-.tabActive {
-  background: rgba(201, 162, 39, 0.2);
+.links {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.link {
   color: var(--castle-gold);
+  text-decoration: none;
+  font-size: 1rem;
 }
 
-.tab:hover { background: rgba(255,255,255,0.05); }
+.link:hover {
+  text-decoration: underline;
+}
 
-.form label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-size: 1rem;
+.query {
+  margin: 0;
+  text-align: center;
+  font-size: 0.95rem;
   color: var(--castle-muted);
 }
 
-.form input {
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  margin-bottom: 1rem;
-  background: rgba(244, 236, 216, 0.05);
-  border: 2px solid rgba(201, 162, 39, 0.4);
-  border-radius: 8px;
-  color: var(--castle-text);
-  font-size: 1rem;
+.email {
+  color: var(--castle-gold);
+  text-decoration: none;
 }
 
-.form input::placeholder { color: var(--castle-muted); }
+.email:hover {
+  text-decoration: underline;
+}
 
-.form button {
+.queryLabel {
+  color: var(--castle-muted);
+}
+
+.backBtn {
   width: 100%;
   padding: 0.75rem;
   background: linear-gradient(180deg, var(--castle-gold), var(--castle-accent));
@@ -111,37 +119,14 @@
   color: #1a1520;
   font-weight: 600;
   font-size: 1rem;
+  cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
-.form button:hover:not(:disabled) {
+.backBtn:hover {
   filter: brightness(1.1);
   transform: scale(1.02);
   box-shadow: 0 0 16px rgba(201, 162, 39, 0.3);
-}
-.form button:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.error {
-  color: var(--danger);
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.creditsLink {
-  margin: 1.5rem 0 0;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.creditsLink a {
-  color: var(--castle-muted);
-  text-decoration: none;
-}
-
-.creditsLink a:hover {
-  color: var(--castle-gold);
-  text-decoration: underline;
 }
 
 @media (max-width: 480px) {
@@ -153,5 +138,7 @@
     padding: 1.5rem;
   }
 
-  .title { font-size: 1.5rem; }
+  .title {
+    font-size: 1.5rem;
+  }
 }

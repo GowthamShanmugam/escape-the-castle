@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { createGame, joinGame } from '../api'
 import styles from './Home.module.css'
 
@@ -73,6 +73,10 @@ export default function Home({ onJoin }) {
             <button type="submit" disabled={loading}>Create & Enter Lobby</button>
           </form>
         )}
+
+        <p className={styles.creditsLink}>
+          <Link to="/credits">Credits</Link>
+        </p>
       </div>
     </div>
   )
