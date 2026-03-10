@@ -433,7 +433,7 @@ export function playScreamingSound() {
     const audio = new Audio()
     const wav = getAssetUrl('/sounds/screaming.wav')
     const mp3 = getAssetUrl('/sounds/screaming.mp3')
-    audio.volume = 0.78
+    audio.volume = 0.95
     let triedMp3 = false
     audio.addEventListener('error', () => {
       if (!triedMp3) {
@@ -467,7 +467,7 @@ export function playWhereAmISound() {
     const audio = new Audio()
     const wav = getAssetUrl('/sounds/where-i-am.wav')
     const mp3 = getAssetUrl('/sounds/where-i-am.mp3')
-    audio.volume = 0.6
+    audio.volume = 0.88
     let triedMp3 = false
     const play = () => audio.play().catch(() => {})
     audio.addEventListener('error', () => {

@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { getAssetUrl } from '../../data/preloadAssets'
 import styles from './PuzzleJigsaw.module.css'
 
 function shuffle(arr) {
@@ -48,7 +49,7 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint, coins
   const [reshuffled, setReshuffled] = useState(false)
   const [attemptsLeft, setAttemptsLeft] = useState(maxAttempts)
 
-  const imageSrc = imageUrl && !imageError ? imageUrl : FALLBACK_SVG
+  const imageSrc = imageUrl && !imageError ? getAssetUrl(imageUrl) : FALLBACK_SVG
 
   useEffect(() => {
     setAttemptsLeft(maxAttempts)
@@ -58,7 +59,7 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint, coins
     if (!imageUrl) return
     const img = new Image()
     img.onerror = () => setImageError(true)
-    img.src = imageUrl
+    img.src = getAssetUrl(imageUrl)
   }, [imageUrl])
 
   const handleDragStart = useCallback((e, slotIndex) => {
@@ -151,7 +152,7 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint, coins
       </div>
 
       <div
-        className={styles.grid}
+        className={`${styles.grid} ${wrong ? styles.gridWrong : ''}`}
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
           gridTemplateRows: `repeat(${rows}, 1fr)`,
@@ -185,18 +186,6 @@ export default function PuzzleJigsaw({ onSolve, onClose, room, bribedHint, coins
           )
         })}
       </div>
-
-      {wrong && (
-        <p className={styles.wrong}>
-          Not quite. Keep rearranging the pieces.
-          {attemptsLeft < maxAttempts && (
-            <span className={styles.warning}>
-              {' '}
-              {attemptsLeft} {attemptsLeft === 1 ? 'attempt' : 'attempts'} remaining—wrong again and the puzzle will reshuffle.
-            </span>
-          )}
-        </p>
-      )}
 
       {reshuffled && <p className={styles.reshuffled}>The puzzle has reshuffled. Try again.</p>}
 

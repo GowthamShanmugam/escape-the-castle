@@ -164,7 +164,7 @@
   color: #e0d8cc;
 }
 
-.leaveBtn {
+.closeBtn {
   padding: 0.6rem 1rem;
   border-radius: 6px;
   background: transparent;
@@ -172,7 +172,7 @@
   color: #7a7268;
 }
 
-.leaveBtn:hover {
+.closeBtn:hover {
   background: rgba(255, 255, 255, 0.04);
   color: #9a9288;
 }

@@ -56,7 +56,7 @@ export default function PuzzleBook({ onSolve, onClose, room, submitError, onClea
         </div>
       </div>
       <form onSubmit={handleSubmit} className={styles.answerForm}>
-        <div>
+        <div className={styles.answerFormField}>
           <input
             type="text"
             value={answer}
@@ -64,13 +64,11 @@ export default function PuzzleBook({ onSolve, onClose, room, submitError, onClea
             placeholder="Enter the word or code"
             className={showWrong ? styles.inputWrong : ''}
           />
-          {(showWrong && (submitError || wrong)) && (
-            <p className={styles.bookWrongMessage} aria-live="polite">
-              {submitError || 'The lock does not turn.'}
-            </p>
-          )}
+          <p className={styles.bookWrongMessage} aria-live="polite">
+            {showWrong && (submitError || wrong) ? (submitError || 'The lock does not turn.') : '\u00A0'}
+          </p>
         </div>
-        <button type="submit">Unlock door</button>
+        <button type="submit" className={styles.unlockDoorBtn}>Unlock door</button>
       </form>
       <button type="button" onClick={onClose} className={styles.closeBtn}>Close</button>
     </div>

@@ -6,7 +6,8 @@ import ImageBackground from '../components/ImageBackground'
 import ProceduralSlideBg from '../components/ProceduralSlideBg'
 import styles from './StoryIntro.module.css'
 
-const SLIDE_DURATION_MS = 12000  // 12s per slide, 48s total
+const SLIDE_DURATION_MS = 12000  // 12s per slide (slides 2–4)
+const FIRST_SLIDE_DURATION_MS = 18000  // 18s for first slide (more text to read)
 
 const FADE_OUT_MS = 2200   // slow darken at end, then connects to game blink
 const FADE_OUT_SKIP_MS = 1200
@@ -106,6 +107,7 @@ export default function StoryIntro({ onComplete }) {
       onComplete?.()
       return
     }
+    const durationMs = index === 0 ? FIRST_SLIDE_DURATION_MS : SLIDE_DURATION_MS
     const t = setTimeout(() => {
       if (index < STORY_INTRO_SLIDES.length - 1) {
         setIndex((i) => i + 1)
@@ -113,7 +115,7 @@ export default function StoryIntro({ onComplete }) {
         setFadeOutDuration(FADE_OUT_MS)
         setFadingOut(true)
       }
-    }, SLIDE_DURATION_MS)
+    }, durationMs)
     return () => clearTimeout(t)
   }, [index, skip, onComplete])
 
@@ -137,7 +139,8 @@ export default function StoryIntro({ onComplete }) {
 
   const panX = slide.panX ?? 2
   const panY = slide.panY ?? 2
-  const slideDurationSec = SLIDE_DURATION_MS / 1000
+  const slideDurationMs = index === 0 ? FIRST_SLIDE_DURATION_MS : SLIDE_DURATION_MS
+  const slideDurationSec = slideDurationMs / 1000
   const isImage = slide.type === 'image' && slide.image
 
   return (

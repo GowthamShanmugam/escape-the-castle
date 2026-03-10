@@ -8,7 +8,7 @@ import { IMAGE_ASSETS } from './imageAssets'
 export const STORY_INTRO_SLIDES = [
   {
     title: 'Trapped',
-    body: 'You wake in the dark. Stone walls, a single torch. You are inside the castle with no way back—only forward. To survive, you must escape.',
+    body: 'You are a spy. You infiltrated the enemy castle to gather intel. A guard spotted you; as you fled he struck you. You escaped the grounds but fell unconscious. You wake in the dark—stone walls, a single torch. You are trapped inside. To get out, you must solve the castle\'s puzzles and escape.',
     type: 'image',
     image: IMAGE_ASSETS.darkRoom,
     panX: 2,

@@ -50,8 +50,9 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
   const [chainRhythmKey, setChainRhythmKey] = useState(0)
   const [optimisticRoomIndex, setOptimisticRoomIndex] = useState(null)
   const wsRef = useRef(null)
-  const hasPlayedWhereAmI = useRef(false)
-  const hasPlayedWhereAmIInWakeUp = useRef(false)
+  const WHERE_AM_I_PLAYED_KEY = 'castle_where_am_i_played'
+  const hasPlayedWhereAmI = useRef(typeof sessionStorage !== 'undefined' && sessionStorage.getItem(WHERE_AM_I_PLAYED_KEY) === '1')
+  const hasPlayedWhereAmIInWakeUp = useRef(hasPlayedWhereAmI.current)
 
   const totalRooms = rooms.length || 15
   const me = game?.players?.[playerId]
@@ -94,10 +95,11 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
     }
   }, [])
 
-  // First level loaded: play "Where I am" once (after wake-up when coming from intro)
+  // First level loaded: play "Where I am" once (after wake-up when coming from intro); persist so Credits → Back doesn't replay
   useEffect(() => {
     if (showWakeUp || !game || rooms.length === 0 || currentRoomIndex !== 0 || hasPlayedWhereAmI.current) return
     hasPlayedWhereAmI.current = true
+    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(WHERE_AM_I_PLAYED_KEY, '1')
     const t = setTimeout(() => playWhereAmISound(), 500)
     return () => clearTimeout(t)
   }, [showWakeUp, game, rooms.length, currentRoomIndex])
@@ -115,6 +117,7 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
       if (!hasPlayedWhereAmIInWakeUp.current) {
         hasPlayedWhereAmIInWakeUp.current = true
         hasPlayedWhereAmI.current = true
+        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(WHERE_AM_I_PLAYED_KEY, '1')
         playWhereAmISound()
       }
     }, openDelay + openDuration)   // start blinks + "Where I am" + content clear
@@ -353,7 +356,7 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
           }}
         />
         </div>
-        <button type="button" onClick={() => { playEffect('click'); onLeave?.() }} className={styles.leaveBtn} data-tour-id="tour-leave">Leave Game</button>
+        <button type="button" onClick={() => { playEffect('click'); if (typeof sessionStorage !== 'undefined') sessionStorage.removeItem(WHERE_AM_I_PLAYED_KEY); onLeave?.() }} className={styles.leaveBtn} data-tour-id="tour-leave">Leave Game</button>
         <Link to="/credits" className={styles.creditsLink} onClick={() => playEffect('click')}>Credits</Link>
       </aside>
 
@@ -447,6 +450,10 @@ export default function Game({ gameCode, playerId, playerName, onLeave }) {
           />
         )}
       </AnimatePresence>
+
+      {error && puzzleOpen && (
+        <p className={styles.errorOnModal} role="alert">{error}</p>
+      )}
 
       <AnimatePresence>
         {puzzleOpen && (

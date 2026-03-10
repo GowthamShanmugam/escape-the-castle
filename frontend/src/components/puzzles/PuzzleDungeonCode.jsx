@@ -54,7 +54,7 @@ export default function PuzzleDungeonCode({ onSolve, onClose, room, submitError,
       )}
       <div className={styles.actions}>
         <button type="button" onClick={submit} className={styles.unlockBtn}>Release</button>
-        <button type="button" onClick={onClose} className={styles.leaveBtn}>Leave</button>
+        <button type="button" onClick={onClose} className={styles.closeBtn}>Close</button>
       </div>
     </div>
   )

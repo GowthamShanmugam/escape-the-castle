@@ -111,14 +111,19 @@ export default function PuzzleRoyalLineage({ room, onSolve, onClose }) {
             </button>
           ))}
         </div>
-        <button
-          type="button"
-          className={styles.tryLockBtn}
-          onClick={tryLock}
-          disabled={solved}
-        >
-          Try lock
-        </button>
+        <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.tryLockBtn}
+            onClick={tryLock}
+            disabled={solved}
+          >
+            Try lock
+          </button>
+          <button type="button" onClick={() => { playEffect('click'); onClose(); }} className={styles.closeBtn}>
+            Close
+          </button>
+        </div>
         {lockFeedback === 'resists' && (
           <p className={styles.feedbackResist}>The mechanism does not turn.</p>
         )}
@@ -126,10 +131,6 @@ export default function PuzzleRoyalLineage({ room, onSolve, onClose }) {
           <p className={styles.feedbackUnlock}>The lock yields. The door opens.</p>
         )}
       </div>
-
-      <button type="button" onClick={() => { playEffect('click'); onClose(); }} className={styles.closeBtn}>
-        Close
-      </button>
     </div>
   )
 }

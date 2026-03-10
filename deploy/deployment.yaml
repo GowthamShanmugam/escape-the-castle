@@ -15,6 +15,8 @@ spec:
       labels:
         app: escape-the-castle
     spec:
+      securityContext:
+        fsGroup: 1000
       volumes:
         - name: castle-data
           persistentVolumeClaim:
@@ -39,11 +41,17 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
+          startupProbe:
+            httpGet:
+              path: /api/rooms
+              port: 8000
+            periodSeconds: 5
+            failureThreshold: 24
           livenessProbe:
             httpGet:
               path: /api/rooms
               port: 8000
-            initialDelaySeconds: 10
+            initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
             httpGet:

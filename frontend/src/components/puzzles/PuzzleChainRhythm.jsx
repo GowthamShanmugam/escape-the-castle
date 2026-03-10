@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { playEffect } from '../../audio/soundService'
 import { useViewportScale } from '../../hooks/useViewportScale'
+import { getAssetUrl } from '../../data/preloadAssets'
 import styles from './PuzzleChainRhythm.module.css'
 
-const CHAPEL_IMG = '/images/chapel-chain-rhythm.jpg'
+const CHAPEL_IMG = getAssetUrl('/images/chapel-chain-rhythm.jpg')
 const ARENA_WIDTH = 520
 const ARENA_HEIGHT = 340
 const N_CHAINS = 5

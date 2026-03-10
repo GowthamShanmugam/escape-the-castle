@@ -122,8 +122,19 @@
 .answerForm {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
+}
+
+.answerFormField {
+  flex: 1;
+  min-width: 0;
+  /* Reserve space for input + one error line so button doesn't move on wrong answer */
+  min-height: 4.25rem;
+}
+
+.answerFormField .bookWrongMessage {
+  margin-bottom: 0;
 }
 
 .answerForm input {
@@ -155,6 +166,8 @@
   font-size: 0.95rem;
   margin-top: 0.35rem;
   font-style: italic;
+  min-height: 1.5em;
+  line-height: 1.4;
 }
 
 .answerForm button, .solveBtn { margin-top: 0; }
@@ -216,6 +229,38 @@
   background: linear-gradient(180deg, var(--castle-gold), var(--castle-accent));
   border: none;
   color: #1a1520;
+}
+
+/* Library round: prominent Unlock door CTA */
+.unlockDoorBtn {
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: #1a1520;
+  background: linear-gradient(180deg, #d4b84a 0%, var(--castle-gold) 50%, var(--castle-accent) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.6);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.15) inset,
+    0 2px 8px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+}
+.unlockDoorBtn:hover {
+  filter: brightness(1.08);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 3px 12px rgba(0, 0, 0, 0.4);
+}
+.unlockDoorBtn:active {
+  filter: brightness(0.95);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+}
+.unlockDoorBtn:focus-visible {
+  outline: 2px solid var(--castle-gold);
+  outline-offset: 2px;
 }
 
 .closeBtn {
@@ -519,7 +564,8 @@
     min-height: 56px;
   }
 
-  .solveBtn, .closeBtn {
+  .solveBtn, .closeBtn,
+  .unlockDoorBtn {
     min-height: 44px;
     padding: 0.65rem 1.25rem;
   }

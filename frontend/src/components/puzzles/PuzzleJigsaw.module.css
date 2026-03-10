@@ -63,6 +63,12 @@
   padding: 4px;
   border-radius: 6px;
   border: 1px solid rgba(201, 162, 39, 0.25);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gridWrong {
+  border-color: var(--danger, #8b2e2e);
+  box-shadow: 0 0 0 2px rgba(139, 46, 46, 0.4), 0 0 20px rgba(139, 46, 46, 0.35);
 }
 
 .piece {
@@ -97,18 +103,6 @@
   border-left: 3px solid rgba(201, 162, 39, 0.6);
   border-radius: 4px;
   font-weight: 500;
-}
-
-.wrong {
-  color: #c06060;
-  font-size: 0.95rem;
-  margin: 0 0 0.75rem;
-  font-weight: 600;
-}
-
-.warning {
-  color: #d08040;
-  font-weight: 600;
 }
 
 .reshuffled {
